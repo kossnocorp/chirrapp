@@ -1,8 +1,15 @@
 import { h } from 'preact'
 
-export default function Form ({ onChange, text }) {
+export default function Form ({ onChange, onSubmit, text }) {
   return (
-    <form class='Form' action='#'>
+    <form
+      class='Form'
+      action='#'
+      onSubmit={e => {
+        e.preventDefault()
+        onSubmit()
+      }}
+    >
       <textarea
         class='Textarea'
         autoFocus
@@ -10,7 +17,7 @@ export default function Form ({ onChange, text }) {
         onInput={({ target: { value } }) => onChange(value)}
       />
 
-      <button type='button' class='Button'>
+      <button type='submit' class='Button'>
         Publish
       </button>
     </form>

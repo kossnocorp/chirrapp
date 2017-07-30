@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "firebase": "^4.2.0",
     "preact": "^8.2.1",
     "sbd": "^1.0.12",
     "twitter-text": "^1.14.7"
