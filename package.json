@@ -1,9 +1,11 @@
 {
   "scripts": {
+    "build": "webpack",
     "test": "ava **/test.js"
   },
   "devDependencies": {
-    "ava": "^0.21.0"
+    "ava": "^0.21.0",
+    "webpack": "^3.4.1"
   },
   "dependencies": {
     "sbd": "^1.0.12",
