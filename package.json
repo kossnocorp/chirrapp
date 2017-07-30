@@ -20,6 +20,7 @@
     "twitter-text": "^1.14.7"
   },
   "browserslist": [
-    "last 2 versions"
+    "last 2 versions",
+    "not IE > 0"
   ]
 }
