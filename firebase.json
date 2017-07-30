@@ -4,6 +4,7 @@
     "ignore": [
       ".git",
       "app",
+      "functions",
       "node_modules",
       ".babelrc",
       ".firebaserc",
