@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "webpack",
-    "test": "ava **/test.js"
+    "test": "ava **/test.js",
+    "deploy": "firebase deploy"
   },
   "devDependencies": {
     "ava": "^0.21.0",
@@ -9,6 +10,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
+    "firebase-tools": "^3.9.1",
     "webpack": "^3.4.1"
   },
   "dependencies": {

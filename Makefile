@@ -6,3 +6,6 @@ test:
 
 test-watch:
 	npm test -- --watch
+
+deploy:
+	npm run deploy
