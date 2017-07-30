@@ -4,5 +4,9 @@
   },
   "devDependencies": {
     "ava": "^0.21.0"
+  },
+  "dependencies": {
+    "sbd": "^1.0.12",
+    "twitter-text": "^1.14.7"
   }
 }
