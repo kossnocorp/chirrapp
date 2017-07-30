@@ -1,6 +1,7 @@
 import { h, Component } from 'preact'
 import firebase from 'firebase'
 import split from '../_lib/split'
+import postJSON from '../_lib/request'
 import Form from './Form'
 import Preview from './Preview'
 
@@ -35,8 +36,10 @@ export default class UI extends Component {
 
 function publish (tweets) {
   const provider = new firebase.auth.TwitterAuthProvider()
-  firebase.auth().signInWithPopup(provider)
-    .then(({ credential: {accessToken, secret}, user }) => {
+  firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then(({ credential: { accessToken, secret }, user }) => {
       console.log('---')
       console.log(user)
       console.log(accessToken)
