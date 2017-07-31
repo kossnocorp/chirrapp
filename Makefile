@@ -9,3 +9,6 @@ test-watch:
 
 deploy:
 	npm run deploy
+
+deploy-functions:
+	npm run deploy -- --only functions

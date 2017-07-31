@@ -1,7 +1,7 @@
 import { h, Component } from 'preact'
 import firebase from 'firebase'
 import split from '../_lib/split'
-import postJSON from '../_lib/request'
+import { postJSON } from '../_lib/request'
 import Form from './Form'
 import Preview from './Preview'
 
@@ -39,13 +39,18 @@ function publish (tweets) {
   firebase
     .auth()
     .signInWithPopup(provider)
-    .then(({ credential: { accessToken, secret }, user }) => {
-      console.log('---')
-      console.log(user)
-      console.log(accessToken)
-      console.log(secret)
-      console.log(tweets)
-      console.log('---')
+    .then(({ credential: { accessToken, secret } }) => {
+      postJSON('https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet', {
+        accessToken,
+        secret,
+        tweets
+      })
+        .then(data => {
+          console.log('Response:', data)
+        })
+        .catch(err => {
+          // TODO: Process failed response
+        })
     })
 }
 

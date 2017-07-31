@@ -2,7 +2,8 @@
   "scripts": {
     "build": "webpack",
     "test": "ava **/test.js",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "postinstall": "cd functions && npm install"
   },
   "devDependencies": {
     "ava": "^0.21.0",
