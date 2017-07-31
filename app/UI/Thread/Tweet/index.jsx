@@ -12,8 +12,8 @@ import {
 
 export default function Tweet ({
   tweet,
-  displayName,
-  screenName,
+  displayName = 'Chirr App',
+  screenName = 'chirrapp',
   avatarURL = defaultAvatarPath
 }) {
   return (
@@ -23,8 +23,8 @@ export default function Tweet ({
       </AvatarWrapper>
 
       <Content>
-        <Name>Sasha Koss</Name>
-        <DisplayName>@kossnocorp</DisplayName>
+        <Name>{displayName}</Name>
+        <DisplayName>@{screenName}</DisplayName>
         <Text>
           {tweet}
         </Text>

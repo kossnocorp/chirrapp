@@ -39,14 +39,6 @@ textarea {
   border-right: 1px solid #cbd5dc;
 }
 
-.Preview {
-  background: #e6ecf0;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .Logotype {
   color: #064475;
   font-size: 2rem;
@@ -83,5 +75,27 @@ textarea {
 
 .Stats {
   margin-top: 1rem;
+  color: #4a667b;
+}
+
+.Preview {
+  background: #e6ecf0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.ThreadWrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PreviewDisclaimer {
+  padding-top: 1rem;
+  font-size: .8rem;
+  text-align: center;
   color: #73797d;
+  line-height: 1.3;
 }
