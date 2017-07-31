@@ -1,12 +1,26 @@
 const path = require('path')
+const AssetsWebpackPlugin = require('assets-webpack-plugin')
 
-const rootDir = process.cwd()
+const rootPath = process.cwd()
+const isProduction = process.env.NODE_ENV === 'production'
+const plugins = []
+
+if (isProduction) {
+  plugins.push(
+    new AssetsWebpackPlugin({ path: path.resolve(rootPath, 'dist') })
+  )
+}
 
 module.exports = {
-  entry: './app/index.jsx',
+  entry: {
+    app: './app/index.jsx'
+  },
+
   output: {
-    filename: 'bundle.js',
-    path: path.join(rootDir, 'dist')
+    path: path.resolve(rootPath, 'dist/assets'),
+    publicPath: '/assets/',
+    filename: isProduction ? '[name]-[chunkhash].js' : '[name].js',
+    chunkFilename: isProduction ? '[id]-[chunkhash].js' : '[id].js'
   },
 
   resolve: {
@@ -16,9 +30,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.jsx?$/,
         use: 'babel-loader'
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        use: 'file-loader'
       }
     ]
-  }
+  },
+
+  plugins
 }

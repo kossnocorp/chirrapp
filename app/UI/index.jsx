@@ -13,7 +13,7 @@ export default class UI extends Component {
         <main class='Main'>
           <header class='Header'>
             <div class='Logo'>Chirr App</div>
-            <h1 class='Headline'>Simplifies tweet threads</h1>
+            <h1 class='Headline'>Chirr App makes it easy to plan and post Twitter threads</h1>
           </header>
 
           <Form

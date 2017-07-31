@@ -1,20 +1,5 @@
 {
   "hosting": {
-    "public": ".",
-    "ignore": [
-      ".git",
-      "app",
-      "functions",
-      "node_modules",
-      ".babelrc",
-      ".firebaserc",
-      ".gitignore",
-      "firebase.json",
-      "Makefile",
-      "package-lock.json",
-      "package.json",
-      "webpack.config.js",
-      "logo.sketch"
-    ]
+    "public": "dist"
   }
 }
