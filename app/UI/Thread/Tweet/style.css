@@ -61,3 +61,8 @@
 .Text {
   line-height: 1.3;
 }
+
+.Blank {
+  color: #73797d;
+  font-style: italic;
+}

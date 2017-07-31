@@ -7,7 +7,8 @@ import {
   Content,
   Name,
   DisplayName,
-  Text
+  Text,
+  Blank
 } from './style.css'
 
 export default function Tweet ({
@@ -26,7 +27,7 @@ export default function Tweet ({
         <Name>{displayName}</Name>
         <DisplayName>@{screenName}</DisplayName>
         <Text>
-          {tweet}
+          {tweet || <Blank>Nothing to preview ¯\_(ツ)_/¯</Blank>}
         </Text>
       </Content>
     </Wrapper>
