@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1020px" viewBox="0 0 1024 1020" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Chirr App Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Chirr-App-Logo">
+            <path d="M517.333333,874.666667 C773.593457,874.666667 1024,785.532531 1024,437.333333 C1024,89.1341361 773.593457,0 517.333333,0 C261.073209,0 0,89.1341361 0,437.333333 C1.0658141e-14,600.893735 57.6053887,707.291842 145.2582,774.140261 C172.221354,928.242188 103.252604,1002.08073 90.84375,1018.52083 C250.34375,1034.03646 345.057292,883.96875 375.144792,864.258206 C421.557782,871.564886 469.529303,874.666667 517.333333,874.666667 Z" id="Shape" fill="#55ACEE"></path>
+            <g id="Dots" transform="translate(288.000000, 405.333333)" fill="#0D436C">
+                <circle id="Dot-#3" cx="42.6666667" cy="42.6666667" r="42.6666667"></circle>
+                <circle id="Dot-#2" cx="229.333333" cy="42.6666667" r="42.6666667"></circle>
+                <circle id="Dot-#1" cx="416" cy="42.6666667" r="42.6666667"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

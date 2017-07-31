@@ -29,7 +29,7 @@ textarea {
 }
 
 .Main {
-  padding: 2rem;
+  padding: 1rem 2rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -47,20 +47,37 @@ textarea {
   justify-content: center;
 }
 
-.Logo {
+.Logotype {
   color: #064475;
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.LogoWrapper {
+  width: 2rem;
+  margin-left: .5rem;
+  position: relative;
+  top: .2rem;
+}
+
+.LogoWrapper svg {
+  width: 100%;
+  height: auto;
 }
 
 .Headline {
-  color: #064475;
-  font-size: 1.5rem;
+  color: #4a667b;
+  font-size: 1.2rem;
+  max-width: 20rem;
+  line-height: 1.3;
 }
 
 .Header {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
 

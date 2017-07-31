@@ -33,10 +33,17 @@ module.exports = {
         test: /\.jsx?$/,
         use: 'babel-loader'
       },
+
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        test: /\.svg$/,
+        use: ['desvg-loader/preact', 'svg-loader']
+      },
+
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
         use: 'file-loader'
       },
+
       {
         test: /\.css$/,
         use: [

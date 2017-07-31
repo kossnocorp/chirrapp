@@ -4,7 +4,17 @@ import split from '../_lib/split'
 import { postJSON } from '../_lib/request'
 import Form from './Form'
 import Thread from './Thread'
-import { Layout, Main, Preview, Header, Logo, Headline, Stats } from './style.css'
+import {
+  Layout,
+  Main,
+  Preview,
+  Header,
+  Logotype,
+  LogoWrapper,
+  Headline,
+  Stats
+} from './style.css'
+import Logo from './logo.svg'
 
 export default class UI extends Component {
   render ({}, { text = 'Hello, world!' }) {
@@ -13,8 +23,17 @@ export default class UI extends Component {
       <Layout>
         <Main tag='main'>
           <Header tag='header'>
-            <Logo>Chirr App</Logo>
-            <Headline tag='h1'>Chirr App makes it easy to plan and post Twitter threads</Headline>
+            <Logotype>
+              Chirr App
+
+              <LogoWrapper>
+                <Logo />
+              </LogoWrapper>
+            </Logotype>
+
+            <Headline tag='h1'>
+              Chirr App makes it easy to plan and post Twitter threads
+            </Headline>
           </Header>
 
           <Form
