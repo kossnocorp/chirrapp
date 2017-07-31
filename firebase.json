@@ -13,7 +13,8 @@
       "Makefile",
       "package-lock.json",
       "package.json",
-      "webpack.config.js"
+      "webpack.config.js",
+      "logo.sketch"
     ]
   }
 }
