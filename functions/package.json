@@ -4,7 +4,8 @@
   "dependencies": {
     "cors": "^2.8.4",
     "firebase-admin": "~4.2.1",
-    "firebase-functions": "^0.5.7"
+    "firebase-functions": "^0.5.7",
+    "twit": "^2.2.9"
   },
   "private": true
 }

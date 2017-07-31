@@ -39,14 +39,14 @@ function publish (tweets) {
   firebase
     .auth()
     .signInWithPopup(provider)
-    .then(({ credential: { accessToken, secret } }) => {
+    .then(({ credential: { accessToken, secret: accessTokenSecret } }) => {
       postJSON('https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet', {
         accessToken,
-        secret,
+        accessTokenSecret,
         tweets
       })
-        .then(data => {
-          console.log('Response:', data)
+        .then(({ url }) => {
+          window.location.href = url
         })
         .catch(err => {
           // TODO: Process failed response
