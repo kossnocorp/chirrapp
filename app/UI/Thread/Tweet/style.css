@@ -1,0 +1,63 @@
+.Wrapper {
+  padding: 1rem;
+  display: flex;
+  position: relative;
+}
+
+.AvatarWrapper {
+  width: 3rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.AvatarWrapper:before,
+.AvatarWrapper:after {
+  position: absolute;
+  content: '';
+  width: 3px;
+  background: #FDC7B1;
+  left: calc(2.5rem - 2px);
+}
+
+.AvatarWrapper:before {
+  top: 0;
+  height: 1rem;
+}
+
+.AvatarWrapper:after {
+  top: 4rem;
+  bottom: 0;
+}
+
+.Wrapper:first-child .AvatarWrapper:before {
+  display: none;
+}
+
+.Wrapper:last-child .AvatarWrapper:after {
+  display: none;
+}
+
+.Avatar {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.Content {
+  display: flex;
+  flex-direction: column;
+}
+
+.Name {
+  font-weight: bold;
+  margin-bottom: .25rem;
+}
+
+.DisplayName {
+  color: #73797d;
+  font-size: .9rem;
+  margin-bottom: .5rem;
+}
+
+.Text {
+  line-height: 1.3;
+}

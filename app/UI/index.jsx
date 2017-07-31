@@ -3,18 +3,19 @@ import firebase from 'firebase'
 import split from '../_lib/split'
 import { postJSON } from '../_lib/request'
 import Form from './Form'
-import Preview from './Preview'
+import Thread from './Thread'
+import { Layout, Main, Preview, Header, Logo, Headline, Stats } from './style.css'
 
 export default class UI extends Component {
   render ({}, { text = 'Hello, world!' }) {
     const tweets = split(text)
     return (
-      <div class='Wrapper'>
-        <main class='Main'>
-          <header class='Header'>
-            <div class='Logo'>Chirr App</div>
-            <h1 class='Headline'>Chirr App makes it easy to plan and post Twitter threads</h1>
-          </header>
+      <Layout>
+        <Main tag='main'>
+          <Header tag='header'>
+            <Logo>Chirr App</Logo>
+            <Headline tag='h1'>Chirr App makes it easy to plan and post Twitter threads</Headline>
+          </Header>
 
           <Form
             text={text}
@@ -22,14 +23,16 @@ export default class UI extends Component {
             onSubmit={() => publish(split(text))}
           />
 
-          <div class='Stats'>
+          <Stats>
             {pluralize(text.length, 'char', 'chars')} ・{' '}
             {pluralize(tweets.length, 'tweet', 'tweets')}
-          </div>
-        </main>
+          </Stats>
+        </Main>
 
-        <Preview tweets={tweets} />
-      </div>
+        <Preview tag='aside'>
+          <Thread tweets={tweets} />
+        </Preview>
+      </Layout>
     )
   }
 }

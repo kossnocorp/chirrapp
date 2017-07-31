@@ -1,25 +1,26 @@
 import { h } from 'preact'
+import { Wrapper, Textarea, Button } from './style.css'
 
 export default function Form ({ onChange, onSubmit, text }) {
   return (
-    <form
-      class='Form'
+    <Wrapper
+      tag='form'
       action='#'
       onSubmit={e => {
         e.preventDefault()
         onSubmit()
       }}
     >
-      <textarea
-        class='Textarea'
+      <Textarea
+        tag='textarea'
         autoFocus
         value={text}
         onInput={({ target: { value } }) => onChange(value)}
       />
 
-      <button type='submit' class='Button'>
+      <Button tag='button' type='submit'>
         Publish
-      </button>
-    </form>
+      </Button>
+    </Wrapper>
   )
 }

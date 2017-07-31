@@ -1,0 +1,85 @@
+@import 'reset.css';
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  min-height: 100vh;
+}
+
+body,
+textarea {
+  font-family: system, -apple-system, BlinkMacSystemFont;
+}
+
+.Layout {
+  display: flex;
+}
+
+.Main,
+.Preview {
+  flex-basis: 50%;
+}
+
+.Main {
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #FCFDFF;
+  border-right: 1px solid #cbd5dc;
+}
+
+.Preview {
+  background: #e6ecf0;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Logo {
+  color: #064475;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.Logo:after {
+  content: 'lite';
+  text-transform: uppercase;
+  color: #fff;
+  font-size: .8rem;
+  background: #15C785;
+  padding: .1rem .2rem;
+  position: relative;
+  top: -1rem;
+  border-radius: 3px;
+  margin-bottom: 1rem;
+  font-weight: 300;
+}
+
+.Headline {
+  color: #064475;
+  font-size: 1.5rem;
+}
+
+.Header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.Stats {
+  margin-top: 1rem;
+  color: #73797d;
+}
+

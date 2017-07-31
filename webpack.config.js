@@ -36,6 +36,22 @@ module.exports = {
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         use: 'file-loader'
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'decss-loader/preact',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[local]-[hash:base64:5]'
+            }
+          },
+          'postcss-loader'
+        ]
       }
     ]
   },

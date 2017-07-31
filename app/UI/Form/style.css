@@ -1,0 +1,30 @@
+.Wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.Textarea {
+  width: 100%;
+  font-size: 1.5rem;
+  padding: 1rem;
+  min-height: 10rem;
+  resize: none;
+  border-radius: 3px;
+  margin-bottom: 2rem;
+  border: none;
+  box-shadow: rgba(80, 82, 88, 0.4) 0 1px 5px;
+  flex-grow: 1;
+}
+
+.Button {
+  border: none;
+  background: #0070C9;
+  padding: .5rem 4rem;
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 3px;
+  box-shadow: #063c67 0 3px 0;
+}
