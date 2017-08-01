@@ -9,20 +9,19 @@ import {
   Main,
   Preview,
   Header,
-  Logotype,
-  LogoWrapper,
   Headline,
   Stats,
   ThreadWrapper,
   PreviewDisclaimer
 } from './style.css'
-import Logo from './logo.svg'
 import { Link } from '../_lib/Link.css'
+import Logotype from '../_lib/Logotype'
 
-const promoText = "The Twitter threads feature is an amazing way to tell a story and express complex ideas. That also allows to hear the voices outside of your social circle and discover new ideas. Yet it's not easy to plan and publish a thread, Twitter UI just isn't made for that. Chirr App makes it easy to build and publish Twitter threads. It's free and open source! Try it out: https://getchirrapp.com!"
+const promoText =
+  "The Twitter threads feature is an amazing way to tell a story and express complex ideas. That also allows to hear the voices outside of your social circle and discover new ideas. Yet it's not easy to plan and publish a thread, Twitter UI just isn't made for that. Chirr App makes it easy to build and publish Twitter threads. It's free and open source! Try it out: https://getchirrapp.com!"
 
 export default class Editor extends Component {
-  render ({}, { text = promoText, auth, publishing }) {
+  render ({ onPublish }, { text = promoText, auth, publishing }) {
     const tweets = split(text)
     const user = getUserFromAuth(auth)
     const { name, screenName, avatarURL } = user || {}
@@ -31,12 +30,7 @@ export default class Editor extends Component {
       <Wrapper>
         <Main tag='main'>
           <Header tag='header'>
-            <Logotype>
-              Chirr App
-              <LogoWrapper>
-                <Logo />
-              </LogoWrapper>
-            </Logotype>
+            <Logotype />
 
             <Headline tag='h1'>
               Chirr App makes it easy to plan and post Twitter threads
@@ -48,9 +42,7 @@ export default class Editor extends Component {
             onChange={newText => this.setState({ text: newText })}
             onSubmit={() => {
               this.setState({ publishing: true })
-              publish(split(text)).then(() =>
-                this.setState({ publishing: false })
-              )
+              publish(split(text)).then(onPublish)
             }}
             publishing={publishing}
           />
@@ -90,7 +82,7 @@ export default class Editor extends Component {
                   }}
                 >
                   Login to make it personal
-                </Link>
+                </Link>.
               </PreviewDisclaimer>}
         </Preview>
       </Wrapper>
@@ -132,21 +124,21 @@ function getUserFromAuth (auth) {
 
 function publish (tweets) {
   const provider = new firebase.auth.TwitterAuthProvider()
-  return signIn().then(
-    ({ credential: { accessToken, secret: accessTokenSecret } }) => {
-      postJSON('https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet', {
-        accessToken,
-        accessTokenSecret,
-        tweets
-      })
-        .then(({ url }) => {
-          window.location.href = url
-        })
-        .catch(err => {
-          // TODO: Process failed response
-        })
-    }
-  )
+  return signIn()
+    .then(({ credential: { accessToken, secret: accessTokenSecret } }) => {
+      return postJSON(
+        'https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet',
+        {
+          accessToken,
+          accessTokenSecret,
+          tweets
+        }
+      )
+    })
+    .then(({ urls }) => urls)
+    .catch(err => {
+      // TODO: Process failed response
+    })
 }
 
 function pluralize (size, one, many) {

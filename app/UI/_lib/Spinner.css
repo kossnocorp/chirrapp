@@ -1,7 +1,5 @@
 .Spinner {
   position: relative;
-  height: 1.5rem;
-  width: 1.5rem;
 }
 
 .Spinner:before {
@@ -9,15 +7,54 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, 0);
+  animation: spinner .8s ease infinite;
+}
+
+/* size: medium (default) */
+
+.Spinner,
+.Spinner-size-medium {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.Spinner:before,
+.Spinner-size-medium:before {
   width: 1.5rem;
   height: 1.5rem;
   margin-top: -.75rem;
   margin-left: -.75rem;
-  border-radius: 50%;
-  border: 3px solid rgba(0, 0, 0, 0);
+}
+
+/* size: large */
+
+.Spinner-size-large {
+  height: 3rem;
+  width: 3rem;
+}
+
+.Spinner-size-large:before {
+  width: 3rem;
+  height: 3rem;
+  margin-top: -1.5rem;
+  margin-left: -1.5rem;
+}
+
+/* color: white (default) */
+
+.Spinner:before,
+.Spinner-color-white:before {
   border-top-color: #fff;
   border-bottom-color: #fff;
-  animation: spinner .8s ease infinite;
+}
+
+/* color: dark */
+
+.Spinner-color-dark:before {
+  border-top-color: #064475;
+  border-bottom-color: #064475;
 }
 
 @keyframes spinner {

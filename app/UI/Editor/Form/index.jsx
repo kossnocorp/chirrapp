@@ -24,10 +24,10 @@ export default function Form ({
         autoFocus={autoFocus}
         value={text}
         onInput={({ target: { value } }) => onChange(value)}
-        ref={({ base }) => {
-          if (!autoFocus || this.selectedOnce) return
+        ref={comp => {
+          if (!comp || !autoFocus || this.selectedOnce) return
           this.selectedOnce = true
-          base.select()
+          comp.base.select()
         }}
         placeholder="What's happening?"
       />

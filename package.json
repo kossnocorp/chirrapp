@@ -38,6 +38,7 @@
     "preact": "^8.2.1",
     "reset.css": "^2.0.2",
     "sbd": "^1.0.12",
+    "scriptjs": "^2.5.8",
     "twitter-text": "^1.14.7"
   },
   "browserslist": [

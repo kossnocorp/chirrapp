@@ -16,20 +16,14 @@ exports.tweet = functions.https.onRequest((req, resp) => {
       access_token_secret: accessTokenSecret
     })
 
-    let url
-    tweets.reduce((acc, tweet) => {
-      const fn = resp => {
-        if (resp) {
-          const { id_str: id } = resp
-          return postTweet(t, tweet, id)
-        } else {
-          return postTweet(t, tweet)
-            .then(resp => {
-              const { id_str: id, user: { screen_name: screenName } } = resp
-              url = tweetURL(screenName, id)
-              return resp
-            })
-        }
+    const urls = []
+    tweets.reduce((acc, tweet, index) => {
+      const fn = prevResp => {
+        return postTweet(t, tweet, prevResp && prevResp.is_str)
+          .then(({ user: { screen_name: screenName }, id_str: id }) => {
+            urls[index] = tweetURL(screenName, id)
+            return resp
+          })
       }
 
       if (acc) {
@@ -38,9 +32,7 @@ exports.tweet = functions.https.onRequest((req, resp) => {
         return fn()
       }
     }, null)
-      .then(() => {
-        resp.json({ url })
-      })
+      .then(() => resp.json({ urls }))
   })
 })
 

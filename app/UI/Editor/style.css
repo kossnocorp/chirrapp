@@ -18,28 +18,6 @@
   border-right: 1px solid #cbd5dc;
 }
 
-.Logotype {
-  color: #064475;
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: .5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.LogoWrapper {
-  width: 2rem;
-  margin-left: .5rem;
-  position: relative;
-  top: .2rem;
-}
-
-.LogoWrapper svg {
-  width: 100%;
-  height: auto;
-}
-
 .Headline {
   color: #4a667b;
   font-size: 1.2rem;

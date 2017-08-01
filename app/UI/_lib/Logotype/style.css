@@ -1,0 +1,21 @@
+.Wrapper {
+  color: #064475;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ImageWrapper {
+  width: 2rem;
+  margin-left: .5rem;
+  position: relative;
+  top: .2rem;
+}
+
+.ImageWrapper svg {
+  width: 100%;
+  height: auto;
+}
