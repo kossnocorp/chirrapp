@@ -28,4 +28,13 @@ test(t => {
     split('It[...]allows[...]to[...]split[...]tweets[...]manually!'),
     ['It', 'allows', 'to', 'split', 'tweets', 'manually!']
   )
+  t.deepEqual(
+    split(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tristique nunc quis blandit ultricies. Nullam ante risus,[...]vehicula at arcu eleifend, tempus condimentum lectus.'
+    ),
+    [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tristique nunc quis blandit ultricies. Nullam ante risus,',
+      'vehicula at arcu eleifend, tempus condimentum lectus.'
+    ]
+  )
 })
