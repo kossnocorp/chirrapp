@@ -1,9 +1,15 @@
 import { h } from 'preact'
 import { Wrapper, Textarea, Action } from './style.css'
-import { Button } from '../_lib/Button.css'
-import { Spinner } from '../_lib/Spinner.css'
+import { Button } from '../../_lib/Button.css'
+import { Spinner } from '../../_lib/Spinner.css'
 
-export default function Form ({ onChange, onSubmit, text, autoFocus = true }) {
+export default function Form ({
+  onChange,
+  onSubmit,
+  publishing,
+  text,
+  autoFocus = true
+}) {
   return (
     <Wrapper
       tag='form'
@@ -27,8 +33,13 @@ export default function Form ({ onChange, onSubmit, text, autoFocus = true }) {
       />
 
       <Action>
-        <Button tag='button' type='submit' fullWidth disabled={text.trim() === ''}>
-          Publish
+        <Button
+          tag='button'
+          type='submit'
+          fullWidth
+          disabled={publishing || text.trim() === ''}
+        >
+          {publishing ? <Spinner /> : 'Publish'}
         </Button>
       </Action>
     </Wrapper>
