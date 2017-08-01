@@ -49,7 +49,7 @@ export default class UI extends Component {
 
           <Stats>
             {pluralize(text.length, 'char', 'chars')} ・{' '}
-            {pluralize(tweets.length, 'tweet', 'tweets')}
+            {pluralize(text.length === 0 ? 0 : tweets.length, 'tweet', 'tweets')}
           </Stats>
         </Main>
 
