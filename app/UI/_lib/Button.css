@@ -1,0 +1,21 @@
+.Button {
+  border: none;
+  background: #0070C9;
+  padding: .5rem 4rem;
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 3px;
+  box-shadow: #063c67 0 3px 0;
+}
+
+.Button-fullWidth {
+  width: 100%;
+}
+
+.Button:disabled {
+  background: #a2a2a2;
+  color: #dadada;
+  box-shadow: none;
+  position: relative;
+  top: 3px;
+}

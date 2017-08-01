@@ -1,0 +1,27 @@
+.Spinner {
+  position: relative;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.Spinner:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: -.75rem;
+  margin-left: -.75rem;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, 0);
+  border-top-color: #fff;
+  border-bottom-color: #fff;
+  animation: spinner .8s ease infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

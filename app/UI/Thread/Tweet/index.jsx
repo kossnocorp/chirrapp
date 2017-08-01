@@ -13,7 +13,7 @@ import {
 
 export default function Tweet ({
   tweet,
-  displayName = 'Chirr App',
+  name = 'Chirr App',
   screenName = 'chirrapp',
   avatarURL = defaultAvatarPath
 }) {
@@ -24,7 +24,7 @@ export default function Tweet ({
       </AvatarWrapper>
 
       <Content>
-        <Name>{displayName}</Name>
+        <Name>{name}</Name>
         <DisplayName>@{screenName}</DisplayName>
         <Text>
           {tweet || <Blank>Nothing to preview ¯\_(ツ)_/¯</Blank>}

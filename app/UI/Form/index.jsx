@@ -1,5 +1,7 @@
 import { h } from 'preact'
-import { Wrapper, Textarea, Button } from './style.css'
+import { Wrapper, Textarea, Action } from './style.css'
+import { Button } from '../_lib/Button.css'
+import { Spinner } from '../_lib/Spinner.css'
 
 export default function Form ({ onChange, onSubmit, text, autoFocus = true }) {
   return (
@@ -21,11 +23,14 @@ export default function Form ({ onChange, onSubmit, text, autoFocus = true }) {
           this.selectedOnce = true
           base.select()
         }}
+        placeholder="What's happening?"
       />
 
-      <Button tag='button' type='submit'>
-        Publish
-      </Button>
+      <Action>
+        <Button tag='button' type='submit' fullWidth disabled={text.trim() === ''}>
+          Publish
+        </Button>
+      </Action>
     </Wrapper>
   )
 }

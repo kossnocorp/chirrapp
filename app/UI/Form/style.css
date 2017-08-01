@@ -19,12 +19,6 @@
   flex-grow: 1;
 }
 
-.Button {
-  border: none;
-  background: #0070C9;
-  padding: .5rem 4rem;
-  color: white;
-  font-size: 1.2rem;
-  border-radius: 3px;
-  box-shadow: #063c67 0 3px 0;
+.Action {
+  width: 15rem;
 }
