@@ -12,6 +12,8 @@ import {
 import { Button } from '../_lib/Button.css'
 import Logotype from '../_lib/Logotype'
 
+const recommendText = 'This thread is published using @chirrapp 👏 [...]It makes it easy to plan and post Twitter threads. Give it a try: https://chirrapp.com 👌😎👍'
+
 export default class Done extends Component {
   componentWillMount () {
     $script('//platform.twitter.com/widgets.js', 'twitter-widgets')
@@ -33,7 +35,7 @@ export default class Done extends Component {
             <Button size='small' onClick={() => onBack('')}>
               Publish More
             </Button>
-            <Button size='small' color='green'>
+            <Button size='small' color='green' onClick={() => onBack(recommendText)}>
               Recommend
             </Button>
           </Actions>
