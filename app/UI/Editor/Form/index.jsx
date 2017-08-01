@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import { Wrapper, Textarea, Action } from './style.css'
+import { Wrapper, Textarea, Tips, Action } from './style.css'
 import { Button } from '../../_lib/Button.css'
 import { Spinner } from '../../_lib/Spinner.css'
 
@@ -34,6 +34,8 @@ export default function Form ({
         }}
         placeholder="What's happening?"
       />
+
+      <Tips>💁 To manuall split the tweets, you can use [...]</Tips>
 
       <Action>
         <Button

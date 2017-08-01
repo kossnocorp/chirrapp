@@ -22,3 +22,10 @@ test(t => {
     ]
   )
 })
+
+test(t => {
+  t.deepEqual(
+    split('It[...]allows[...]to[...]split[...]tweets[...]manually!'),
+    ['It', 'allows', 'to', 'split', 'tweets', 'manually!']
+  )
+})

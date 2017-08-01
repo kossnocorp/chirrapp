@@ -13,10 +13,16 @@
   min-height: 10rem;
   resize: none;
   border-radius: 3px;
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
   border: none;
   box-shadow: rgba(80, 82, 88, 0.4) 0 1px 5px;
   flex-grow: 1;
+}
+
+.Tips {
+  font-size: .8rem;
+  margin-bottom: 1.5rem;
+  color: #73797d;
 }
 
 .Action {
