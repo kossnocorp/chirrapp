@@ -8,6 +8,10 @@
   justify-content: center;
 }
 
+.Wrapper-link {
+  cursor: pointer;
+}
+
 .ImageWrapper {
   width: 2rem;
   margin-left: .5rem;

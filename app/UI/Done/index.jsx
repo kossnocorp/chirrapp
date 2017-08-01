@@ -19,19 +19,23 @@ export default class Done extends Component {
     this.createdTweets = []
   }
 
-  render ({ publishedURLs }, { ready }) {
+  render ({ onBack, publishedURLs }, { ready }) {
     return (
       <Wrapper>
         <Header>
           <LogotypeWrapper>
-            <Logotype />
+            <Logotype onClick={() => onBack('')} />
           </LogotypeWrapper>
 
           <Message>Done 🎉</Message>
 
           <Actions>
-            <Button size='small'>Publish More</Button>
-            <Button size='small' color='green'>Recommend</Button>
+            <Button size='small' onClick={() => onBack('')}>
+              Publish More
+            </Button>
+            <Button size='small' color='green'>
+              Recommend
+            </Button>
           </Actions>
         </Header>
 
@@ -46,8 +50,8 @@ export default class Done extends Component {
                     url.match(/(\d+)\/?$/)[0],
                     el,
                     { conversation: 'none' }
-                  )}
-                }
+                  )
+                }}
               />
             )) ||
             <Spinner size='large' color='dark' />}

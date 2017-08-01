@@ -21,13 +21,16 @@ export default function Form ({
     >
       <Textarea
         tag='textarea'
-        autoFocus={autoFocus}
         value={text}
         onInput={({ target: { value } }) => onChange(value)}
         ref={comp => {
           if (!comp || !autoFocus || this.selectedOnce) return
           this.selectedOnce = true
-          comp.base.select()
+          // XXX: The field won't be focused without setTimeout ლ(ಠ_ಠლ)
+          setTimeout(() => {
+            comp.base.focus()
+            comp.base.select()
+          })
         }}
         placeholder="What's happening?"
       />

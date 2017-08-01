@@ -4,7 +4,7 @@ import { Wrapper, ImageWrapper } from './style.css'
 
 export default function Logotype ({ onClick }) {
   return (
-    <Wrapper onClick={onClick}>
+    <Wrapper onClick={onClick} link={!!onClick}>
       Chirr App
       <ImageWrapper>
         <Image />

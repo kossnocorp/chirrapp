@@ -21,7 +21,11 @@ const promoText =
   "The Twitter threads feature is an amazing way to tell a story and express complex ideas. That also allows to hear the voices outside of your social circle and discover new ideas. Yet it's not easy to plan and publish a thread, Twitter UI just isn't made for that. Chirr App makes it easy to build and publish Twitter threads. It's free and open source! Try it out: https://getchirrapp.com!"
 
 export default class Editor extends Component {
-  render ({ onPublish }, { text = promoText, auth, publishing }) {
+  render ({ prefilledText, onPublish }, { text: _text, auth, publishing }) {
+    const text =
+      typeof _text === 'string'
+        ? _text
+        : typeof prefilledText === 'string' ? prefilledText : promoText
     const tweets = split(text)
     const user = getUserFromAuth(auth)
     const { name, screenName, avatarURL } = user || {}
