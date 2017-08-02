@@ -19,7 +19,7 @@ exports.tweet = functions.https.onRequest((req, resp) => {
     const urls = []
     tweets.reduce((acc, tweet, index) => {
       const fn = prevResp => {
-        return postTweet(t, tweet, prevResp && prevResp.is_str)
+        return postTweet(t, tweet, prevResp && prevResp.id_str)
           .then(({ user: { screen_name: screenName }, id_str: id }) => {
             urls[index] = tweetURL(screenName, id)
             return resp
