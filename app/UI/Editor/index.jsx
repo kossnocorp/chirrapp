@@ -28,13 +28,18 @@ const TimesIcon = () =>
 const promoText =
   "The Twitter threads feature is an amazing way to tell a story and express complex ideas. That also allows to hear the voices outside of your social circle and discover new ideas. Yet it's not easy to plan and publish a thread, Twitter UI just isn't made for that. Chirr App makes it easy to build and publish Twitter threads. It's free and open source! Try it out: https://getchirrapp.com!"
 
+const hunterText = `Hello, fellow hunter! ${promoText}`
+
 const demoText =
   'Chirr App splits your text into tweet-sized chunks and posts it as a Twitter thread so you don’t have to. It makes the text easy to read by splitting by sentences when it’s possible. It’s also free and open source.[...]Give it a try!'
 
 export default class Editor extends Component {
   componentWillMount () {
     const { prefilledText } = this.props
-    const text = typeof prefilledText === 'string' ? prefilledText : promoText
+    const text =
+      typeof prefilledText === 'string'
+        ? prefilledText
+        : isHunter() ? hunterText : promoText
     const tweetsPreview = split(text)
     this.setState({ text, tweetsPreview })
   }
@@ -121,6 +126,7 @@ export default class Editor extends Component {
                   name={name}
                   screenName={screenName}
                   avatarURL={avatarURL}
+                  isHunter={isHunter()}
                 />
               </ThreadWrapper>
 
@@ -147,6 +153,10 @@ export default class Editor extends Component {
       </Wrapper>
     )
   }
+}
+
+function isHunter () {
+  return window.location.search.includes('ref=producthunt')
 }
 
 function publish (

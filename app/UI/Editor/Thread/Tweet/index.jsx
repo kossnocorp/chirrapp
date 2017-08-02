@@ -1,5 +1,4 @@
 import { h } from 'preact'
-import defaultAvatarPath from './defaultAvatar.png'
 import {
   Wrapper,
   AvatarWrapper,
@@ -14,7 +13,7 @@ export default function Tweet ({
   tweet,
   name = 'Chirr App',
   screenName = 'chirrapp',
-  avatarURL = defaultAvatarPath
+  avatarURL
 }) {
   return (
     <Wrapper tag='section'>
