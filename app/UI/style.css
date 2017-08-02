@@ -13,6 +13,7 @@ html {
 body {
   min-height: 100vh;
   overflow: hidden;
+  overflow-y: scroll;
 }
 
 body,
