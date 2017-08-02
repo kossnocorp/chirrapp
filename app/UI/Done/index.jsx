@@ -7,6 +7,7 @@ import {
   LogotypeWrapper,
   Message,
   Actions,
+  Widget,
   Widgets
 } from './style.css'
 import { Button } from '../_lib/Button.css'
@@ -44,13 +45,13 @@ export default class Done extends Component {
         <Widgets>
           {(ready &&
             publishedURLs.map((url, index) =>
-              <div
-                ref={el => {
-                  if (!el || this.createdTweets[index]) return
+              <Widget
+                ref={comp => {
+                  if (!comp || this.createdTweets[index]) return
                   this.createdTweets[index] = true
                   window.twttr.widgets.createTweet(
                     url.match(/(\d+)\/?$/)[0],
-                    el,
+                    comp.base,
                     { conversation: 'none' }
                   )
                 }}

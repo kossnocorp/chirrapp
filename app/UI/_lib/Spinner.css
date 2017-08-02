@@ -1,5 +1,6 @@
 .Spinner {
   position: relative;
+  display: inline-block;
 }
 
 .Spinner:before {

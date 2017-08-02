@@ -3,12 +3,10 @@
   border: none;
   color: white;
   border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   position: relative;
   top: -3px;
+  line-height: 1;
 }
 
 .Button:active {
@@ -54,7 +52,8 @@
 /* size: small */
 
 .Button-size-small {
-  padding: .25rem 1.5rem;
+  padding: 0 1.5rem;
   font-size: 1rem;
   height: 2rem;
+  line-height: 2;
 }
