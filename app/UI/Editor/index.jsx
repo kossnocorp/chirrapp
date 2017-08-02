@@ -7,15 +7,23 @@ import {
   Wrapper,
   Main,
   PreviewWrapper,
+  PreviewScroll,
   Preview,
   Header,
   Headline,
   Stats,
   ThreadWrapper,
-  PreviewDisclaimer
+  PreviewDisclaimer,
+  PreviewClose
 } from './style.css'
 import { Link } from '../_lib/Link.css'
 import Logotype from '../_lib/Logotype'
+
+// TODO: Use external asset when the bug is fixed: https://github.com/developit/preact/issues/786
+const TimesIcon = () =>
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+    <path d='M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 464c-118.7 0-216-96.1-216-216 0-118.7 96.1-216 216-216 118.7 0 216 96.1 216 216 0 118.7-96.1 216-216 216zm94.8-285.3L281.5 256l69.3 69.3c4.7 4.7 4.7 12.3 0 17l-8.5 8.5c-4.7 4.7-12.3 4.7-17 0L256 281.5l-69.3 69.3c-4.7 4.7-12.3 4.7-17 0l-8.5-8.5c-4.7-4.7-4.7-12.3 0-17l69.3-69.3-69.3-69.3c-4.7-4.7-4.7-12.3 0-17l8.5-8.5c4.7-4.7 12.3-4.7 17 0l69.3 69.3 69.3-69.3c4.7-4.7 12.3-4.7 17 0l8.5 8.5c4.6 4.7 4.6 12.3 0 17z' />
+  </svg>
 
 const promoText =
   "The Twitter threads feature is an amazing way to tell a story and express complex ideas. That also allows to hear the voices outside of your social circle and discover new ideas. Yet it's not easy to plan and publish a thread, Twitter UI just isn't made for that. Chirr App makes it easy to build and publish Twitter threads. It's free and open source! Try it out: https://getchirrapp.com!"
@@ -30,12 +38,12 @@ export default class Editor extends Component {
 
   render (
     { prefilledText, user, signIn, onPublish },
-    { text, tweetsPreview, publishing }
+    { text, tweetsPreview, publishing, showPreview }
   ) {
     const { name, screenName, avatarURL } = user || {}
 
     return (
-      <Wrapper>
+      <Wrapper showPreview={showPreview}>
         <Main tag='main'>
           <Header tag='header'>
             <Logotype />
@@ -63,6 +71,7 @@ export default class Editor extends Component {
                 .then(auth => publish(auth, split(text)))
                 .then(onPublish)
             }}
+            onShowPreview={() => this.setState({ showPreview: true })}
             publishing={publishing}
           />
 
@@ -77,34 +86,45 @@ export default class Editor extends Component {
         </Main>
 
         <PreviewWrapper tag='aside'>
-          <Preview>
-            <ThreadWrapper>
-              <Thread
-                tweets={tweetsPreview}
-                name={name}
-                screenName={screenName}
-                avatarURL={avatarURL}
-              />
-            </ThreadWrapper>
+          <PreviewClose
+            onClick={() => {
+              this.setState({ showPreview: false })
+              this.previewScroll && this.previewScroll.scrollTo(0, 0)
+            }}
+          >
+            <TimesIcon />
+          </PreviewClose>
 
-            {user
-              ? null
-              : <PreviewDisclaimer>
-                  The thread will be published under your name, this is just a
-                  preview.
-                  <br />
-                  <Link
-                    tag='a'
-                    href='#'
-                    onClick={e => {
-                      e.preventDefault()
-                      signIn()
-                    }}
-                  >
-                    Login to make it personal
-                  </Link>.
-                </PreviewDisclaimer>}
-          </Preview>
+          <PreviewScroll ref={comp => (this.previewScroll = comp && comp.base)}>
+            <Preview>
+              <ThreadWrapper>
+                <Thread
+                  tweets={tweetsPreview}
+                  name={name}
+                  screenName={screenName}
+                  avatarURL={avatarURL}
+                />
+              </ThreadWrapper>
+
+              {user
+                ? null
+                : <PreviewDisclaimer>
+                    The thread will be published under your name, this is just a
+                    preview.
+                    <br />
+                    <Link
+                      tag='a'
+                      href='#'
+                      onClick={e => {
+                        e.preventDefault()
+                        signIn()
+                      }}
+                    >
+                      Login to make it personal
+                    </Link>.
+                  </PreviewDisclaimer>}
+            </Preview>
+          </PreviewScroll>
         </PreviewWrapper>
       </Wrapper>
     )

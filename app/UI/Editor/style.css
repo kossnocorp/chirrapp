@@ -1,3 +1,5 @@
+@import '../imports.css';
+
 .Wrapper {
   display: flex;
   height: 100vh;
@@ -6,10 +8,13 @@
 .Main,
 .PreviewWrapper {
   flex-basis: 50%;
+
+  @media (--mobile-medium) {
+    flex-basis: 100%
+  }
 }
 
 .Main {
-  padding: 1rem 2rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,6 +22,35 @@
   justify-content: center;
   background: #f9fbfd;
   border-right: 1px solid #cbd5dc;
+}
+
+.Wrapper-showPreview .Main {
+  @media (--mobile-medium) {
+    margin-left: -100%;
+  }
+}
+
+.PreviewWrapper {
+  @media (--mobile-medium) {
+    margin-right: -100%;
+
+    @nest .Wrapper-showPreview & {
+      margin-right: 0;
+    }
+  }
+}
+
+.Main,
+.Preview {
+  padding: 1rem 2rem;
+
+  @media (--mobile-large) {
+    padding: 1rem;
+  }
+
+  @media (--mobile-small) {
+    padding: .5rem;
+  }
 }
 
 .Headline {
@@ -38,13 +72,18 @@
 
 .PreviewWrapper {
   background: #e6ecf0;
+  position: relative;
+}
+
+.PreviewScroll {
   overflow-y: scroll;
+  height: 100vh;
 }
 
 .Preview {
-  padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 .ThreadWrapper {
@@ -60,4 +99,25 @@
   text-align: center;
   color: #73797d;
   line-height: 1.3;
+}
+
+.PreviewClose {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  fill: #064475;
+
+  @media (--mobile-medium) {
+    display: block;
+  }
+
+  @media (--mobile-small) {
+    top: .5rem;
+    right: .5rem;
+  }
 }

@@ -1,3 +1,5 @@
+@import '../../imports.css';
+
 .Wrapper {
   display: flex;
   flex-direction: column;
@@ -25,6 +27,27 @@
   color: #73797d;
 }
 
-.Action {
+.Actions {
   width: 15rem;
+  display: flex;
+
+  @media (--mobile-medium) {
+    width: 100%;
+
+    & > * {
+      flex-basis: 50%;
+
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  }
+}
+
+.PreviewAction {
+  display: none;
+
+  @media (--mobile-medium) {
+    display: block;
+  }
 }

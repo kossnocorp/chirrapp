@@ -27,7 +27,7 @@ export default class Done extends Component {
       <Wrapper>
         <Header>
           <LogotypeWrapper>
-            <Logotype onClick={() => onBack('')} />
+            <Logotype onClick={() => onBack('')} hideTextAt='mobileMedium' />
           </LogotypeWrapper>
 
           <Message>Done 🎉</Message>

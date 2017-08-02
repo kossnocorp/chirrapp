@@ -1,3 +1,5 @@
+@import '../imports.css';
+
 .Wrapper {
   display: flex;
   flex-direction: column;
@@ -21,6 +23,10 @@
 
 .Header > * {
   flex-basis: 33.33%;
+
+  @media (--mobile-medium) {
+    flex-basis: auto;
+  }
 }
 
 .LogotypeWrapper {
@@ -32,6 +38,10 @@
   color: #4a667b;
   display: flex;
   justify-content: center;
+
+  @media (--mobile-medium) {
+    display: none;
+  }
 }
 
 .Actions {

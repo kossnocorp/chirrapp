@@ -1,11 +1,12 @@
 import { h } from 'preact'
-import { Wrapper, Textarea, Tips, Action } from './style.css'
+import { Wrapper, Textarea, Tips, Actions, PreviewAction } from './style.css'
 import { Button } from '../../_lib/Button.css'
 import { Spinner } from '../../_lib/Spinner.css'
 
 export default function Form ({
   onChange,
   onSubmit,
+  onShowPreview,
   publishing,
   text,
   autoFocus = true
@@ -37,7 +38,7 @@ export default function Form ({
 
       <Tips>💁 To manuall split the tweets, you can use [...]</Tips>
 
-      <Action>
+      <Actions>
         <Button
           tag='button'
           type='submit'
@@ -46,7 +47,20 @@ export default function Form ({
         >
           {publishing ? <Spinner /> : 'Publish'}
         </Button>
-      </Action>
+
+        <PreviewAction>
+          <Button
+            tag='button'
+            type='button'
+            color='green'
+            fullWidth
+            disabled={publishing || text.trim() === ''}
+            onClick={onShowPreview}
+          >
+            Preview
+          </Button>
+        </PreviewAction>
+      </Actions>
     </Wrapper>
   )
 }
