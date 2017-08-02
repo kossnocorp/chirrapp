@@ -1,6 +1,12 @@
 {
   "presets": [
-    ["env", { "useBuiltIns": true, "modules": false }],
+    ["env", {
+      "useBuiltIns": true,
+      "modules": false,
+      "targets": {
+        "browsers": ["last 2 versions", "not IE > 0"]
+      }
+    }],
     "stage-3",
     "react"
   ],

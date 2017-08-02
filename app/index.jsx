@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import { h, render } from 'preact'
 import firebase from 'firebase'
 import UI from './UI'
