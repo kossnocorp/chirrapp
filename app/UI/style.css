@@ -4,20 +4,24 @@
 html {
   box-sizing: border-box;
 
-  @media (--laptop) {
-    font-size: 16px;
-  }
-
-  @media (--mobile-large) {
-    font-size: 15px;
+  @media (--mobile-small) {
+    font-size: 13px;
   }
 
   @media (--mobile-medium) {
     font-size: 14px;
   }
 
-  @media (--mobile-small) {
-    font-size: 13px;
+  @media (--mobile-large) {
+    font-size: 15px;
+  }
+
+  @media (--laptop) {
+    font-size: 16px;
+  }
+
+  @media (--wide) {
+    font-size: 2vh;
   }
 }
 

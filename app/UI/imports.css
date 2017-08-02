@@ -1,6 +1,7 @@
 :root {
 }
 
+@custom-media --wide (width > 1600px);
 @custom-media --laptop (width > 1024px);
 @custom-media --mobile-large (width <= 1024px);
 @custom-media --mobile-medium (width <= 768px);
