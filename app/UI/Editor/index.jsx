@@ -28,6 +28,9 @@ const TimesIcon = () =>
 const promoText =
   "The Twitter threads feature is an amazing way to tell a story and express complex ideas. That also allows to hear the voices outside of your social circle and discover new ideas. Yet it's not easy to plan and publish a thread, Twitter UI just isn't made for that. Chirr App makes it easy to build and publish Twitter threads. It's free and open source! Try it out: https://getchirrapp.com!"
 
+const demoText =
+  'Chirr App splits your text into tweet-sized chunks and posts it as a Twitter thread so you don’t have to. It makes the text easy to read by splitting by sentences when it’s possible. It’s also free and open source.[...]Give it a try!'
+
 export default class Editor extends Component {
   componentWillMount () {
     const { prefilledText } = this.props
@@ -63,13 +66,28 @@ export default class Editor extends Component {
                   this.rebuilding = false
                   this.setState({ tweetsPreview: split(this.state.text) })
                 }, 250)
+
+                if (!this.playingDemo && this.state.text === 'PLAY DEMO') {
+                  this.playingDemo = true
+                  this.setState({ text: '' })
+
+                  let currentText = demoText
+                  const timer = setInterval(() => {
+                    const currentSymbol = currentText[0]
+                    currentText = currentText.slice(1)
+                    const nextText = this.state.text + currentSymbol
+                    this.setState({
+                      text: nextText,
+                      tweetsPreview: split(nextText)
+                    })
+                    if (currentText === '') clearInterval(timer)
+                  }, 30)
+                }
               }
             }}
             onSubmit={() => {
               this.setState({ publishing: true })
-              signIn()
-                .then(auth => publish(auth, split(text)))
-                .then(onPublish)
+              signIn().then(auth => publish(auth, split(text))).then(onPublish)
             }}
             onShowPreview={() => this.setState({ showPreview: true })}
             publishing={publishing}
