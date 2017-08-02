@@ -8,7 +8,7 @@ const provider = new firebase.auth.TwitterAuthProvider()
 
 export default class UI extends Component {
   render ({}, { page = 'editor', auth, publishedURLs, prefilledText }) {
-    const user = getUserFromAuth(auth)
+    const user = getUser(auth)
 
     switch (page) {
       case 'editor':
@@ -21,6 +21,12 @@ export default class UI extends Component {
             signIn={() =>
               signIn().then(auth => {
                 this.setState({ auth })
+                try {
+                  window.localStorage.setItem(
+                    'user',
+                    JSON.stringify(getUser(auth))
+                  )
+                } catch (err) {}
                 return auth
               })}
           />
@@ -52,8 +58,11 @@ function signIn () {
   }
 }
 
-function getUserFromAuth (auth) {
-  if (!auth) return
+function getUser (auth) {
+  if (!auth) {
+    let userJSON = window.localStorage.getItem('user')
+    return userJSON && JSON.parse(userJSON)
+  }
   const {
     additionalUserInfo: {
       profile: {
