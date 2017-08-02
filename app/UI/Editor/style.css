@@ -1,9 +1,10 @@
 .Wrapper {
   display: flex;
+  height: 100vh;
 }
 
 .Main,
-.Preview {
+.PreviewWrapper {
   flex-basis: 50%;
 }
 
@@ -35,8 +36,12 @@
   color: #4a667b;
 }
 
-.Preview {
+.PreviewWrapper {
   background: #e6ecf0;
+  overflow-y: scroll;
+}
+
+.Preview {
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;

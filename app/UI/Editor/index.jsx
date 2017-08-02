@@ -6,6 +6,7 @@ import Thread from './Thread'
 import {
   Wrapper,
   Main,
+  PreviewWrapper,
   Preview,
   Header,
   Headline,
@@ -75,40 +76,45 @@ export default class Editor extends Component {
           </Stats>
         </Main>
 
-        <Preview tag='aside'>
-          <ThreadWrapper>
-            <Thread
-              tweets={tweetsPreview}
-              name={name}
-              screenName={screenName}
-              avatarURL={avatarURL}
-            />
-          </ThreadWrapper>
+        <PreviewWrapper tag='aside'>
+          <Preview>
+            <ThreadWrapper>
+              <Thread
+                tweets={tweetsPreview}
+                name={name}
+                screenName={screenName}
+                avatarURL={avatarURL}
+              />
+            </ThreadWrapper>
 
-          {user
-            ? null
-            : <PreviewDisclaimer>
-                The thread will be published under your name, this is just a
-                preview.
-                <br />
-                <Link
-                  tag='a'
-                  href='#'
-                  onClick={e => {
-                    e.preventDefault()
-                    signIn()
-                  }}
-                >
-                  Login to make it personal
-                </Link>.
-              </PreviewDisclaimer>}
-        </Preview>
+            {user
+              ? null
+              : <PreviewDisclaimer>
+                  The thread will be published under your name, this is just a
+                  preview.
+                  <br />
+                  <Link
+                    tag='a'
+                    href='#'
+                    onClick={e => {
+                      e.preventDefault()
+                      signIn()
+                    }}
+                  >
+                    Login to make it personal
+                  </Link>.
+                </PreviewDisclaimer>}
+          </Preview>
+        </PreviewWrapper>
       </Wrapper>
     )
   }
 }
 
-function publish ({ credential: { accessToken, secret: accessTokenSecret } }, tweets) {
+function publish (
+  { credential: { accessToken, secret: accessTokenSecret } },
+  tweets
+) {
   return postJSON(
     'https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet',
     {
