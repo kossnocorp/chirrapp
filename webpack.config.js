@@ -1,14 +1,35 @@
+const webpack = require('webpack')
 const path = require('path')
 const AssetsWebpackPlugin = require('assets-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const rootPath = process.cwd()
 const isProduction = process.env.NODE_ENV === 'production'
-const plugins = []
+const plugins = [
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': process.env.NODE_ENV
+  })
+]
 
 if (isProduction) {
   plugins.push(
     new AssetsWebpackPlugin({ path: path.resolve(rootPath, 'dist') })
   )
+  plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      beautify: false,
+      mangle: {
+        screw_ie8: true,
+        keep_fnames: true
+      },
+      compress: {
+        screw_ie8: true
+      },
+      comments: false
+    })
+  )
+} else {
+  plugins.push(new BundleAnalyzerPlugin())
 }
 
 module.exports = {
