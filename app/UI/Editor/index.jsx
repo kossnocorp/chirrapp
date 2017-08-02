@@ -49,7 +49,7 @@ export default class Editor extends Component {
             <Logotype />
 
             <Headline tag='h1'>
-              Chirr App makes it easy to plan and post Twitter threads
+              Chirr App splits text into tweets and posts it as a thread
             </Headline>
           </Header>
 
