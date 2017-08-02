@@ -21,12 +21,17 @@ const promoText =
   "The Twitter threads feature is an amazing way to tell a story and express complex ideas. That also allows to hear the voices outside of your social circle and discover new ideas. Yet it's not easy to plan and publish a thread, Twitter UI just isn't made for that. Chirr App makes it easy to build and publish Twitter threads. It's free and open source! Try it out: https://getchirrapp.com!"
 
 export default class Editor extends Component {
-  render ({ prefilledText, onPublish }, { text: _text, auth, publishing }) {
-    const text =
-      typeof _text === 'string'
-        ? _text
-        : typeof prefilledText === 'string' ? prefilledText : promoText
-    const tweets = split(text)
+  componentWillMount () {
+    const { prefilledText } = this.props
+    const text = typeof prefilledText === 'string' ? prefilledText : promoText
+    const tweetsPreview = split(text)
+    this.setState({ text, tweetsPreview })
+  }
+
+  render (
+    { prefilledText, onPublish },
+    { text, tweetsPreview, auth, publishing }
+  ) {
     const user = getUserFromAuth(auth)
     const { name, screenName, avatarURL } = user || {}
 
@@ -43,7 +48,16 @@ export default class Editor extends Component {
 
           <Form
             text={text}
-            onChange={newText => this.setState({ text: newText })}
+            onChange={newText => {
+              this.setState({ text: newText })
+              if (!this.rebuilding) {
+                this.rebuilding = true
+                setTimeout(() => {
+                  this.rebuilding = false
+                  this.setState({ tweetsPreview: split(this.state.text) })
+                }, 250)
+              }
+            }}
             onSubmit={() => {
               this.setState({ publishing: true })
               publish(split(text)).then(onPublish)
@@ -54,7 +68,7 @@ export default class Editor extends Component {
           <Stats>
             {pluralize(text.length, 'char', 'chars')} ・{' '}
             {pluralize(
-              text.length === 0 ? 0 : tweets.length,
+              text.length === 0 ? 0 : tweetsPreview.length,
               'tweet',
               'tweets'
             )}
@@ -64,7 +78,7 @@ export default class Editor extends Component {
         <Preview tag='aside'>
           <ThreadWrapper>
             <Thread
-              tweets={tweets}
+              tweets={tweetsPreview}
               name={name}
               screenName={screenName}
               avatarURL={avatarURL}
