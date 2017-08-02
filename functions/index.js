@@ -18,11 +18,11 @@ exports.tweet = functions.https.onRequest((req, resp) => {
 
     const urls = []
     tweets.reduce((acc, tweet, index) => {
-      const fn = prevResp => {
-        return postTweet(t, tweet, prevResp && prevResp.id_str)
+      const fn = prevId => {
+        return postTweet(t, tweet, prevId)
           .then(({ user: { screen_name: screenName }, id_str: id }) => {
             urls[index] = tweetURL(screenName, id)
-            return resp
+            return id
           })
       }
 
