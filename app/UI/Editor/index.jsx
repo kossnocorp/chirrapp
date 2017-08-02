@@ -1,5 +1,4 @@
 import { h, Component } from 'preact'
-import firebase from 'firebase'
 import split from '../../_lib/split'
 import { postJSON } from '../../_lib/request'
 import Form from './Form'
@@ -29,10 +28,9 @@ export default class Editor extends Component {
   }
 
   render (
-    { prefilledText, onPublish },
-    { text, tweetsPreview, auth, publishing }
+    { prefilledText, user, signIn, onPublish },
+    { text, tweetsPreview, publishing }
   ) {
-    const user = getUserFromAuth(auth)
     const { name, screenName, avatarURL } = user || {}
 
     return (
@@ -60,7 +58,9 @@ export default class Editor extends Component {
             }}
             onSubmit={() => {
               this.setState({ publishing: true })
-              publish(split(text)).then(onPublish)
+              signIn()
+                .then(auth => publish(auth, split(text)))
+                .then(onPublish)
             }}
             publishing={publishing}
           />
@@ -96,7 +96,7 @@ export default class Editor extends Component {
                   href='#'
                   onClick={e => {
                     e.preventDefault()
-                    signIn().then(auth => this.setState({ auth }))
+                    signIn()
                   }}
                 >
                   Login to make it personal
@@ -108,51 +108,15 @@ export default class Editor extends Component {
   }
 }
 
-const provider = new firebase.auth.TwitterAuthProvider()
-
-let auth
-function signIn () {
-  if (auth) {
-    return Promise.resolve(auth)
-  } else {
-    return firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then(_auth => (auth = _auth))
-  }
-}
-
-function getUserFromAuth (auth) {
-  if (!auth) return
-  const {
-    additionalUserInfo: {
-      profile: {
-        name,
-        screen_name: screenName,
-        profile_image_url_https: avatarURL
-      }
+function publish ({ credential: { accessToken, secret: accessTokenSecret } }, tweets) {
+  return postJSON(
+    'https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet',
+    {
+      accessToken,
+      accessTokenSecret,
+      tweets
     }
-  } = auth
-  return {
-    name,
-    screenName,
-    avatarURL: avatarURL.replace('normal', '200x200')
-  }
-}
-
-function publish (tweets) {
-  const provider = new firebase.auth.TwitterAuthProvider()
-  return signIn()
-    .then(({ credential: { accessToken, secret: accessTokenSecret } }) => {
-      return postJSON(
-        'https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet',
-        {
-          accessToken,
-          accessTokenSecret,
-          tweets
-        }
-      )
-    })
+  )
     .then(({ urls }) => urls)
     .catch(err => {
       // TODO: Process failed response
