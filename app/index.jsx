@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import { h, render } from 'preact'
-import firebase from 'firebase'
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
 import UI from './UI'
 
 firebase.initializeApp({

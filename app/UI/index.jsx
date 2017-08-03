@@ -2,7 +2,8 @@ import { h, Component } from 'preact'
 import Editor from './Editor'
 import Done from './Done'
 import './style.css'
-import firebase from 'firebase'
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
 
 const provider = new firebase.auth.TwitterAuthProvider()
 
