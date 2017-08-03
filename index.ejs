@@ -34,6 +34,10 @@
     <meta name='theme-color' content='#ffffff'>
   </head>
   <body>
+    <% if (env === 'production') { %>
+      <script src="https://cdn.ravenjs.com/3.17.0/raven.min.js" crossorigin="anonymous"></script>
+      <script>Raven.config('https://39146f99e35440a5b4f1d37e0bbacc20@sentry.io/199072').install()</script>
+    <% } %>
     <script src='<%= entryPath('app') %>'></script>
     <% if (env === 'production') { %>
       <script>
