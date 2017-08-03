@@ -36,7 +36,7 @@ export default function Form ({
         placeholder="What's happening?"
       />
 
-      <Tips>💁 To manuall split the tweets, you can use [...]</Tips>
+      <Tips>💁 To manually split the tweets, you can use [...]</Tips>
 
       <Actions>
         <Button
