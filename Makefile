@@ -18,3 +18,6 @@ deploy:
 
 deploy-functions:
 	npm run deploy -- --only functions
+
+deploy-hosting:
+	npm run deploy -- --only hosting
