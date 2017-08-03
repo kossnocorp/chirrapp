@@ -126,4 +126,13 @@ test(t => {
       'test test test test test test test test test test test test test… \n \n …test test'
     ]
   )
+  t.deepEqual(
+    split(`Mary had a little lamb and it followed her to school one day and the…
+
+…teacher lost all control of the class because there was this cute lamb entertaining all the children`),
+    [
+      'Mary had a little lamb and it followed her to school one day and the… \n \n …teacher lost all control of the class because there was this…',
+      '…cute lamb entertaining all the children'
+    ]
+  )
 })
