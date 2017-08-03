@@ -112,3 +112,18 @@ test(t => {
     ]
   )
 })
+
+test(t => {
+  t.deepEqual(
+    split(
+      `test test test test test[...] test test test test test.[...] test test test test test test test test test test test test test…
+
+…test test`
+    ),
+    [
+      'test test test test test',
+      'test test test test test.',
+      'test test test test test test test test test test test test test… \n \n …test test'
+    ]
+  )
+})
