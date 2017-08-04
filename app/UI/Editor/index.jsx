@@ -25,10 +25,19 @@ const TimesIcon = () =>
     <path d='M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 464c-118.7 0-216-96.1-216-216 0-118.7 96.1-216 216-216 118.7 0 216 96.1 216 216 0 118.7-96.1 216-216 216zm94.8-285.3L281.5 256l69.3 69.3c4.7 4.7 4.7 12.3 0 17l-8.5 8.5c-4.7 4.7-12.3 4.7-17 0L256 281.5l-69.3 69.3c-4.7 4.7-12.3 4.7-17 0l-8.5-8.5c-4.7-4.7-4.7-12.3 0-17l69.3-69.3-69.3-69.3c-4.7-4.7-4.7-12.3 0-17l8.5-8.5c4.7-4.7 12.3-4.7 17 0l69.3 69.3 69.3-69.3c4.7-4.7 12.3-4.7 17 0l8.5 8.5c4.6 4.7 4.6 12.3 0 17z' />
   </svg>
 
-const promoText =
-  "The Twitter threads feature is an amazing way to tell a story and express complex ideas. That also allows to hear the voices outside of your social circle and discover new ideas. Yet it's not easy to plan and publish a thread, Twitter UI just isn't made for that. Chirr App makes it easy to build and publish Twitter threads. It's free and open source! Try it out: https://getchirrapp.com!"
+const promoText = `Chirr App makes it easy to publish Twitter threads.
 
-const hunterText = `Hello, fellow hunter! ${promoText}`
+Twitter threads allow you to express longer ideas by splitting up a lot of text into multiple tweets.
+
+Also, Chirr App is free, and open source!
+
+[...]
+
+Try it out: https://getchirrapp.com`
+
+const hunterText = `Hello, fellow hunter!
+
+${promoText}`
 
 const demoText =
   'Chirr App splits your text into tweet-sized chunks and posts it as a Twitter thread so you don’t have to. It makes the text easy to read by splitting by sentences when it’s possible. It’s also free and open source.[...]Give it a try!'
