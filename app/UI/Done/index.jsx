@@ -12,8 +12,10 @@ import {
 } from './style.css'
 import { Button } from '../_lib/Button.css'
 import Logotype from '../_lib/Logotype'
+import { trackClickRecommend, trackClickPublishMore } from 'app/_lib/track'
 
-const recommendText = 'This thread is published using @chirrapp 👏 [...]It makes it easy to plan and post Twitter threads. Give it a try: https://chirrapp.com 👌😎👍'
+const recommendText =
+  'This thread is published using @chirrapp 👏 [...]It makes it easy to plan and post Twitter threads. Give it a try: https://chirrapp.com 👌😎👍'
 
 export default class Done extends Component {
   componentWillMount () {
@@ -27,16 +29,35 @@ export default class Done extends Component {
       <Wrapper>
         <Header>
           <LogotypeWrapper>
-            <Logotype onClick={() => onBack('')} hideTextAt='mobileMedium' />
+            <Logotype
+              onClick={() => {
+                trackClickPublishMore('logo')
+                onBack('')
+              }}
+              hideTextAt='mobileMedium'
+            />
           </LogotypeWrapper>
 
           <Message>Done 🎉</Message>
 
           <Actions>
-            <Button size='small' onClick={() => onBack('')}>
+            <Button
+              size='small'
+              onClick={() => {
+                trackClickPublishMore('done button')
+                onBack('')
+              }}
+            >
               Publish More
             </Button>
-            <Button size='small' color='green' onClick={() => onBack(recommendText)}>
+            <Button
+              size='small'
+              color='green'
+              onClick={() => {
+                trackClickRecommend('done')
+                onBack(recommendText)
+              }}
+            >
               Recommend
             </Button>
           </Actions>

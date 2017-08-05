@@ -2,6 +2,7 @@ import { h } from 'preact'
 import { Wrapper, Textarea, Tips, Actions, PreviewAction } from './style.css'
 import { Button } from '../../_lib/Button.css'
 import { Spinner } from '../../_lib/Spinner.css'
+import { trackStartTyping, trackSubmit } from 'app/_lib/track'
 
 export default function Form ({
   onChange,
@@ -23,7 +24,14 @@ export default function Form ({
       <Textarea
         tag='textarea'
         value={text}
-        onInput={({ target: { value } }) => onChange(value)}
+        onInput={({ target: { value } }) => {
+          if (!this.startedTyping) {
+            this.startedTyping = true
+            trackStartTyping()
+          }
+
+          onChange(value)
+        }}
         ref={comp => {
           if (!comp || !autoFocus || this.selectedOnce) return
           this.selectedOnce = true

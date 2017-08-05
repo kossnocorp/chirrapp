@@ -18,6 +18,7 @@ import {
 } from './style.css'
 import { Link } from '../_lib/Link.css'
 import Logotype from '../_lib/Logotype'
+import { trackSubmit, trackPublish, trackException, trackPublicationError } from 'app/_lib/track'
 
 // TODO: Use external asset when the bug is fixed: https://github.com/developit/preact/issues/786
 const TimesIcon = () =>
@@ -100,8 +101,20 @@ export default class Editor extends Component {
               }
             }}
             onSubmit={() => {
+              const tweetsToPublish = split(text)
+              const isPromo = [promoText, hunterText]
+                .concat(prefilledText || [])
+                .includes(text.trim())
+
+              trackSubmit(isPromo ? 'promo' : 'user', tweetsToPublish.length)
+
               this.setState({ publishing: true })
-              signIn().then(auth => publish(auth, split(text))).then(onPublish)
+              signIn('submit')
+                .then(auth => publish(auth, tweetsToPublish))
+                .then(urls => {
+                  trackPublish(isPromo ? 'promo' : 'user', tweetsToPublish.length)
+                  onPublish(urls)
+                })
             }}
             onShowPreview={() => this.setState({ showPreview: true })}
             publishing={publishing}
@@ -150,7 +163,7 @@ export default class Editor extends Component {
                       href='#'
                       onClick={e => {
                         e.preventDefault()
-                        signIn()
+                        signIn('preview')
                       }}
                     >
                       Login to make it personal
@@ -182,7 +195,8 @@ function publish (
   )
     .then(({ urls }) => urls)
     .catch(err => {
-      // TODO: Process failed response
+      trackPublicationError()
+      trackException(err)
     })
 }
 

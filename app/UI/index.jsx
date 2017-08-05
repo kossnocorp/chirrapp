@@ -4,6 +4,7 @@ import Done from './Done'
 import './style.css'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
+import { trackAuthorize, trackAutorizationError, trackException } from 'app/_lib/track'
 
 const provider = new firebase.auth.TwitterAuthProvider()
 
@@ -19,8 +20,8 @@ export default class UI extends Component {
             onPublish={urls =>
               this.setState({ page: 'done', publishedURLs: urls })}
             user={user}
-            signIn={() =>
-              signIn().then(auth => {
+            signIn={source =>
+              signIn(source).then(auth => {
                 this.setState({ auth })
                 try {
                   window.localStorage.setItem(
@@ -47,15 +48,22 @@ export default class UI extends Component {
 }
 
 let auth
-function signIn () {
+function signIn (source) {
   if (auth) {
     return Promise.resolve(auth)
   } else {
     return firebase
       .auth()
       .signInWithPopup(provider)
-      .then(_auth => (auth = _auth))
+      .then(_auth => {
+        trackAuthorize(source)
+        auth = _auth
+      })
       .then(() => auth)
+      .catch(err => {
+        trackAutorizationError(source)
+        trackException(err)
+      })
   }
 }
 
