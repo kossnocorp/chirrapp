@@ -17,6 +17,7 @@ if (isProduction) {
   )
   plugins.push(
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
       beautify: false,
       mangle: {
         screw_ie8: true,
@@ -84,6 +85,8 @@ module.exports = {
       }
     ]
   },
+
+  devtool: isProduction ? 'source-map' : 'eval-source-map',
 
   plugins
 }
