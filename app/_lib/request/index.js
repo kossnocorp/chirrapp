@@ -7,7 +7,7 @@ export function postJSON (url, json) {
     req.withCredentials = false
 
     req.onreadystatechange = () => {
-      if (req.readyState != 4) return
+      if (req.readyState !== 4) return
 
       if (req.status >= 200 && req.status < 300) {
         resolve(JSON.parse(req.responseText))

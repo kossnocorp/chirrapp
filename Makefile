@@ -1,3 +1,7 @@
+SHELL := /bin/bash
+NODE_BIN_PATH := $(shell npm bin)
+PATH := $(NODE_BIN_PATH):$(PATH)
+
 install:
 	npm install
 
@@ -21,3 +25,9 @@ deploy-functions:
 
 deploy-hosting:
 	npm run deploy -- --only hosting
+
+lint:
+	esw
+
+lint-watch:
+	esw --watch
