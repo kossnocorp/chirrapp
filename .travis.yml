@@ -1,5 +1,5 @@
 language: node_js
 node_js: 7
 script:
-  make lint
-  make test
+  - make lint
+  - make test
