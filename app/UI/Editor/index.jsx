@@ -18,7 +18,13 @@ import {
 } from './style.css'
 import { Link } from '../_lib/Link.css'
 import Logotype from '../_lib/Logotype'
-import { trackSubmit, trackPublish, trackException, trackPublicationError } from 'app/_lib/track'
+import {
+  trackSubmit,
+  trackPublish,
+  trackException,
+  trackPublicationError
+} from 'app/_lib/track'
+import { lsSet, lsGet } from 'app/_lib/localStorage'
 
 // TODO: Use external asset when the bug is fixed: https://github.com/developit/preact/issues/786
 const TimesIcon = () =>
@@ -49,7 +55,7 @@ export default class Editor extends Component {
     const text =
       typeof prefilledText === 'string'
         ? prefilledText
-        : isHunter() ? hunterText : promoText
+        : lsGet('text-draft') || (isHunter() ? hunterText : promoText)
     const tweetsPreview = split(text)
     this.setState({ text, tweetsPreview })
   }
@@ -79,6 +85,7 @@ export default class Editor extends Component {
                 this.rebuilding = true
                 setTimeout(() => {
                   this.rebuilding = false
+                  lsSet('text-draft', this.state.text)
                   this.setState({ tweetsPreview: split(this.state.text) })
                 }, 250)
 
@@ -112,7 +119,11 @@ export default class Editor extends Component {
               signIn('submit')
                 .then(auth => publish(auth, tweetsToPublish))
                 .then(urls => {
-                  trackPublish(isPromo ? 'promo' : 'user', tweetsToPublish.length)
+                  lsSet('text-draft')
+                  trackPublish(
+                    isPromo ? 'promo' : 'user',
+                    tweetsToPublish.length
+                  )
                   onPublish(urls)
                 })
             }}
@@ -121,7 +132,12 @@ export default class Editor extends Component {
           />
 
           <Stats>
-            {pluralize(text.replace('[...]', '').trim().length, 'char', 'chars')} ・{' '}
+            {pluralize(
+              text.replace('[...]', '').trim().length,
+              'char',
+              'chars'
+            )}{' '}
+            ・{' '}
             {pluralize(
               text.length === 0 ? 0 : tweetsPreview.length,
               'tweet',
@@ -157,18 +173,18 @@ export default class Editor extends Component {
                 : <PreviewDisclaimer>
                     The thread will be published under your name, this is just a
                     preview.
-                    <br />
-                    <Link
-                      tag='a'
-                      href='#'
-                      onClick={e => {
-                        e.preventDefault()
-                        signIn('preview')
-                      }}
-                    >
+                  <br />
+                  <Link
+                    tag='a'
+                    href='#'
+                    onClick={e => {
+                      e.preventDefault()
+                      signIn('preview')
+                    }}
+                  >
                       Login to make it personal
-                    </Link>.
-                  </PreviewDisclaimer>}
+                  </Link>.
+                </PreviewDisclaimer>}
             </Preview>
           </PreviewScroll>
         </PreviewWrapper>

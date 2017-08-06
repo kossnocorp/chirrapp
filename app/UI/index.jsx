@@ -4,6 +4,7 @@ import Done from './Done'
 import './style.css'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
+import { lsSet, lsGet } from 'app/_lib/localStorage'
 import { trackAuthorize, trackAutorizationError, trackException } from 'app/_lib/track'
 
 const provider = new firebase.auth.TwitterAuthProvider()
@@ -23,12 +24,7 @@ export default class UI extends Component {
             signIn={source =>
               signIn(source).then(auth => {
                 this.setState({ auth })
-                try {
-                  window.localStorage.setItem(
-                    'user',
-                    JSON.stringify(getUser(auth))
-                  )
-                } catch (err) {}
+                lsSet('user', getUser(auth))
                 return auth
               })}
           />
@@ -68,10 +64,7 @@ function signIn (source) {
 }
 
 function getUser (auth) {
-  if (!auth) {
-    let userJSON = window.localStorage.getItem('user')
-    return userJSON && JSON.parse(userJSON)
-  }
+  if (!auth) return lsGet('user')
   const {
     additionalUserInfo: {
       profile: {
