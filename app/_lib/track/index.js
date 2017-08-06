@@ -3,7 +3,7 @@ export function trackStartTyping () {
 }
 
 export function trackSubmit (label, numberOfTweets) {
-  trackEvent('thread', 'submit', label, numberOfTweets)
+  trackEvent('thread', 'submit', label, undefined, { metric1: numberOfTweets })
 }
 
 export function trackAuthorize (label) {
@@ -15,7 +15,7 @@ export function trackAutorizationError (label) {
 }
 
 export function trackPublish (label, numberOfTweets) {
-  trackEvent('thread', 'publish', label, numberOfTweets)
+  trackEvent('thread', 'publish', label, undefined, { metric1: numberOfTweets })
 }
 
 export function trackPublicationError () {
@@ -30,8 +30,8 @@ export function trackClickPublishMore (label) {
   trackEvent('thread', 'click publish more', label)
 }
 
-export function trackEvent (category, action, label, value) {
-  track('event', category, action, label, value)
+export function trackEvent (category, action, label, value, extra) {
+  track('event', category, action, label, value, extra)
 }
 
 export function track (hitType, ...fields) {
