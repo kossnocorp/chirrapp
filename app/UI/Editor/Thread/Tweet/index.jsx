@@ -8,6 +8,7 @@ import {
   DisplayName,
   Text
 } from './style.css'
+import { autoLink, htmlEscape } from 'twitter-text'
 
 export default function Tweet ({
   tweet,
@@ -22,12 +23,20 @@ export default function Tweet ({
       </AvatarWrapper>
 
       <Content>
-        <Name>{name}</Name>
-        <DisplayName>@{screenName}</DisplayName>
-        <Text>
-          {tweet}
-        </Text>
+        <Name>
+          {name}
+        </Name>
+        <DisplayName>
+          @{screenName}
+        </DisplayName>
+        <Text dangerouslySetInnerHTML={{ __html: highlight(tweet) }} />
       </Content>
     </Wrapper>
   )
+}
+
+function highlight (tweet) {
+  return autoLink(htmlEscape(tweet), {
+    targetBlank: true
+  })
 }

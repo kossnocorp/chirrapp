@@ -61,3 +61,11 @@
 .Text {
   line-height: 1.3;
 }
+
+.Text a {
+  color: #0a5088;
+
+  &:hover {
+    color: #0070c9;
+  }
+}
