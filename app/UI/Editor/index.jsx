@@ -121,7 +121,7 @@ export default class Editor extends Component {
           />
 
           <Stats>
-            {pluralize(text.length, 'char', 'chars')} ・{' '}
+            {pluralize(text.replace('[...]', '').trim().length, 'char', 'chars')} ・{' '}
             {pluralize(
               text.length === 0 ? 0 : tweetsPreview.length,
               'tweet',
