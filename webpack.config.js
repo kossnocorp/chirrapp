@@ -30,7 +30,9 @@ if (isProduction) {
     })
   )
 } else {
-  plugins.push(new BundleAnalyzerPlugin())
+  plugins.push(new BundleAnalyzerPlugin({
+    openAnalyzer: false
+  }))
 }
 
 module.exports = {
