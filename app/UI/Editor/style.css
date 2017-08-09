@@ -10,6 +10,7 @@
 .PreviewWrapper {
   display: flex;
   flex-basis: 50%;
+  overflow: hidden;
 
   @media (--mobile-medium) {
     flex-basis: 100%
