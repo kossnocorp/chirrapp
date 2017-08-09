@@ -42,3 +42,7 @@ body,
 textarea {
   font-family: system, -apple-system, BlinkMacSystemFont;
 }
+
+.Layout {
+  height: 100%;
+}

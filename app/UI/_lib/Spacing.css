@@ -45,6 +45,14 @@
   margin-bottom: 1rem;
 }
 
+/* padded */
+.H.H-padded,
+.V.V-padded,
+.El.El-padded {
+  padding: 1rem;
+}
+
+
 /* size: small */
 
 .H-size-small > *:not(:last-child) {
@@ -53,6 +61,13 @@
 
 .V-size-small > *:not(:last-child) {
   margin-bottom: .5rem;
+}
+
+/* padded */
+.H-size-small.H-padded,
+.V-size-small.V-padded,
+.El-size-small.El-padded {
+  padding: .5rem;
 }
 
 /* size: large */
@@ -90,4 +105,11 @@
 .V-grow,
 .El-grow {
   flex-grow: 1;
+}
+
+/* expanded */
+
+.H-expanded,
+.El-expanded {
+  justify-content: space-between;
 }
