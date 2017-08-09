@@ -8,6 +8,9 @@ install:
 start:
 	npm start
 
+start-functions:
+	firebase serve --only functions
+
 build:
 	npm run build
 
