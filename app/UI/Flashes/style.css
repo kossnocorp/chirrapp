@@ -1,0 +1,43 @@
+@import 'app/UI/imports.css';
+
+.Wrapper {
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.Flash {
+  color: white;
+  width: 20rem;
+  border-radius: 3px;
+
+  @media (--mobile-small) {
+    width: 100%;
+  }
+}
+
+.FlashText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  font-size: .9rem;
+}
+
+.FlashIcon {
+  position: relative;
+  top: 1px;
+  cursor: pointer;
+}
+
+/* color: blue (default) */
+
+.Flash {
+  background: #063c67;
+}
+
+/* color: red */
+
+.Flash-color-red {
+  background: #710505;
+}

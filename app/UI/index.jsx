@@ -1,11 +1,16 @@
 import { h, Component } from 'preact'
 import Editor from './Editor'
 import Done from './Done'
-import './style.css'
+import { Layout } from './style.css'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import { lsSet, lsGet } from 'app/_lib/localStorage'
-import { trackAuthorize, trackAutorizationError, trackException } from 'app/_lib/track'
+import {
+  trackAuthorize,
+  trackAutorizationError,
+  trackException
+} from 'app/_lib/track'
+import Flashes from './Flashes'
 
 const provider = new firebase.auth.TwitterAuthProvider()
 
@@ -13,33 +18,41 @@ export default class UI extends Component {
   render ({}, { page = 'editor', auth, publishedURLs, prefilledText }) {
     const user = getUser(auth)
 
-    switch (page) {
-      case 'editor':
-        return (
-          <Editor
-            prefilledText={prefilledText}
-            onPublish={urls =>
-              this.setState({ page: 'done', publishedURLs: urls })}
-            user={user}
-            signIn={source =>
-              signIn(source).then(auth => {
-                this.setState({ auth })
-                lsSet('user', getUser(auth))
-                return auth
-              })}
-          />
-        )
+    return (
+      <Layout>
+        {(() => {
+          switch (page) {
+            case 'editor':
+              return (
+                <Editor
+                  prefilledText={prefilledText}
+                  onPublish={urls =>
+                    this.setState({ page: 'done', publishedURLs: urls })}
+                  user={user}
+                  signIn={source =>
+                    signIn(source).then(auth => {
+                      this.setState({ auth })
+                      lsSet('user', getUser(auth))
+                      return auth
+                    })}
+                />
+              )
 
-      case 'done':
-        return (
-          <Done
-            onBack={text => {
-              this.setState({ page: 'editor', prefilledText: text })
-            }}
-            publishedURLs={publishedURLs}
-          />
-        )
-    }
+            case 'done':
+              return (
+                <Done
+                  onBack={text => {
+                    this.setState({ page: 'editor', prefilledText: text })
+                  }}
+                  publishedURLs={publishedURLs}
+                />
+              )
+          }
+        })()}
+
+        <Flashes />
+      </Layout>
+    )
   }
 }
 
