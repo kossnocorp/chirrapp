@@ -41,27 +41,20 @@ Also, Chirr App is free, and open source!
 
 Try it out: https://getchirrapp.com`
 
-const hunterText = `Hello, fellow hunter!
-
-${promoText}`
-
-const demoText =
-  'Chirr App splits your text into tweet-sized chunks and posts it as a Twitter thread so you don’t have to. It makes the text easy to read by splitting by sentences when it’s possible. It’s also free and open source.[...]Give it a try!'
-
 export default class Editor extends Component {
   componentWillMount () {
     const { prefilledText } = this.props
-    const text =
+    const initialText =
       typeof prefilledText === 'string'
         ? prefilledText
-        : lsGet('text-draft') || (isHunter() ? hunterText : promoText)
-    const tweetsPreview = split(text)
-    this.setState({ text, tweetsPreview })
+        : lsGet('text-draft') || promoText
+    const tweetsPreview = split(initialText)
+    this.setState({ initialText, tweetsPreview })
   }
 
   render (
     { prefilledText, user, signIn, onPublish },
-    { text, tweetsPreview, publishing, showPreview }
+    { initialText, tweetsPreview, publishing, showPreview }
   ) {
     const { name, screenName, avatarURL } = user || {}
 
@@ -79,38 +72,25 @@ export default class Editor extends Component {
 
             <H grow>
               <Form
-                text={text}
-                onChange={newText => {
-                  this.setState({ text: newText })
+                initialText={initialText}
+                onTextUpdate={newText => {
+                  this.latestText = newText
+
                   if (!this.rebuilding) {
                     this.rebuilding = true
+
                     setTimeout(() => {
                       this.rebuilding = false
-                      lsSet('text-draft', this.state.text)
-                      this.setState({ tweetsPreview: split(this.state.text) })
+                      lsSet('text-draft', this.latestText)
+                      this.setState({ tweetsPreview: split(this.latestText) })
                     }, 250)
-
-                    if (!this.playingDemo && this.state.text === 'PLAY DEMO') {
-                      this.playingDemo = true
-                      this.setState({ text: '' })
-
-                      let currentText = demoText
-                      const timer = setInterval(() => {
-                        const currentSymbol = currentText[0]
-                        currentText = currentText.slice(1)
-                        const nextText = this.state.text + currentSymbol
-                        this.setState({
-                          text: nextText,
-                          tweetsPreview: split(nextText)
-                        })
-                        if (currentText === '') clearInterval(timer)
-                      }, 30)
-                    }
                   }
                 }}
-                onSubmit={() => {
+                onSubmit={({ text }) => {
+                  console.log('===')
+                  console.log(text)
                   const tweetsToPublish = split(text)
-                  const isPromo = [promoText, hunterText]
+                  const isPromo = [promoText]
                     .concat(prefilledText || [])
                     .includes(text.trim())
 
@@ -133,8 +113,7 @@ export default class Editor extends Component {
                 }}
                 onShowPreview={() => this.setState({ showPreview: true })}
                 publishing={publishing}
-                charsNumber={text.replace('[...]', '').trim().length}
-                tweetsNumber={text.length === 0 ? 0 : tweetsPreview.length}
+                tweetsNumber={tweetsPreview.length}
               />
             </H>
           </V>
