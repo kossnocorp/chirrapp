@@ -1,0 +1,35 @@
+@import 'app/UI/imports.css';
+
+.Wrapper {
+  display: flex;
+  justify-content: center;
+  display: inline-flex;
+}
+
+.Wrapper svg {
+  height: 100%;
+}
+
+.Wrapper-size-small {
+  width: .75rem;
+  height: .75rem;
+}
+
+.Wrapper-size-medium {
+  width: 1rem;
+  height: 1rem;
+}
+
+.Wrapper-size-large {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.Wrapper-size-xlarge {
+  width: 2rem;
+  height: 2rem;
+}
+
+.Wrapper-size-stretch svg {
+  width: 100%;
+}

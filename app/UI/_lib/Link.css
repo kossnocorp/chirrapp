@@ -1,7 +1,13 @@
 .Link {
   color: #0a5088;
+  display: inline-flex;
+  align-items: center;
 }
 
 .Link:hover {
   color: #0070c9;
+}
+
+.LinkIcon {
+  margin-right: .25rem;
 }
