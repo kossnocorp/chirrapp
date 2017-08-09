@@ -48,7 +48,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.json', '.css'],
     modules: [rootPath, 'node_modules']
   },
 
@@ -57,6 +57,21 @@ module.exports = {
       {
         test: /\.jsx?$/,
         use: 'babel-loader'
+      },
+
+
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'hoc-loader',
+            options: {
+              useDefault: true,
+              path: path.resolve(rootPath, 'app/UI/_lib/Icon/index.jsx')
+            }
+          }
+        ],
+        include: path.resolve(rootPath, 'app/UI/_lib/Icon')
       },
 
       {

@@ -3,6 +3,7 @@
 
 html {
   box-sizing: border-box;
+  height: 100%;
 
   @media (--mobile-small) {
     font-size: 13px;
@@ -32,9 +33,9 @@ html {
 }
 
 body {
-  min-height: 100vh;
   overflow: hidden;
   overflow-y: scroll;
+  height: 100%;
 }
 
 body,

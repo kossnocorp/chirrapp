@@ -1,0 +1,93 @@
+@import 'app/UI/imports.css';
+
+.H,
+.V {
+  display: flex;
+}
+
+.H,
+.El {
+  width: 100%;
+}
+
+.V {
+  flex-direction: column;
+  width: 100%;
+}
+
+/* aligned */
+
+.H-aligned {
+  justify-content: center;
+}
+
+.V-aligned {
+  align-items: center;
+}
+
+/* adjusted */
+
+.H-adjusted {
+  align-items: center;
+}
+
+.V-adjusted {
+  justify-content: center;
+}
+
+/* size: medium (default) */
+
+.H > *:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.V > *:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+/* size: small */
+
+.H-size-small > *:not(:last-child) {
+  margin-right: .5rem;
+}
+
+.V-size-small > *:not(:last-child) {
+  margin-bottom: .5rem;
+}
+
+/* size: large */
+
+.H-size-large > *:not(:last-child) {
+  margin-right: 2rem;
+
+  @media (--mobile-large) {
+    margin-right: 1rem;
+  }
+}
+
+.V-size-large > *:not(:last-child) {
+  margin-bottom: 2rem;
+
+  @media (--mobile-large) {
+    margin-bottom: 1rem;
+  }
+}
+
+/* padded */
+.H-size-large.H-padded,
+.V-size-large.V-padded,
+.El-size-large.El-padded {
+  padding: 2rem;
+
+  @media (--mobile-large) {
+    padding: 1rem;
+  }
+}
+
+/* grow */
+
+.H-grow,
+.V-grow,
+.El-grow {
+  flex-grow: 1;
+}

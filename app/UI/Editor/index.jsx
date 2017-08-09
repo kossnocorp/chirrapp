@@ -9,15 +9,14 @@ import {
   PreviewWrapper,
   PreviewScroll,
   Preview,
-  Header,
   Headline,
-  Stats,
   ThreadWrapper,
   PreviewDisclaimer,
   PreviewClose
 } from './style.css'
 import { Link } from '../_lib/Link.css'
 import Logotype from '../_lib/Logotype'
+import { V, H, El } from 'app/UI/_lib/Spacing'
 import {
   trackSubmit,
   trackPublish,
@@ -69,81 +68,76 @@ export default class Editor extends Component {
     return (
       <Wrapper showPreview={showPreview}>
         <Main tag='main'>
-          <Header tag='header'>
-            <Logotype />
+          <V size='large' padded>
+            <H tag='header'>
+              <Logotype />
 
-            <Headline tag='h1'>
-              Chirr App splits text into tweets and posts it as a thread
-            </Headline>
-          </Header>
+              <Headline tag='h1'>
+                Chirr App splits text into tweets and posts it as a thread
+              </Headline>
+            </H>
 
-          <Form
-            text={text}
-            onChange={newText => {
-              this.setState({ text: newText })
-              if (!this.rebuilding) {
-                this.rebuilding = true
-                setTimeout(() => {
-                  this.rebuilding = false
-                  lsSet('text-draft', this.state.text)
-                  this.setState({ tweetsPreview: split(this.state.text) })
-                }, 250)
+            <H grow>
+              <Form
+                text={text}
+                onChange={newText => {
+                  this.setState({ text: newText })
+                  if (!this.rebuilding) {
+                    this.rebuilding = true
+                    setTimeout(() => {
+                      this.rebuilding = false
+                      lsSet('text-draft', this.state.text)
+                      this.setState({ tweetsPreview: split(this.state.text) })
+                    }, 250)
 
-                if (!this.playingDemo && this.state.text === 'PLAY DEMO') {
-                  this.playingDemo = true
-                  this.setState({ text: '' })
+                    if (!this.playingDemo && this.state.text === 'PLAY DEMO') {
+                      this.playingDemo = true
+                      this.setState({ text: '' })
 
-                  let currentText = demoText
-                  const timer = setInterval(() => {
-                    const currentSymbol = currentText[0]
-                    currentText = currentText.slice(1)
-                    const nextText = this.state.text + currentSymbol
-                    this.setState({
-                      text: nextText,
-                      tweetsPreview: split(nextText)
-                    })
-                    if (currentText === '') clearInterval(timer)
-                  }, 30)
-                }
-              }
-            }}
-            onSubmit={() => {
-              const tweetsToPublish = split(text)
-              const isPromo = [promoText, hunterText]
-                .concat(prefilledText || [])
-                .includes(text.trim())
+                      let currentText = demoText
+                      const timer = setInterval(() => {
+                        const currentSymbol = currentText[0]
+                        currentText = currentText.slice(1)
+                        const nextText = this.state.text + currentSymbol
+                        this.setState({
+                          text: nextText,
+                          tweetsPreview: split(nextText)
+                        })
+                        if (currentText === '') clearInterval(timer)
+                      }, 30)
+                    }
+                  }
+                }}
+                onSubmit={() => {
+                  const tweetsToPublish = split(text)
+                  const isPromo = [promoText, hunterText]
+                    .concat(prefilledText || [])
+                    .includes(text.trim())
 
-              trackSubmit(isPromo ? 'promo' : 'user', tweetsToPublish.length)
-
-              this.setState({ publishing: true })
-              signIn('submit')
-                .then(auth => publish(auth, tweetsToPublish))
-                .then(urls => {
-                  lsSet('text-draft')
-                  trackPublish(
+                  trackSubmit(
                     isPromo ? 'promo' : 'user',
                     tweetsToPublish.length
                   )
-                  onPublish(urls)
-                })
-            }}
-            onShowPreview={() => this.setState({ showPreview: true })}
-            publishing={publishing}
-          />
 
-          <Stats>
-            {pluralize(
-              text.replace('[...]', '').trim().length,
-              'char',
-              'chars'
-            )}{' '}
-            ・{' '}
-            {pluralize(
-              text.length === 0 ? 0 : tweetsPreview.length,
-              'tweet',
-              'tweets'
-            )}
-          </Stats>
+                  this.setState({ publishing: true })
+                  signIn('submit')
+                    .then(auth => publish(auth, tweetsToPublish))
+                    .then(urls => {
+                      lsSet('text-draft')
+                      trackPublish(
+                        isPromo ? 'promo' : 'user',
+                        tweetsToPublish.length
+                      )
+                      onPublish(urls)
+                    })
+                }}
+                onShowPreview={() => this.setState({ showPreview: true })}
+                publishing={publishing}
+                charsNumber={text.replace('[...]', '').trim().length}
+                tweetsNumber={text.length === 0 ? 0 : tweetsPreview.length}
+              />
+            </H>
+          </V>
         </Main>
 
         <PreviewWrapper tag='aside'>
@@ -214,8 +208,4 @@ function publish (
       trackPublicationError()
       trackException(err)
     })
-}
-
-function pluralize (size, one, many) {
-  return `${size} ${size === 1 ? one : many}`
 }

@@ -1,13 +1,5 @@
 @import '../../imports.css';
 
-.Wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  flex-grow: 1;
-}
-
 .Textarea {
   -webkit-appearance: none;
   width: 100%;
@@ -16,9 +8,7 @@
   min-height: 10rem;
   resize: none;
   border-radius: 3px;
-  margin-bottom: .5rem;
-  border: none;
-  box-shadow: rgba(80, 82, 88, 0.4) 0 1px 5px;
+  border: 1px solid #cbd5dc;
   flex-grow: 1;
 
   @media (--mobile-large) {
@@ -63,4 +53,8 @@
   @media (--mobile-medium) {
     display: block;
   }
+}
+
+.Stats {
+  color: #4a667b;
 }
