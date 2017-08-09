@@ -24,6 +24,7 @@ import {
   trackPublicationError
 } from 'app/_lib/track'
 import { lsSet, lsGet } from 'app/_lib/localStorage'
+import preventDefault from 'app/_lib/preventDefault'
 
 // TODO: Use external asset when the bug is fixed: https://github.com/developit/preact/issues/786
 const TimesIcon = () =>
@@ -150,10 +151,9 @@ export default class Editor extends Component {
                   <Link
                     tag='a'
                     href='#'
-                    onClick={e => {
-                      e.preventDefault()
+                    onClick={preventDefault(() => {
                       signIn('preview')
-                    }}
+                    })}
                   >
                       Login to make it personal
                   </Link>.
