@@ -17,18 +17,18 @@ import TimesIcon from 'app/UI/_lib/Icon/times.svg'
 import { trackStartTyping, trackSubmit } from 'app/_lib/track'
 
 export default class Form extends Component {
-  render ({
-    onTextUpdate,
-    onSubmit,
-    onShowPreview,
-    publishing,
-    initialText,
-    autoFocus = true,
-    tweetsNumber
-  }, {
-    text = initialText,
-    replyURL
-  }) {
+  render (
+    {
+      onTextUpdate,
+      onSubmit,
+      onShowPreview,
+      publishing,
+      initialText,
+      autoFocus = true,
+      tweetsNumber
+    },
+    { text = initialText, replyURL, hasReply }
+  ) {
     return (
       <V
         tag='form'
@@ -40,32 +40,51 @@ export default class Form extends Component {
         size='small'
       >
         <H size='small'>
-          <Link tag='a' href='#'>
-            <LinkIcon>
-              <ReplyIcon />
-            </LinkIcon>
-            Reply to a tweet
-          </Link>
-
-          <Link tag='a' href='#'>
-            <LinkIcon>
-              <TimesIcon />
-            </LinkIcon>
-            Cancel reply
-          </Link>
+          {hasReply
+            ? <Link
+              tag='a'
+              href='#'
+              onClick={e => {
+                e.preventDefault()
+                this.setState({ hasReply: false })
+              }}
+            >
+              <LinkIcon>
+                <TimesIcon />
+              </LinkIcon>
+                Cancel reply
+            </Link>
+            : <Link
+              tag='a'
+              href='#'
+              onClick={e => {
+                e.preventDefault()
+                this.setState({ hasReply: true })
+              }}
+            >
+              <LinkIcon>
+                <ReplyIcon />
+              </LinkIcon>
+                Reply to a tweet
+            </Link>}
         </H>
 
-        <Input
-          tag='input'
-          value=''
-          placeholder='Paste the link to the tweet'
-          errored
-        />
+        {hasReply &&
+          <V size='small'>
+            <Input
+              tag='input'
+              value={replyURL}
+              placeholder='Paste the link to the tweet'
+              onInput={({ target: { value } }) =>
+                this.setState({ replyURL: value })}
+              errored
+            />
 
-        <FieldError>
-          The tweet URL isn't correct, it should be in form
-          https://twitter.com/kossnocorp/status/891998517174161408
-        </FieldError>
+            <FieldError>
+              The tweet URL isn't correct, it should be in form
+              https://twitter.com/kossnocorp/status/891998517174161408
+            </FieldError>
+          </V>}
 
         <Textarea
           tag='textarea'
@@ -119,8 +138,12 @@ export default class Form extends Component {
           </Actions>
 
           <Stats>
-            {pluralize(text.replace('[...]', '').trim().length, 'char', 'chars')} ・{' '}
-            {pluralize(text.length && tweetsNumber || 0, 'tweet', 'tweets')}
+            {pluralize(
+              text.replace('[...]', '').trim().length,
+              'char',
+              'chars'
+            )}{' '}
+            ・ {pluralize((text.length && tweetsNumber) || 0, 'tweet', 'tweets')}
           </Stats>
         </V>
       </V>
