@@ -15,6 +15,7 @@ import { V, H } from 'app/UI/_lib/Spacing'
 import ReplyIcon from 'app/UI/_lib/Icon/reply.svg'
 import TimesIcon from 'app/UI/_lib/Icon/times.svg'
 import { trackStartTyping, trackSubmit } from 'app/_lib/track'
+import preventDefault from 'app/_lib/preventDefault'
 
 export default class Form extends Component {
   render (
@@ -33,10 +34,12 @@ export default class Form extends Component {
       <V
         tag='form'
         action='#'
-        onSubmit={e => {
-          e.preventDefault()
-          onSubmit({ text })
-        }}
+        onSubmit={preventDefault(() => {
+          onSubmit({
+            text,
+            replyURL: hasReply && replyURL || null
+          })
+        })}
         size='small'
       >
         <H size='small'>
@@ -44,10 +47,9 @@ export default class Form extends Component {
             ? <Link
               tag='a'
               href='#'
-              onClick={e => {
-                e.preventDefault()
+              onClick={preventDefault(() => {
                 this.setState({ hasReply: false })
-              }}
+              })}
             >
               <LinkIcon>
                 <TimesIcon />
@@ -57,10 +59,9 @@ export default class Form extends Component {
             : <Link
               tag='a'
               href='#'
-              onClick={e => {
-                e.preventDefault()
+              onClick={preventDefault(() => {
                 this.setState({ hasReply: true })
-              }}
+              })}
             >
               <LinkIcon>
                 <ReplyIcon />
