@@ -8,7 +8,7 @@ import {
   Stats
 } from './style.css'
 import { Button } from '../../_lib/Button.css'
-import { Input } from 'app/UI/_lib/Input.css'
+import { Input, FieldError } from 'app/UI/_lib/Input.css'
 import { Link, LinkIcon } from 'app/UI/_lib/Link.css'
 import { Spinner } from '../../_lib/Spinner.css'
 import { V, H } from 'app/UI/_lib/Spacing'
@@ -52,7 +52,17 @@ export default function Form ({
         </Link>
       </H>
 
-      <Input tag='input' value='' placeholder='Paste the link to the tweet' />
+      <Input
+        tag='input'
+        value=''
+        placeholder='Paste the link to the tweet'
+        errored
+      />
+
+      <FieldError>
+        The tweet URL isn't correct, it should be in form
+        https://twitter.com/kossnocorp/status/891998517174161408
+      </FieldError>
 
       <Textarea
         tag='textarea'
