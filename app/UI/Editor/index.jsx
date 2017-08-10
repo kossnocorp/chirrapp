@@ -78,8 +78,6 @@ export default class Editor extends Component {
                 }
               }}
               onSubmit={({ text }) => {
-                console.log('===')
-                console.log(text)
                 const tweetsToPublish = split(text)
                 const isPromo = [promoText]
                   .concat(prefilledText || [])

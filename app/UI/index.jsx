@@ -12,6 +12,7 @@ import {
 } from 'app/_lib/track'
 import TopBar from './TopBar'
 import Flashes from './Flashes'
+import { featureEnabled } from 'app/_lib/features'
 
 const provider = new firebase.auth.TwitterAuthProvider()
 
@@ -53,7 +54,7 @@ export default class UI extends Component {
           }
         })()}
 
-        <Flashes />
+        {featureEnabled('flashes') && <Flashes />}
       </Layout>
     )
   }
