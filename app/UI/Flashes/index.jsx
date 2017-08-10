@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import { V, H } from 'app/UI/_lib/Spacing'
-import { Wrapper, Flash, FlashText, FlashIcon } from './style.css'
+import { Wrapper, Flash, FlashIcon } from './style.css'
+import { Text } from 'app/UI/_lib/Text'
 import TimesIcon from 'app/UI/_lib/Icon/times.svg'
 
 export default function Flashes () {
@@ -10,32 +11,35 @@ export default function Flashes () {
         <V size='small'>
           <Flash>
             <H padded expanded>
-              <FlashText>
+              <Text size='small'>
                 Test, test, test, very long text, whatever, waaaaaaatveveveve
-                longwordislonglongcatislong
-              </FlashText>
+                longwordislonglongcatislonglonglonglonglong
+              </Text>
+
               <FlashIcon>
                 <TimesIcon />
               </FlashIcon>
             </H>
           </Flash>
 
-          <Flash>
+          <Flash color='positive'>
             <H padded expanded>
-              <FlashText>
+              <Text size='small'>
                 Hello, world
-              </FlashText>
+              </Text>
+
               <FlashIcon>
                 <TimesIcon />
               </FlashIcon>
             </H>
           </Flash>
 
-          <Flash color='red'>
+          <Flash color='negative'>
             <H padded expanded>
-              <FlashText>
+              <Text size='small'>
                 Something went wrong, please try again.
-              </FlashText>
+              </Text>
+
               <FlashIcon>
                 <TimesIcon />
               </FlashIcon>

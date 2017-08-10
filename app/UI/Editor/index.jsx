@@ -15,7 +15,6 @@ import {
   PreviewClose
 } from './style.css'
 import { Link } from '../_lib/Link.css'
-import Logotype from '../_lib/Logotype'
 import { V, H, El } from 'app/UI/_lib/Spacing'
 import {
   trackSubmit,
@@ -62,62 +61,52 @@ export default class Editor extends Component {
     return (
       <Wrapper showPreview={showPreview}>
         <Main tag='main'>
-          <V size='large' padded>
-            <H tag='header'>
-              <Logotype />
+          <H grow padded>
+            <Form
+              initialText={initialText}
+              onTextUpdate={newText => {
+                this.latestText = newText
 
-              <Headline tag='h1'>
-                Chirr App splits text into tweets and posts it as a thread
-              </Headline>
-            </H>
+                if (!this.rebuilding) {
+                  this.rebuilding = true
 
-            <H grow>
-              <Form
-                initialText={initialText}
-                onTextUpdate={newText => {
-                  this.latestText = newText
+                  setTimeout(() => {
+                    this.rebuilding = false
+                    lsSet('text-draft', this.latestText)
+                    this.setState({ tweetsPreview: split(this.latestText) })
+                  }, 250)
+                }
+              }}
+              onSubmit={({ text }) => {
+                console.log('===')
+                console.log(text)
+                const tweetsToPublish = split(text)
+                const isPromo = [promoText]
+                  .concat(prefilledText || [])
+                  .includes(text.trim())
 
-                  if (!this.rebuilding) {
-                    this.rebuilding = true
+                trackSubmit(
+                  isPromo ? 'promo' : 'user',
+                  tweetsToPublish.length
+                )
 
-                    setTimeout(() => {
-                      this.rebuilding = false
-                      lsSet('text-draft', this.latestText)
-                      this.setState({ tweetsPreview: split(this.latestText) })
-                    }, 250)
-                  }
-                }}
-                onSubmit={({ text }) => {
-                  console.log('===')
-                  console.log(text)
-                  const tweetsToPublish = split(text)
-                  const isPromo = [promoText]
-                    .concat(prefilledText || [])
-                    .includes(text.trim())
-
-                  trackSubmit(
-                    isPromo ? 'promo' : 'user',
-                    tweetsToPublish.length
-                  )
-
-                  this.setState({ publishing: true })
-                  signIn('submit')
-                    .then(auth => publish(auth, tweetsToPublish))
-                    .then(urls => {
-                      lsSet('text-draft')
-                      trackPublish(
-                        isPromo ? 'promo' : 'user',
-                        tweetsToPublish.length
-                      )
-                      onPublish(urls)
-                    })
-                }}
-                onShowPreview={() => this.setState({ showPreview: true })}
-                publishing={publishing}
-                tweetsNumber={tweetsPreview.length}
-              />
-            </H>
-          </V>
+                this.setState({ publishing: true })
+                signIn('submit')
+                  .then(auth => publish(auth, tweetsToPublish))
+                  .then(urls => {
+                    lsSet('text-draft')
+                    trackPublish(
+                      isPromo ? 'promo' : 'user',
+                      tweetsToPublish.length
+                    )
+                    onPublish(urls)
+                  })
+              }}
+              onShowPreview={() => this.setState({ showPreview: true })}
+              publishing={publishing}
+              tweetsNumber={tweetsPreview.length}
+            />
+          </H>
         </Main>
 
         <PreviewWrapper tag='aside'>

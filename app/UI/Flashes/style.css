@@ -17,27 +17,26 @@
   }
 }
 
-.FlashText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2;
-  font-size: .9rem;
-}
-
 .FlashIcon {
   position: relative;
   top: 1px;
   cursor: pointer;
 }
 
-/* color: blue (default) */
+/* color: main (default) */
 
 .Flash {
-  background: #063c67;
+  background: var(--color-main-background);
 }
 
-/* color: red */
+/* color: negative */
 
-.Flash-color-red {
-  background: #710505;
+.Flash-color-negative {
+  background: var(--color-negative-background);
+}
+
+/* color: positive */
+
+.Flash-color-positive {
+  background: var(--color-positive-background);
 }

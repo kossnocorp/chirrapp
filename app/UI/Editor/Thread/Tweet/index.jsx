@@ -5,9 +5,9 @@ import {
   Avatar,
   Content,
   Name,
-  DisplayName,
-  Text
+  DisplayName
 } from './style.css'
+import { Text } from 'app/UI/_lib/Text'
 import { autoLink, htmlEscape } from 'twitter-text'
 
 export default function Tweet ({

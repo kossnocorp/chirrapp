@@ -1,4 +1,19 @@
 :root {
+  --color-light: white;
+
+  --color-background: #f9fbfd;
+  --color-background-secondary: #e6ecf0;
+
+  --color-main: #0070C9;
+  --color-main-background: #063c67;
+
+  --color-positive: #2fa907;
+  --color-positive-background: #006500;
+
+  --color-negative-background: #710505;
+
+  --size-top-bar: 2.5rem;
+  --size-body: calc(100% - var(--size-top-bar));
 }
 
 @custom-media --wide (width > 1600px);

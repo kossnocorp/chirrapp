@@ -1,0 +1,29 @@
+@import 'app/UI/imports.css';
+
+.Wrapper {
+  background: var(--color-main-background);
+  color: var(--color-light);
+  height: var(--size-top-bar);
+  display: flex;
+}
+
+.Link {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.Link-current {
+  border-bottom: 5px solid var(--color-main);
+}
+
+.Link-current {
+  padding-top: 5px;
+}
+
+.ScheduledCounter {
+  background: linear-gradient(#088cb3, #03a285);
+  padding: .15rem .25rem;
+  border-radius: 3px;
+  font-size: .9rem;
+}

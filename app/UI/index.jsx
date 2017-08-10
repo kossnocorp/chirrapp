@@ -10,6 +10,7 @@ import {
   trackAutorizationError,
   trackException
 } from 'app/_lib/track'
+import TopBar from './TopBar'
 import Flashes from './Flashes'
 
 const provider = new firebase.auth.TwitterAuthProvider()
@@ -20,6 +21,8 @@ export default class UI extends Component {
 
     return (
       <Layout>
+        <TopBar />
+
         {(() => {
           switch (page) {
             case 'editor':
