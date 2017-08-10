@@ -16,6 +16,7 @@ import ReplyIcon from 'app/UI/_lib/Icon/reply.svg'
 import TimesIcon from 'app/UI/_lib/Icon/times.svg'
 import { trackStartTyping, trackSubmit } from 'app/_lib/track'
 import preventDefault from 'app/_lib/preventDefault'
+import { featureEnabled } from 'app/_lib/features'
 import form from './form'
 
 export default class Form extends Component {
@@ -38,56 +39,58 @@ export default class Form extends Component {
         onSubmit={preventDefault(() => {
           onSubmit({
             text,
-            replyURL: hasReply && replyURL || null
+            replyURL: (hasReply && replyURL) || null
           })
         })}
         size='small'
         fullWidth
       >
         <H size='small'>
-          {hasReply
-            ? <Link
-              tag='a'
-              href='#'
-              onClick={preventDefault(() => {
-                this.setState({ hasReply: false })
-              })}
-            >
-              <LinkIcon>
-                <TimesIcon />
-              </LinkIcon>
+          {featureEnabled('reply') &&
+            ((hasReply &&
+              <Link
+                tag='a'
+                href='#'
+                onClick={preventDefault(() => {
+                  this.setState({ hasReply: false })
+                })}
+              >
+                <LinkIcon>
+                  <TimesIcon />
+                </LinkIcon>
                 Cancel reply
-            </Link>
-            : <Link
-              tag='a'
-              href='#'
-              onClick={preventDefault(() => {
-                this.setState({ hasReply: true })
-              })}
-            >
-              <LinkIcon>
-                <ReplyIcon />
-              </LinkIcon>
+              </Link>) ||
+              <Link
+                tag='a'
+                href='#'
+                onClick={preventDefault(() => {
+                  this.setState({ hasReply: true })
+                })}
+              >
+                <LinkIcon>
+                  <ReplyIcon />
+                </LinkIcon>
                 Reply to a tweet
-            </Link>}
+              </Link>)}
         </H>
 
-        {hasReply &&
-          <V size='small'>
-            <Input
-              tag='input'
-              value={replyURL}
-              placeholder='Paste the link to the tweet'
-              onInput={({ target: { value } }) =>
-                this.setState({ replyURL: value })}
-              errored
-            />
+        {featureEnabled('reply') &&
+          (hasReply &&
+            <V size='small'>
+              <Input
+                tag='input'
+                value={replyURL}
+                placeholder='Paste the link to the tweet'
+                onInput={({ target: { value } }) =>
+                  this.setState({ replyURL: value })}
+                errored
+              />
 
-            <FieldError>
-              The tweet URL isn't correct, it should be in form
-              https://twitter.com/kossnocorp/status/891998517174161408
-            </FieldError>
-          </V>}
+              <FieldError>
+                The tweet URL isn't correct, it should be in form
+                https://twitter.com/kossnocorp/status/891998517174161408
+              </FieldError>
+            </V>)}
 
         <Textarea
           tag='textarea'

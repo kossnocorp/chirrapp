@@ -3,11 +3,12 @@ const path = require('path')
 const AssetsWebpackPlugin = require('assets-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
+const nodeEnv = process.env.NODE_ENV || 'development'
 const rootPath = process.cwd()
-const isProduction = process.env.NODE_ENV === 'production'
+const isProduction = nodeEnv === 'production'
 const plugins = [
   new webpack.DefinePlugin({
-    'process.env.NODE_ENV': process.env.NODE_ENV
+    'process.env.NODE_ENV': JSON.stringify(nodeEnv)
   })
 ]
 
