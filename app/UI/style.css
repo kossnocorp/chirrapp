@@ -40,7 +40,7 @@ body {
 
 body,
 textarea {
-  font-family: system, -apple-system, BlinkMacSystemFont;
+  font-family: system-ui;
 }
 
 .Layout {

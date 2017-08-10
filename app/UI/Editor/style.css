@@ -1,9 +1,9 @@
-@import '../imports.css';
+@import 'app/UI/imports.css';
 
 .Wrapper {
   display: flex;
   overflow: hidden;
-  height: 100%;
+  height: var(--size-body);
 }
 
 .Main,
@@ -18,7 +18,7 @@
 }
 
 .Main {
-  background: #f9fbfd;
+  background: var(--color-background);
   border-right: 1px solid #cbd5dc;
 }
 
@@ -38,15 +38,8 @@
   }
 }
 
-.Headline {
-  color: #4a667b;
-  font-size: 1.2rem;
-  max-width: 20rem;
-  line-height: 1.3;
-}
-
 .PreviewWrapper {
-  background: #e6ecf0;
+  background: var(--color-background-secondary);
   position: relative;
 }
 
@@ -54,12 +47,12 @@
   /* Fix Safari's bug, see: https://stackoverflow.com/a/19121022 */
   position: absolute;
   overflow-y: scroll;
-  height: 100%;
+  height: var(--size-body);
   width: 100%;
 }
 
 .Preview {
-  min-height: 100%;
+  min-height: var(--size-body);
 
   /* The rest below replicates <V size='large' /> */
   display: flex;
