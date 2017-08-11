@@ -28,6 +28,19 @@
   }
 }
 
+.Wrapper-showPreview .PreviewClose {
+  @media (--mobile-medium) {
+    display: flex;
+  }
+}
+
+.Wrapper-showPreview .PreviewScroll {
+  @media (--mobile-medium) {
+    height: 100%;
+    padding-bottom: 5rem;
+  }
+}
+
 .PreviewWrapper {
   @media (--mobile-medium) {
     margin-right: -100%;
@@ -61,6 +74,7 @@
 
   @media (--mobile-large) {
     padding: 1rem;
+    padding-bottom: 0;
   }
 
   & > *:not(:last-child) {
@@ -88,21 +102,30 @@
 
 .PreviewClose {
   display: none;
+  height: 5rem;
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1;
-  width: 2rem;
-  height: 2rem;
-  cursor: pointer;
-  fill: #064475;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+}
 
-  @media (--mobile-medium) {
-    display: block;
-  }
+.PreviewClose button {
+  min-width: 15rem;
 
   @media (--mobile-small) {
-    top: .5rem;
-    right: .5rem;
+    width: 100%;
+    min-width: auto;
   }
+}
+
+.PreviewCloseIcon {
+  height: 1.7rem;
+  fill: var(--color-light);
+  cursor: pointer;
+}
+
+.PreviewCloseIcon svg {
+  height: 100%;
 }

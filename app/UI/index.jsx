@@ -13,11 +13,12 @@ import {
 import TopBar from './TopBar'
 import Flashes from './Flashes'
 import { featureEnabled } from 'app/_lib/features'
+import { without } from 'lodash'
 
 const provider = new firebase.auth.TwitterAuthProvider()
 
 export default class UI extends Component {
-  render ({}, { page = 'editor', auth, publishedURLs, prefilledText }) {
+  render ({ flashes }, { page = 'editor', auth, publishedURLs, prefilledText }) {
     const user = getUser(auth)
 
     return (
@@ -54,7 +55,7 @@ export default class UI extends Component {
           }
         })()}
 
-        {featureEnabled('flashes') && <Flashes />}
+        <Flashes flashes={flashes} />
       </Layout>
     )
   }

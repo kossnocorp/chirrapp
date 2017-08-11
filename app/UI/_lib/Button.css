@@ -9,7 +9,8 @@
   position: relative;
   top: -3px;
   margin-top: 3px;
-  line-height: 1;
+  line-height: 2rem;
+  text-align: center;
 }
 
 .Button-flat {
@@ -60,7 +61,7 @@
 
 .Button-color-twitter {
   background: #1da1f2;
-  box-shadow: black 0 3px 0;
+  box-shadow: #084f7b 0 3px 0;
 }
 
 /* size: medium (default) */
