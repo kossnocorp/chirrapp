@@ -1,9 +1,0 @@
-{
-  "development": {
-    "features": ["reply"]
-  },
-
-  "production": {
-    "features": []
-  }
-}

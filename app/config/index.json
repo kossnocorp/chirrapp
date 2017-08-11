@@ -1,0 +1,22 @@
+{
+  "development": {
+    "functions": {
+      "tweet": "https://us-central1-chirrapp-staging.cloudfunctions.net/tweet"
+    },
+    "features": ["reply"]
+  },
+
+  "production": {
+    "functions": {
+      "tweet": "https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet"
+    },
+    "features": []
+  },
+
+  "staging": {
+    "functions": {
+      "tweet": "https://us-central1-chirrapp-staging.cloudfunctions.net/tweet"
+    },
+    "features": []
+  }
+}

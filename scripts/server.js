@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+process.env.APP_ENV = process.env.APP_ENV || 'development'
+
 const webpack = require('webpack')
 const Koa = require('koa')
 const koaWebpack = require('koa-webpack')
