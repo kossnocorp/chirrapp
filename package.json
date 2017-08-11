@@ -1,9 +1,7 @@
 {
   "scripts": {
     "start": "./scripts/server.js",
-    "build": "./scripts/build.sh",
     "test": "ava **/test.js",
-    "deploy": "firebase deploy",
     "postinstall": "cd functions && npm install"
   },
   "devDependencies": {

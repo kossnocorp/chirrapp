@@ -27,6 +27,7 @@ import { lsSet, lsGet } from 'app/_lib/localStorage'
 import preventDefault from 'app/_lib/preventDefault'
 import { pushFlash } from 'app/acts/flashes'
 import { Button } from 'app/UI/_lib/Button'
+import { functions } from 'app/config'
 
 // TODO: Use external asset when the bug is fixed: https://github.com/developit/preact/issues/786
 const TimesIcon = () =>
@@ -181,7 +182,7 @@ function publish (
   tweets
 ) {
   return postJSON(
-    'https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet',
+    functions.tweet,
     {
       accessToken,
       accessTokenSecret,
