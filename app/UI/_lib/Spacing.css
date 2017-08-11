@@ -31,11 +31,11 @@
 
 /* size: medium (default) */
 
-.H > *:not(:last-child):not(:empty):not(grammarly-ghost) {
+.H > *:not(:last-child):not(grammarly-btn):not(grammarly-ghost) {
   margin-right: 1rem;
 }
 
-.V > *:not(:last-child):not(:empty):not(grammarly-ghost) {
+.V > *:not(:last-child):not(grammarly-btn):not(grammarly-ghost) {
   margin-bottom: 1rem;
 }
 
@@ -64,11 +64,11 @@
 
 /* size: small */
 
-.H-size-small > *:not(:last-child):not(:empty):not(grammarly-ghost) {
+.H-size-small > *:not(:last-child):not(grammarly-btn):not(grammarly-ghost) {
   margin-right: .5rem;
 }
 
-.V-size-small > *:not(:last-child):not(:empty):not(grammarly-ghost) {
+.V-size-small > *:not(:last-child):not(grammarly-btn):not(grammarly-ghost) {
   margin-bottom: .5rem;
 }
 
@@ -97,7 +97,7 @@
 
 /* size: large */
 
-.H-size-large > *:not(:last-child):not(:empty):not(grammarly-ghost) {
+.H-size-large > *:not(:last-child):not(grammarly-btn):not(grammarly-ghost) {
   margin-right: 2rem;
 
   @media (--mobile-large) {
@@ -105,7 +105,7 @@
   }
 }
 
-.V-size-large > *:not(:last-child):not(:empty):not(grammarly-ghost) {
+.V-size-large > *:not(:last-child):not(grammarly-btn):not(grammarly-ghost) {
   margin-bottom: 2rem;
 
   @media (--mobile-large) {
