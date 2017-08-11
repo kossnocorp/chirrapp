@@ -17,30 +17,76 @@ import TimesIcon from 'app/UI/_lib/Icon/times.svg'
 import { trackStartTyping, trackSubmit } from 'app/_lib/track'
 import preventDefault from 'app/_lib/preventDefault'
 import { featureEnabled } from 'app/_lib/features'
-import form from './form'
+import { pushFlash, dismissFlashGroup } from 'app/acts/flashes'
+import {
+  initialForm,
+  updateOnInput,
+  updateOnClick,
+  updateField,
+  trySubmit
+} from './form'
 
 export default class Form extends Component {
+  componentWillMount () {
+    const { initialText } = this.props
+    this.setState({ form: initialForm({ text: initialText }) })
+  }
+
   render (
     {
       onTextUpdate,
       onSubmit,
       onShowPreview,
-      publishing,
-      initialText,
       autoFocus = true,
       tweetsNumber
     },
-    { text = initialText, replyURL, hasReply }
+    {
+      form: {
+        submitting,
+        onceTriedToSubmit,
+        valid,
+        fields: {
+          text: { value: text },
+          hasReply: { value: hasReply },
+          replyURL: {
+            value: replyURL,
+            valid: replyURLIsValid,
+            message: replyURLMessage
+          }
+        }
+      }
+    }
   ) {
     return (
       <V
         tag='form'
         action='#'
         onSubmit={preventDefault(() => {
-          onSubmit({
-            text,
-            replyURL: (hasReply && replyURL) || null
-          })
+          dismissFlashGroup('editor-form')
+
+          const form = trySubmit(this.state.form)
+
+          if (form.submitting) {
+            // onSubmit(form.fields)
+              //.then()
+            setTimeout(() => {
+              this.setState({
+                form: Object.assign({}, form, { submitting: false })
+              })
+            }, 3000)
+          }
+
+          //if (form.message) {
+            //pushFlash({
+              //group: 'editor-form',
+              //type: form.valid ? 'info' : 'error',
+              //message: form.message,
+              //timeout: 5000
+            //})
+            //form.message = ''
+          //}
+
+          this.setState({ form })
         })}
         size='small'
         fullWidth
@@ -51,9 +97,8 @@ export default class Form extends Component {
               <Link
                 tag='a'
                 href='#'
-                onClick={preventDefault(() => {
-                  this.setState({ hasReply: false })
-                })}
+                onClick={preventDefault(updateOnClick(this, 'hasReply', false))}
+                disabled={submitting}
               >
                 <LinkIcon>
                   <TimesIcon />
@@ -63,9 +108,8 @@ export default class Form extends Component {
               <Link
                 tag='a'
                 href='#'
-                onClick={preventDefault(() => {
-                  this.setState({ hasReply: true })
-                })}
+                onClick={preventDefault(updateOnClick(this, 'hasReply', true))}
+                disabled={submitting}
               >
                 <LinkIcon>
                   <ReplyIcon />
@@ -81,29 +125,28 @@ export default class Form extends Component {
                 tag='input'
                 value={replyURL}
                 placeholder='Paste the link to the tweet'
-                onInput={({ target: { value } }) =>
-                  this.setState({ replyURL: value })}
-                errored
+                onInput={updateOnInput(this, 'replyURL')}
+                errored={!replyURLIsValid}
+                disabled={submitting}
               />
 
-              <FieldError>
-                The tweet URL isn't correct, it should be in form
-                https://twitter.com/kossnocorp/status/891998517174161408
-              </FieldError>
+              {replyURLMessage &&
+                <FieldError>
+                  {replyURLMessage}
+                </FieldError>}
             </V>)}
 
         <Textarea
           tag='textarea'
           value={text}
-          onInput={({ target: { value } }) => {
+          onInput={updateOnInput(this, 'text', value => {
             if (!this.startedTyping) {
               this.startedTyping = true
               trackStartTyping()
             }
 
-            this.setState({ text: value })
             onTextUpdate(value)
-          }}
+          })}
           ref={comp => {
             if (!comp || !autoFocus || this.selectedOnce) return
             this.selectedOnce = true
@@ -114,6 +157,7 @@ export default class Form extends Component {
             })
           }}
           placeholder="What's happening?"
+          disabled={submitting}
         />
 
         <V size='small' aligned>
@@ -123,10 +167,11 @@ export default class Form extends Component {
             <Button
               tag='button'
               type='submit'
+              color='twitter'
               fullWidth
-              disabled={publishing || text.trim() === ''}
+              disabled={submitting || (onceTriedToSubmit && !valid)}
             >
-              {publishing ? <Spinner /> : 'Publish'}
+              {submitting ? <Spinner /> : 'Publish'}
             </Button>
 
             <PreviewAction>
@@ -135,7 +180,6 @@ export default class Form extends Component {
                 type='button'
                 color='green'
                 fullWidth
-                disabled={publishing || text.trim() === ''}
                 onClick={onShowPreview}
               >
                 Preview

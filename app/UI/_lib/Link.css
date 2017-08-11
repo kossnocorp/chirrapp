@@ -8,6 +8,12 @@
   color: #0070c9;
 }
 
+.Link-disabled {
+  pointer-events: none;
+  text-decoration: none;
+  color: gray;
+}
+
 .LinkIcon {
   margin-right: .25rem;
 }

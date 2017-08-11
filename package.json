@@ -43,7 +43,9 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "enso": "^0.4.0",
     "firebase": "^4.2.0",
+    "lodash": "^4.17.4",
     "preact": "^8.2.1",
     "preact-merge": "github:kossnocorp/preact-merge#c201a7d",
     "reset.css": "^2.0.2",

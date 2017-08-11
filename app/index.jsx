@@ -1,5 +1,6 @@
 import 'babel-polyfill'
 import { h, render } from 'preact'
+import { loop } from 'enso'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import UI from './UI'
@@ -9,4 +10,7 @@ firebase.initializeApp({
   authDomain: 'getchirrapp.com'
 })
 
-render(<UI />, document.body)
+let root
+loop({ flashes: [] }, ({ flashes }) => {
+  root = render(<UI flashes={flashes} />, document.body, root)
+})

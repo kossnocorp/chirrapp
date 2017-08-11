@@ -12,7 +12,8 @@ import {
   Headline,
   ThreadWrapper,
   PreviewDisclaimer,
-  PreviewClose
+  PreviewClose,
+  PreviewCloseIcon
 } from './style.css'
 import { Link } from '../_lib/Link.css'
 import { V, H, El } from 'app/UI/_lib/Spacing'
@@ -24,6 +25,8 @@ import {
 } from 'app/_lib/track'
 import { lsSet, lsGet } from 'app/_lib/localStorage'
 import preventDefault from 'app/_lib/preventDefault'
+import { pushFlash } from 'app/acts/flashes'
+import { Button } from 'app/UI/_lib/Button'
 
 // TODO: Use external asset when the bug is fixed: https://github.com/developit/preact/issues/786
 const TimesIcon = () =>
@@ -54,7 +57,7 @@ export default class Editor extends Component {
 
   render (
     { prefilledText, user, signIn, onPublish },
-    { initialText, tweetsPreview, publishing, showPreview }
+    { initialText, tweetsPreview, showPreview }
   ) {
     const { name, screenName, avatarURL } = user || {}
 
@@ -77,18 +80,18 @@ export default class Editor extends Component {
                   }, 250)
                 }
               }}
-              onSubmit={({ text }) => {
+              onSubmit={({
+                text: { value: text },
+                hasReply: { value: hasReply },
+                replyURL: { value: replyURL }
+              }) => {
                 const tweetsToPublish = split(text)
                 const isPromo = [promoText]
                   .concat(prefilledText || [])
                   .includes(text.trim())
 
-                trackSubmit(
-                  isPromo ? 'promo' : 'user',
-                  tweetsToPublish.length
-                )
+                trackSubmit(isPromo ? 'promo' : 'user', tweetsToPublish.length)
 
-                this.setState({ publishing: true })
                 signIn('submit')
                   .then(auth => publish(auth, tweetsToPublish))
                   .then(urls => {
@@ -99,24 +102,26 @@ export default class Editor extends Component {
                     )
                     onPublish(urls)
                   })
+                  .rescue(err => {
+                    pushFlash({
+                      group: 'editor-form',
+                      type: 'error',
+                      message: err.message,
+                      timeout: 5000
+                    })
+
+                    return {
+                      // TODO
+                    }
+                  })
               }}
               onShowPreview={() => this.setState({ showPreview: true })}
-              publishing={publishing}
               tweetsNumber={tweetsPreview.length}
             />
           </H>
         </Main>
 
         <PreviewWrapper tag='aside'>
-          <PreviewClose
-            onClick={() => {
-              this.setState({ showPreview: false })
-              this.previewScroll && this.previewScroll.scrollTo(0, 0)
-            }}
-          >
-            <TimesIcon />
-          </PreviewClose>
-
           <PreviewScroll ref={comp => (this.previewScroll = comp && comp.base)}>
             <Preview>
               <ThreadWrapper>
@@ -147,6 +152,20 @@ export default class Editor extends Component {
                 </PreviewDisclaimer>}
             </Preview>
           </PreviewScroll>
+
+          <PreviewClose>
+            <H fullWidth paddedH aligned>
+              <Button
+                tag='button'
+                onClick={() => {
+                  this.setState({ showPreview: false })
+                  this.previewScroll && this.previewScroll.scrollTo(0, 0)
+                }}
+              >
+                Close Preview
+              </Button>
+            </H>
+          </PreviewClose>
         </PreviewWrapper>
       </Wrapper>
     )

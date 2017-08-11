@@ -11,7 +11,7 @@ export default function TopBar () {
   return (
     <Wrapper>
       <H tag='header' paddedH fullWidth expanded>
-        <H size='large' adjusted>
+        <H adjusted>
           <Logotype />
 
           <Button color='positive' size='small' flat>
