@@ -9,11 +9,41 @@ export function initialForm ({ text }) {
 
       replyURL: {
         value: '',
-        valid: true
+        valid: true,
+        validate: (
+          value,
+          {
+            fields: {
+              hasReply: { value: hasReply },
+              replyURL: { value: replyURL }
+            }
+          }
+        ) => {
+          const valid =
+            !hasReply ||
+            /^https:\/\/twitter\.com\/\w+\/status\/\d+\/?$/.test(
+              replyURL.trim()
+            )
+
+          return {
+            valid,
+            error: valid
+              ? null
+              : 'URL should match https://twitter.com/xxx/status/999'
+          }
+        }
       },
 
       text: {
-        value: text
+        value: text,
+        valid: true,
+        validate: value => {
+          const valid = !!value.trim()
+          return {
+            valid,
+            error: valid ? null : 'There is nothing to publish'
+          }
+        }
       }
     }
   }
@@ -46,15 +76,19 @@ export function trySubmit (form) {
 
   Object.keys(newForm.fields).forEach(fieldKey => {
     const field = newForm.fields[fieldKey]
-    Object.assign(field, {
-      valid: field.validate ? field.validate(field.value) : true
-    })
+    Object.assign(
+      field,
+      field.validate
+        ? field.validate(field.value, form)
+        : { valid: true, error: null }
+    )
   })
 
-  const valid = Object.values(newForm.fields).some(value => !value)
+  const valid = !Object.values(newForm.fields).some(({ valid }) => !valid)
 
   Object.assign(newForm, {
     valid,
+    error: valid ? null : "We can't publish that ლ(ಠ_ಠლ)",
     submitting: valid,
     onceTriedToSubmit: true
   })
@@ -65,8 +99,7 @@ export function trySubmit (form) {
 export function processResponse (form, data) {
   const newForm = cloneDeep(form)
 
-  Object.assign(newForm, {
-  })
+  Object.assign(newForm, {})
 
   return newForm
 }
