@@ -24,6 +24,10 @@
   }
 }
 
+.Textarea-errored {
+  border-color: #b10808;
+}
+
 .Tips {
   font-size: .8rem;
   margin-bottom: 1.5rem;

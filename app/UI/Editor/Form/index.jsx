@@ -33,25 +33,19 @@ export default class Form extends Component {
   }
 
   render (
-    {
-      onTextUpdate,
-      onSubmit,
-      onShowPreview,
-      autoFocus = true,
-      tweetsNumber
-    },
+    { onTextUpdate, onSubmit, onShowPreview, autoFocus = true, tweetsNumber },
     {
       form: {
         submitting,
         onceTriedToSubmit,
         valid,
         fields: {
-          text: { value: text },
+          text: { value: text, valid: textIsValid, error: textError },
           hasReply: { value: hasReply },
           replyURL: {
             value: replyURL,
             valid: replyURLIsValid,
-            message: replyURLMessage
+            error: replyURLError
           }
         }
       }
@@ -66,9 +60,11 @@ export default class Form extends Component {
 
           const form = trySubmit(this.state.form)
 
+          console.log(form)
+
           if (form.submitting) {
             // onSubmit(form.fields)
-              //.then()
+            // .then()
             setTimeout(() => {
               this.setState({
                 form: Object.assign({}, form, { submitting: false })
@@ -76,15 +72,16 @@ export default class Form extends Component {
             }, 3000)
           }
 
-          //if (form.message) {
-            //pushFlash({
-              //group: 'editor-form',
-              //type: form.valid ? 'info' : 'error',
-              //message: form.message,
-              //timeout: 5000
-            //})
-            //form.message = ''
-          //}
+          // Delegate to flashes
+          if (form.error) {
+            pushFlash({
+              group: 'editor-form',
+              type: form.valid ? 'info' : 'error',
+              message: form.error,
+              timeout: 5000
+            })
+            form.error = ''
+          }
 
           this.setState({ form })
         })}
@@ -130,9 +127,9 @@ export default class Form extends Component {
                 disabled={submitting}
               />
 
-              {replyURLMessage &&
+              {replyURLError &&
                 <FieldError>
-                  {replyURLMessage}
+                  {replyURLError}
                 </FieldError>}
             </V>)}
 
@@ -158,7 +155,13 @@ export default class Form extends Component {
           }}
           placeholder="What's happening?"
           disabled={submitting}
+          errored={!textIsValid}
         />
+
+        {textError &&
+          <FieldError>
+            {textError}
+          </FieldError>}
 
         <V size='small' aligned>
           <Tips>💁 To manually split the tweets, you can use [...]</Tips>
@@ -169,7 +172,7 @@ export default class Form extends Component {
               type='submit'
               color='twitter'
               fullWidth
-              disabled={submitting || (onceTriedToSubmit && !valid)}
+              disabled={submitting}
             >
               {submitting ? <Spinner /> : 'Publish'}
             </Button>
