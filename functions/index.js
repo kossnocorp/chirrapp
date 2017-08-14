@@ -17,24 +17,30 @@ exports.tweet = functions.https.onRequest((req, resp) => {
     })
 
     const urls = []
-    tweets.reduce((acc, tweet, index) => {
-      const fn = ({ id: prevID, screenName: prevScreenName }) => {
-        return postTweet(
-          t,
-          tweet,
-          prevID
-        ).then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
-          urls[index] = tweetURL(tweetAuthorName, id)
-          return id
-        })
-      }
+    const initialPromise = replyID
+      ? getTweet(t, replyID).then(() => replyID).catch(() => {
+        throw new Error("We can't find the tweet to reply, please check the URL ヽ(。_°)ノ")
+      })
+      : null
+    tweets
+      .reduce((acc, tweet, index) => {
+        const fn = ({ id: prevID, screenName: prevScreenName }) => {
+          return postTweet(
+            t,
+            tweet,
+            prevID
+          ).then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
+            urls[index] = tweetURL(tweetAuthorName, id)
+            return id
+          })
+        }
 
-      if (acc) {
-        return acc.then(fn)
-      } else {
-        return fn()
-      }
-    }, replyID ? getTweet(t, replyID).then(() => replyID) : null)
+        if (acc) {
+          return acc.then(fn)
+        } else {
+          return fn()
+        }
+      }, initialPromise)
       .then(() => resp.json({ urls }))
       .catch(err => {
         // TODO: Track exception to Sentry
