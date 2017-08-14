@@ -1,8 +1,9 @@
-import { cloneDeep, update } from 'lodash'
+import { cloneDeep, update, merge, map, fromPairs } from 'lodash'
+import { lsSet, lsGet } from 'app/_lib/localStorage'
 
 export function initialForm ({ text }) {
-  return {
-    fields: {
+  const fields = merge(
+    {
       hasReply: {
         value: false
       },
@@ -45,7 +46,17 @@ export function initialForm ({ text }) {
           }
         }
       }
-    }
+    },
+    lsGet('editor-form') || {}
+  )
+
+  // XXX: Fallback for initial text
+  if (!fields.text.value) {
+    fields.text.value = text
+  }
+
+  return {
+    fields
   }
 }
 
@@ -68,7 +79,12 @@ export function updateOnClick (comp, key, value) {
 }
 
 export function updateField (form, key, value) {
-  return update(cloneDeep(form), ['fields', key, 'value'], () => value)
+  const newForm = update(cloneDeep(form), ['fields', key, 'value'], () => value)
+  lsSet(
+    'editor-form',
+    fromPairs(map(newForm.fields, ({ value }, k) => [k, { value }]))
+  )
+  return newForm
 }
 
 export function trySubmit (form) {

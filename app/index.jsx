@@ -4,11 +4,10 @@ import { loop } from 'enso'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import UI from './UI'
+import { firebase as firebaseCredentials } from 'app/config'
 
-firebase.initializeApp({
-  apiKey: 'AIzaSyDYgmEzXJ0OJ5ftydVnBK4D2afYWlIi7HE',
-  authDomain: 'getchirrapp.com'
-})
+const { apiKey, authDomain } = firebaseCredentials
+firebase.initializeApp({ apiKey, authDomain })
 
 let root
 loop({ flashes: [] }, ({ flashes }) => {

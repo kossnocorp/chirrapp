@@ -1,5 +1,9 @@
 {
   "development": {
+    "firebase": {
+      "apiKey": "AIzaSyCxRVsLNg5CD2XKBkQq_PW_ULmTaGIWzRM",
+      "authDomain": "chirrapp-staging.firebaseapp.com"
+    },
     "functions": {
       "tweet": "https://us-central1-chirrapp-staging.cloudfunctions.net/tweet"
     },
@@ -7,6 +11,10 @@
   },
 
   "production": {
+    "firebase": {
+      "apiKey": "AIzaSyDYgmEzXJ0OJ5ftydVnBK4D2afYWlIi7HE",
+      "authDomain": "getchirrapp.com"
+    },
     "functions": {
       "tweet": "https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet"
     },
@@ -14,9 +22,13 @@
   },
 
   "staging": {
+    "firebase": {
+      "apiKey": "AIzaSyCxRVsLNg5CD2XKBkQq_PW_ULmTaGIWzRM",
+      "authDomain": "chirrapp-staging.firebaseapp.com"
+    },
     "functions": {
       "tweet": "https://us-central1-chirrapp-staging.cloudfunctions.net/tweet"
     },
-    "features": []
+    "features": ["reply"]
   }
 }
