@@ -8,7 +8,7 @@ exports.tweet = functions.https.onRequest((req, resp) => {
       key: consumerKey,
       secret: consumerSecret
     } = functions.config().twitter
-    const { accessToken, accessTokenSecret, tweets } = req.body
+    const { accessToken, accessTokenSecret, tweets, replyID } = req.body
     const t = new Twit({
       consumer_key: consumerKey,
       consumer_secret: consumerSecret,
@@ -18,12 +18,15 @@ exports.tweet = functions.https.onRequest((req, resp) => {
 
     const urls = []
     tweets.reduce((acc, tweet, index) => {
-      const fn = prevId => {
-        return postTweet(t, tweet, prevId)
-          .then(({ user: { screen_name: screenName }, id_str: id }) => {
-            urls[index] = tweetURL(screenName, id)
-            return id
-          })
+      const fn = ({ id: prevID, screenName: prevScreenName }) => {
+        return postTweet(
+          t,
+          tweet,
+          prevID
+        ).then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
+          urls[index] = tweetURL(tweetAuthorName, id)
+          return id
+        })
       }
 
       if (acc) {
@@ -31,16 +34,37 @@ exports.tweet = functions.https.onRequest((req, resp) => {
       } else {
         return fn()
       }
-    }, null)
+    }, replyID ? getTweet(t, replyID).then(() => replyID) : null)
       .then(() => resp.json({ urls }))
+      .catch(err => {
+        // TODO: Track exception to Sentry
+        resp.status(422).json({ message: err.message })
+      })
   })
 })
 
-function postTweet (t, status, statusId) {
+function getTweet (t, statusID) {
+  return new Promise((resolve, reject) => {
+    t.get('statuses/show', { id: statusID }, (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
+function postTweet (t, status, statusID) {
   return new Promise((resolve, reject) => {
     t.post(
       'statuses/update',
-      { status, in_reply_to_status_id: statusId },
+      {
+        tweet_mode: 'extended',
+        status,
+        in_reply_to_status_id: statusID,
+        auto_populate_reply_metadata: true
+      },
       (err, data) => {
         if (err) {
           reject(err)

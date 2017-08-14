@@ -12,7 +12,11 @@ export function postJSON (url, json) {
       if (req.status >= 200 && req.status < 300) {
         resolve(JSON.parse(req.responseText))
       } else {
-        reject(req)
+        try {
+          reject(JSON.parse(req.responseText))
+        } catch (err) {
+          reject(req)
+        }
       }
     }
 

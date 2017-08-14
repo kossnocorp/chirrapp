@@ -16,7 +16,6 @@ import ReplyIcon from 'app/UI/_lib/Icon/reply.svg'
 import TimesIcon from 'app/UI/_lib/Icon/times.svg'
 import { trackStartTyping, trackSubmit } from 'app/_lib/track'
 import preventDefault from 'app/_lib/preventDefault'
-import { featureEnabled } from 'app/_lib/features'
 import { pushFlash, dismissFlashGroup } from 'app/acts/flashes'
 import {
   initialForm,
@@ -60,16 +59,16 @@ export default class Form extends Component {
 
           const form = trySubmit(this.state.form)
 
-          console.log(form)
-
           if (form.submitting) {
-            // onSubmit(form.fields)
-            // .then()
-            setTimeout(() => {
+            onSubmit(form.fields).then(data => {
               this.setState({
                 form: Object.assign({}, form, { submitting: false })
               })
-            }, 3000)
+
+              if (data.error) {
+              } else {
+              }
+            })
           }
 
           // Delegate to flashes
@@ -89,49 +88,47 @@ export default class Form extends Component {
         fullWidth
       >
         <H size='small'>
-          {featureEnabled('reply') &&
-            ((hasReply &&
-              <Link
-                tag='a'
-                href='#'
-                onClick={preventDefault(updateOnClick(this, 'hasReply', false))}
-                disabled={submitting}
-              >
-                <LinkIcon>
-                  <TimesIcon />
-                </LinkIcon>
-                Cancel reply
-              </Link>) ||
-              <Link
-                tag='a'
-                href='#'
-                onClick={preventDefault(updateOnClick(this, 'hasReply', true))}
-                disabled={submitting}
-              >
-                <LinkIcon>
-                  <ReplyIcon />
-                </LinkIcon>
-                Reply to a tweet
-              </Link>)}
+          {(hasReply &&
+            <Link
+              tag='a'
+              href='#'
+              onClick={preventDefault(updateOnClick(this, 'hasReply', false))}
+              disabled={submitting}
+            >
+              <LinkIcon>
+                <TimesIcon />
+              </LinkIcon>
+              Cancel reply
+            </Link>) ||
+            <Link
+              tag='a'
+              href='#'
+              onClick={preventDefault(updateOnClick(this, 'hasReply', true))}
+              disabled={submitting}
+            >
+              <LinkIcon>
+                <ReplyIcon />
+              </LinkIcon>
+              Reply to a tweet
+            </Link>}
         </H>
 
-        {featureEnabled('reply') &&
-          (hasReply &&
-            <V size='small'>
-              <Input
-                tag='input'
-                value={replyURL}
-                placeholder='Paste the link to the tweet'
-                onInput={updateOnInput(this, 'replyURL')}
-                errored={!replyURLIsValid}
-                disabled={submitting}
-              />
+        {hasReply &&
+          <V size='small'>
+            <Input
+              tag='input'
+              value={replyURL}
+              placeholder='Paste the link to the tweet'
+              onInput={updateOnInput(this, 'replyURL')}
+              errored={!replyURLIsValid}
+              disabled={submitting}
+            />
 
-              {replyURLError &&
-                <FieldError>
-                  {replyURLError}
-                </FieldError>}
-            </V>)}
+            {replyURLError &&
+              <FieldError>
+                {replyURLError}
+              </FieldError>}
+          </V>}
 
         <Textarea
           tag='textarea'

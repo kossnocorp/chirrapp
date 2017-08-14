@@ -45,10 +45,10 @@ deploy-hosting:
 deploy-staging:
 	firebase deploy --project chirrapp-staging
 
-deploy-staging-functions:
+deploy-functions-staging:
 	firebase deploy --project chirrapp-staging --only functions
 
-deploy-staging-hosting:
+deploy-hosting-staging:
 	firebase deploy --project chirrapp-staging --only hosting
 
 # Building

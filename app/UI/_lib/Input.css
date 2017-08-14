@@ -1,9 +1,23 @@
+@import 'app/UI/imports.css';
+
 .Input {
   font-size: 1.3rem;
   width: 100%;
   padding: .5rem 1rem;
   border-radius: 3px;
   border: 1px solid #cbd5dc;
+
+  @media (--mobile-large) {
+    font-size: 1.2rem;
+  }
+
+  @media (--mobile-medium) {
+    font-size: 1.1rem;
+  }
+
+  @media (--mobile-small) {
+    font-size: 1rem;
+  }
 }
 
 .Input-errored {
