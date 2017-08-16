@@ -114,7 +114,7 @@ export default class Editor extends Component {
                       tweetsToPublish.length,
                       hasReply
                     )
-                    onPublish(urls)
+                    onPublish((hasReply ? [replyURL] : []).concat(urls))
                   })
                   .catch(err => {
                     trackPublicationError()
