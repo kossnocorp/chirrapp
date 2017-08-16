@@ -77,18 +77,6 @@ export default class Editor extends Component {
                 hasReply: { value: hasReply },
                 replyURL: { value: replyURL }
               }) => {
-                onPublish([
-                  'https://twitter.com/chirrapp/status/895246852425220096',
-                  'https://twitter.com/chirrapp/status/895246852425220096',
-                  'https://twitter.com/chirrapp/status/895246852425220096',
-                  'https://twitter.com/chirrapp/status/895246852425220096',
-                  'https://twitter.com/chirrapp/status/895246852425220096',
-                  'https://twitter.com/chirrapp/status/895246852425220096',
-                  'https://twitter.com/chirrapp/status/895246852425220096',
-                  'https://twitter.com/chirrapp/status/895246852425220096',
-                  'https://twitter.com/kossnocorp/status/897118277960335360'
-                ])
-                return
                 const tweetsToPublish = split(text)
                 const isPromo = [promoText]
                   .concat(prefilledText || [])
