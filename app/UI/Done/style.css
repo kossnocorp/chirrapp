@@ -2,67 +2,17 @@
 
 .Wrapper {
   display: flex;
-  flex-direction: column;
-}
-
-.Header {
-  border-bottom: 1px solid #cbd5dc;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  background: #fff;
-  height: 5rem;
-  z-index: 1;
-}
-
-.Header > * {
-  flex-basis: 33.33%;
-
-  @media (--mobile-medium) {
-    flex-basis: auto;
-  }
-}
-
-.LogotypeWrapper {
-  display: flex;
-}
-
-.Message {
-  font-size: 1.5rem;
-  color: #4a667b;
-  display: flex;
-  justify-content: center;
-
-  @media (--mobile-medium) {
-    display: none;
-  }
-}
-
-.Actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.Actions > *:not(:last-child) {
-  margin-right: .5rem;
-}
-
-.Widgets {
-  padding: 6rem 1rem 1rem;
+  overflow: hidden;
+  height: var(--size-body);
   background: #e6ecf0;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 
 .Widget {
   max-width: 30rem;
   width: 100%;
+}
+
+.Widget twitterwidget {
+  margin: 0 !important;
 }

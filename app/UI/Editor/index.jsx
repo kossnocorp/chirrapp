@@ -77,6 +77,11 @@ export default class Editor extends Component {
                 hasReply: { value: hasReply },
                 replyURL: { value: replyURL }
               }) => {
+                onPublish([
+                  'https://twitter.com/chirrapp/status/895246852425220096',
+                  'https://twitter.com/kossnocorp/status/897118277960335360'
+                ])
+                return
                 const tweetsToPublish = split(text)
                 const isPromo = [promoText]
                   .concat(prefilledText || [])
@@ -110,7 +115,7 @@ export default class Editor extends Component {
                       timeout: 5000
                     })
 
-                    return {error: err}
+                    return { error: err }
                   })
               }}
               onShowPreview={() => this.setState({ showPreview: true })}
