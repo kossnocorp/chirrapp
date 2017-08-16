@@ -14,7 +14,7 @@ import { Spinner } from '../../_lib/Spinner.css'
 import { V, H } from 'app/UI/_lib/Spacing'
 import ReplyIcon from 'app/UI/_lib/Icon/reply.svg'
 import TimesIcon from 'app/UI/_lib/Icon/times.svg'
-import { trackStartTyping, trackSubmit } from 'app/_lib/track'
+import { trackStartTyping, trackReplyClick } from 'app/_lib/track'
 import preventDefault from 'app/_lib/preventDefault'
 import { pushFlash, dismissFlashGroup } from 'app/acts/flashes'
 import {
@@ -103,7 +103,12 @@ export default class Form extends Component {
             <Link
               tag='a'
               href='#'
-              onClick={preventDefault(updateOnClick(this, 'hasReply', true))}
+              onClick={preventDefault(() => {
+                trackReplyClick()
+                this.setState({
+                  form: updateField(this.state.form, 'hasReply', true)
+                })
+              })}
               disabled={submitting}
             >
               <LinkIcon>

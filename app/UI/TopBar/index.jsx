@@ -21,7 +21,7 @@ import {
 } from './style.css'
 import { Button } from 'app/UI/_lib/Button'
 import { featureEnabled } from 'app/_lib/features'
-import { trackClickRecommend } from 'app/_lib/track'
+import { trackClickRecommend, trackMobileMenuToggle } from 'app/_lib/track'
 
 const recommendText =
   'This thread is published using @chirrapp 👏 [...]It makes it easy to plan and post Twitter threads. Give it a try: https://chirrapp.com 👌😎👍'
@@ -34,7 +34,10 @@ export default class TopBar extends Component {
           <H adjusted>
             <ShowOnMobileSmall>
               <MenuButton
-                onClick={() => this.setState({ showMenu: !showMenu })}
+                onClick={() => {
+                  trackMobileMenuToggle()
+                  this.setState({ showMenu: !showMenu })
+                }}
               >
                 {showMenu ? <CloseMenuIcon /> : <MenuIcon />}
               </MenuButton>
