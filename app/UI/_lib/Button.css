@@ -11,6 +11,9 @@
   margin-top: 3px;
   line-height: 2rem;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Button-flat {
