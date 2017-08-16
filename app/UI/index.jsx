@@ -25,11 +25,9 @@ export default class UI extends Component {
     return (
       <Layout>
         <TopBar
-          openEditor={source => {
-            if (page !== 'editor') {
-              trackClickPublishMore(source)
-              this.setState({ page: 'editor' })
-            }
+          openEditor={(source, text = '') => {
+            trackClickPublishMore(source)
+            this.setState({ page: 'editor', prefilledText: text })
           }}
           signIn={source =>
             signIn(source).then(auth => {
@@ -45,6 +43,7 @@ export default class UI extends Component {
             case 'editor':
               return (
                 <Editor
+                  key={prefilledText /* re-render when prefilled text changes */}
                   prefilledText={prefilledText}
                   onPublish={urls =>
                     this.setState({ page: 'done', publishedURLs: urls })}
