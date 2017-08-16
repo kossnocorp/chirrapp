@@ -9,6 +9,23 @@
   flex-direction: column;
 }
 
+/* Responsive helpers */
+
+.HideOnMobileSmall {
+  @media (--mobile-small) {
+    width: 0px;
+    overflow: hidden;
+  }
+}
+
+.ShowOnMobileSmall {
+  display: none;
+
+  @media (--mobile-small) {
+    display: block;
+  }
+}
+
 /* aligned */
 
 .H-aligned {
@@ -60,6 +77,14 @@
 .El.El-paddedH {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+/* Responsive helpers */
+
+.H > .HideOnMobileSmall {
+  @media (--mobile-small) {
+    margin-right: -1rem;
+  }
 }
 
 /* size: small */
