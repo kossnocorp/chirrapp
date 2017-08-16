@@ -27,3 +27,29 @@
   border-radius: 3px;
   font-size: .9rem;
 }
+
+.MenuButton {
+  user-select: none;
+  cursor: pointer;
+}
+
+.Menu {
+  position: absolute;
+  background: #425e73;
+  width: 100%;
+  top: 2.5rem;
+  z-index: 1;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.MenuItem {
+  cursor: pointer;
+  padding: 1rem;
+  text-align: center;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #607484;
+  }
+}
