@@ -79,6 +79,13 @@ export default class Editor extends Component {
               }) => {
                 onPublish([
                   'https://twitter.com/chirrapp/status/895246852425220096',
+                  'https://twitter.com/chirrapp/status/895246852425220096',
+                  'https://twitter.com/chirrapp/status/895246852425220096',
+                  'https://twitter.com/chirrapp/status/895246852425220096',
+                  'https://twitter.com/chirrapp/status/895246852425220096',
+                  'https://twitter.com/chirrapp/status/895246852425220096',
+                  'https://twitter.com/chirrapp/status/895246852425220096',
+                  'https://twitter.com/chirrapp/status/895246852425220096',
                   'https://twitter.com/kossnocorp/status/897118277960335360'
                 ])
                 return
