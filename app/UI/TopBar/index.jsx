@@ -85,7 +85,7 @@ export default class TopBar extends Component {
               }}
             >
               <H tag='span' size='small' adjusted>
-                Share
+                Recommend
               </H>
             </Button>
 
