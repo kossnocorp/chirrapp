@@ -94,7 +94,11 @@ export default class Editor extends Component {
                   .concat(prefilledText || [])
                   .includes(text.trim())
 
-                trackSubmit(isPromo ? 'promo' : 'user', tweetsToPublish.length)
+                trackSubmit(
+                  isPromo ? 'promo' : 'user',
+                  tweetsToPublish.length,
+                  hasReply
+                )
 
                 return signIn('submit')
                   .then(auth =>
@@ -107,7 +111,8 @@ export default class Editor extends Component {
                   .then(urls => {
                     trackPublish(
                       isPromo ? 'promo' : 'user',
-                      tweetsToPublish.length
+                      tweetsToPublish.length,
+                      hasReply
                     )
                     onPublish(urls)
                   })

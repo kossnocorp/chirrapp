@@ -2,8 +2,11 @@ export function trackStartTyping () {
   trackEvent('thread', 'start typing')
 }
 
-export function trackSubmit (label, numberOfTweets) {
-  trackEvent('thread', 'submit', label, undefined, { metric1: numberOfTweets })
+export function trackSubmit (label, numberOfTweets, hasReply) {
+  trackEvent('thread', 'submit', label, undefined, {
+    metric1: numberOfTweets,
+    metric2: hasReply ? 1 : 0
+  })
 }
 
 export function trackAuthorize (label) {
@@ -14,8 +17,11 @@ export function trackAutorizationError (label) {
   trackEvent('thread', 'authorization error', label)
 }
 
-export function trackPublish (label, numberOfTweets) {
-  trackEvent('thread', 'publish', label, undefined, { metric1: numberOfTweets })
+export function trackPublish (label, numberOfTweets, hasReply) {
+  trackEvent('thread', 'publish', label, undefined, {
+    metric1: numberOfTweets,
+    metric2: hasReply ? 1 : 0
+  })
 }
 
 export function trackPublicationError () {
@@ -28,6 +34,14 @@ export function trackClickRecommend (label) {
 
 export function trackClickPublishMore (label) {
   trackEvent('thread', 'click publish more', label)
+}
+
+export function trackMobileMenuToggle () {
+  trackEvent('thread', 'mobile menu toggle')
+}
+
+export function trackReplyClick () {
+  trackEvent('thread', 'reply click')
 }
 
 export function trackEvent (category, action, label, value, extra) {
