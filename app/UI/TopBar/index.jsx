@@ -7,14 +7,19 @@ import { Wrapper, Link, ScheduledCounter } from './style.css'
 import { Button } from 'app/UI/_lib/Button'
 import { featureEnabled } from 'app/_lib/features'
 
-export default function TopBar () {
+export default function TopBar ({ openEditor, signIn, signedIn }) {
   return (
     <Wrapper>
       <H tag='header' paddedH fullWidth expanded>
         <H adjusted>
-          <Logotype />
+          <Logotype onClick={() => openEditor('topbar logotype')} />
 
-          <Button color='positive' size='small' flat>
+          <Button
+            color='positive'
+            size='small'
+            flat
+            onClick={() => openEditor('compose button')}
+          >
             Compose
           </Button>
 
@@ -38,12 +43,13 @@ export default function TopBar () {
               </H>
             </Button>}
 
-          <Button size='small' color='twitter' flat>
-            <H tag='span' size='small' adjusted>
-              <TwitterIcon />
-              <span>Login</span>
-            </H>
-          </Button>
+          {!signedIn &&
+            <Button size='small' color='twitter' flat onClick={signIn}>
+              <H tag='span' size='small' adjusted>
+                <TwitterIcon />
+                <span>Login</span>
+              </H>
+            </Button>}
         </H>
       </H>
     </Wrapper>

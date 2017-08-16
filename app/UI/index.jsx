@@ -8,7 +8,8 @@ import { lsSet, lsGet } from 'app/_lib/localStorage'
 import {
   trackAuthorize,
   trackAutorizationError,
-  trackException
+  trackException,
+  trackClickPublishMore
 } from 'app/_lib/track'
 import TopBar from './TopBar'
 import Flashes from './Flashes'
@@ -23,7 +24,21 @@ export default class UI extends Component {
 
     return (
       <Layout>
-        <TopBar />
+        <TopBar
+          openEditor={source => {
+            if (page !== 'editor') {
+              trackClickPublishMore(source)
+              this.setState({ page: 'editor' })
+            }
+          }}
+          signIn={source =>
+            signIn(source).then(auth => {
+              this.setState({ auth })
+              lsSet('user', getUser(auth))
+              return auth
+            })}
+          signedIn={!!auth}
+        />
 
         {(() => {
           switch (page) {
