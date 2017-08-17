@@ -83,14 +83,10 @@ export default class Form extends Component {
           const form = trySubmit(this.state.form)
 
           if (form.submitting) {
-            onSubmit(form.fields).then(data => {
+            onSubmit(form.fields).then(() => {
               this.setState({
                 form: Object.assign({}, form, { submitting: false })
               })
-
-              if (data.error) {
-              } else {
-              }
             })
           }
 
