@@ -4,7 +4,13 @@ import { Wrapper, Blank } from './style.css'
 import hunterAvatarPath from './hunterAvatar.png'
 import defaultAvatarPath from './defaultAvatar.png'
 
-export default function Thread ({ tweets, name, screenName, avatarURL, isHunter }) {
+export default function Thread({
+  tweets,
+  name,
+  screenName,
+  avatarURL,
+  isHunter
+}) {
   return tweets.length
     ? <Wrapper>
         {tweets.map(tweet =>
@@ -12,7 +18,9 @@ export default function Thread ({ tweets, name, screenName, avatarURL, isHunter 
             tweet={tweet}
             name={name}
             screenName={screenName}
-            avatarURL={avatarURL || (isHunter ? hunterAvatarPath : defaultAvatarPath)}
+            avatarURL={
+              avatarURL || (isHunter ? hunterAvatarPath : defaultAvatarPath)
+            }
           />
         )}
       </Wrapper>
