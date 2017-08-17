@@ -99,7 +99,7 @@ export default class TopBar extends Component {
                 >
                   <H tag='span' size='small' adjusted>
                     <TwitterIcon />
-                    <span>Login</span>
+                    <span>Log In</span>
                   </H>
                 </Button>
               </HideOnMobileSmall>}
@@ -124,7 +124,7 @@ export default class TopBar extends Component {
                     signIn('mobile menu')
                   }}
                 >
-                  Login with Twitter
+                  Log in with Twitter
                 </MenuItem>}
             </Menu>}
         </ShowOnMobileSmall>

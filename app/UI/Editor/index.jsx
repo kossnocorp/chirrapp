@@ -168,7 +168,7 @@ export default class Editor extends Component {
                         signIn('preview')
                       })}
                     >
-                      Login to make it personal
+                      Log in to make it personal
                     </Link>.
                   </PreviewDisclaimer>}
             </Preview>
