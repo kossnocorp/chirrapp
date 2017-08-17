@@ -112,6 +112,7 @@ export default class Editor extends Component {
                     )
                   )
                   .then(urls => {
+                    lsSet('editor-form')
                     trackPublish(
                       isPromo ? 'promo' : 'user',
                       tweetsToPublish.length,
