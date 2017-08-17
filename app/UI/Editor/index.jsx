@@ -40,26 +40,41 @@ Also, Chirr App is free, and open source!
 Try it out: https://getchirrapp.com`
 
 export default class Editor extends Component {
-  componentWillMount () {
+  componentWillMount() {
     const { prefilledText } = this.props
     const initialText =
       typeof prefilledText === 'string' ? prefilledText : promoText
-    const tweetsPreview = split(initialText)
-    this.setState({ initialText, tweetsPreview })
+    this.setState({ initialText })
   }
 
-  render (
-    { prefilledText, user, signIn, onPublish },
+  componentWillReceiveProps({ prefilledText, prefilledTextKeyCache }) {
+    if (
+      (prefilledText || prefilledText === '') &&
+      prefilledTextKeyCache &&
+      this.props.prefilledTextKeyCache !== prefilledTextKeyCache
+    ) {
+      const initialText = prefilledText
+      const tweetsPreview = split(initialText)
+      this.setState({
+        initialText,
+        tweetsPreview
+      })
+    }
+  }
+
+  render(
+    { prefilledText, prefilledTextKeyCache, user, signIn, onPublish },
     { initialText, tweetsPreview, showPreview }
   ) {
     const { name, screenName, avatarURL } = user || {}
 
     return (
       <Wrapper showPreview={showPreview}>
-        <Main tag='main'>
+        <Main tag="main">
           <H grow padded>
             <Form
               initialText={initialText}
+              prefilledTextKeyCache={prefilledTextKeyCache}
               onTextUpdate={newText => {
                 this.latestText = newText
 
@@ -69,7 +84,7 @@ export default class Editor extends Component {
                   setTimeout(() => {
                     this.rebuilding = false
                     this.setState({ tweetsPreview: split(this.latestText) })
-                  }, 250)
+                  }, tweetsPreview ? 250 : 0)
                 }
               }}
               onSubmit={({
@@ -111,7 +126,9 @@ export default class Editor extends Component {
                     pushFlash({
                       group: 'editor-form',
                       type: 'error',
-                      message: err.message,
+                      message:
+                        err.message ||
+                        'Something went wrong, please try again (」ﾟﾛﾟ)｣',
                       timeout: 5000
                     })
 
@@ -119,17 +136,17 @@ export default class Editor extends Component {
                   })
               }}
               onShowPreview={() => this.setState({ showPreview: true })}
-              tweetsNumber={tweetsPreview.length}
+              tweetsNumber={tweetsPreview ? tweetsPreview.length : 0}
             />
           </H>
         </Main>
 
-        <PreviewWrapper tag='aside'>
+        <PreviewWrapper tag="aside">
           <PreviewScroll ref={comp => (this.previewScroll = comp && comp.base)}>
             <Preview>
               <ThreadWrapper>
                 <Thread
-                  tweets={tweetsPreview}
+                  tweets={tweetsPreview || []}
                   name={name}
                   screenName={screenName}
                   avatarURL={avatarURL}
@@ -142,24 +159,24 @@ export default class Editor extends Component {
                 : <PreviewDisclaimer>
                     The thread will be published under your name, this is just a
                     preview.
-                  <br />
-                  <Link
-                    tag='a'
-                    href='#'
-                    onClick={preventDefault(() => {
-                      signIn('preview')
-                    })}
-                  >
+                    <br />
+                    <Link
+                      tag="a"
+                      href="#"
+                      onClick={preventDefault(() => {
+                        signIn('preview')
+                      })}
+                    >
                       Login to make it personal
-                  </Link>.
-                </PreviewDisclaimer>}
+                    </Link>.
+                  </PreviewDisclaimer>}
             </Preview>
           </PreviewScroll>
 
           <PreviewClose>
             <H fullWidth paddedH aligned>
               <Button
-                tag='button'
+                tag="button"
                 onClick={() => {
                   this.setState({ showPreview: false })
                   if (this.previewScroll) this.previewScroll.scrollTop = 0
@@ -175,11 +192,11 @@ export default class Editor extends Component {
   }
 }
 
-function isHunter () {
+function isHunter() {
   return window.location.search.includes('ref=producthunt')
 }
 
-function publish (
+function publish(
   { credential: { accessToken, secret: accessTokenSecret } },
   tweets,
   replyID

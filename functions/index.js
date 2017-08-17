@@ -19,12 +19,14 @@ exports.tweet = functions.https.onRequest((req, resp) => {
     const urls = []
     const initialPromise = replyID
       ? getTweet(t, replyID).then(() => replyID).catch(() => {
-        throw new Error("We can't find the tweet to reply, please check the URL ヽ(。_°)ノ")
-      })
+          throw new Error(
+            "We can't find the tweet to reply, please check the URL ヽ(。_°)ノ"
+          )
+        })
       : null
     tweets
       .reduce((acc, tweet, index) => {
-        const fn = ({ id: prevID, screenName: prevScreenName }) => {
+        const fn = prevID => {
           return postTweet(
             t,
             tweet,
@@ -49,7 +51,7 @@ exports.tweet = functions.https.onRequest((req, resp) => {
   })
 })
 
-function getTweet (t, statusID) {
+function getTweet(t, statusID) {
   return new Promise((resolve, reject) => {
     t.get('statuses/show', { id: statusID }, (err, data) => {
       if (err) {
@@ -61,7 +63,7 @@ function getTweet (t, statusID) {
   })
 }
 
-function postTweet (t, status, statusID) {
+function postTweet(t, status, statusID) {
   return new Promise((resolve, reject) => {
     t.post(
       'statuses/update',
@@ -82,6 +84,6 @@ function postTweet (t, status, statusID) {
   })
 }
 
-function tweetURL (screenName, id) {
+function tweetURL(screenName, id) {
   return `https://twitter.com/${screenName}/status/${id}`
 }

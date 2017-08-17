@@ -26,12 +26,35 @@ import {
 } from './form'
 
 export default class Form extends Component {
-  componentWillMount () {
-    const { initialText } = this.props
-    this.setState({ form: initialForm({ text: initialText }) })
+  componentWillMount() {
+    const { initialText, onTextUpdate } = this.props
+    const form = initialForm({ text: initialText })
+    this.setState({ form })
+    onTextUpdate(form.fields.text.value)
   }
 
-  render (
+  componentWillReceiveProps(nextProps) {
+    const { initialText, prefilledTextKeyCache } = nextProps
+    if (
+      (initialText || initialText === '') &&
+      prefilledTextKeyCache &&
+      this.props.prefilledTextKeyCache !== prefilledTextKeyCache
+    ) {
+      this.setState({
+        form: updateField(
+          updateField(
+            updateField(this.state.form, 'replyURL', ''),
+            'hasReply',
+            false
+          ),
+          'text',
+          initialText
+        )
+      })
+    }
+  }
+
+  render(
     { onTextUpdate, onSubmit, onShowPreview, autoFocus = true, tweetsNumber },
     {
       form: {
@@ -52,8 +75,8 @@ export default class Form extends Component {
   ) {
     return (
       <V
-        tag='form'
-        action='#'
+        tag="form"
+        action="#"
         onSubmit={preventDefault(() => {
           dismissFlashGroup('editor-form')
 
@@ -84,14 +107,14 @@ export default class Form extends Component {
 
           this.setState({ form })
         })}
-        size='small'
+        size="small"
         fullWidth
       >
-        <H size='small'>
+        <H size="small">
           {(hasReply &&
             <Link
-              tag='a'
-              href='#'
+              tag="a"
+              href="#"
               onClick={preventDefault(updateOnClick(this, 'hasReply', false))}
               disabled={submitting}
             >
@@ -101,8 +124,8 @@ export default class Form extends Component {
               Cancel reply
             </Link>) ||
             <Link
-              tag='a'
-              href='#'
+              tag="a"
+              href="#"
               onClick={preventDefault(() => {
                 trackReplyClick()
                 this.setState({
@@ -119,11 +142,11 @@ export default class Form extends Component {
         </H>
 
         {hasReply &&
-          <V size='small'>
+          <V size="small">
             <Input
-              tag='input'
+              tag="input"
               value={replyURL}
-              placeholder='Paste the link to the tweet'
+              placeholder="Paste the link to the tweet"
               onInput={updateOnInput(this, 'replyURL')}
               errored={!replyURLIsValid}
               disabled={submitting}
@@ -136,7 +159,7 @@ export default class Form extends Component {
           </V>}
 
         <Textarea
-          tag='textarea'
+          tag="textarea"
           value={text}
           onInput={updateOnInput(this, 'text', value => {
             if (!this.startedTyping) {
@@ -165,14 +188,14 @@ export default class Form extends Component {
             {textError}
           </FieldError>}
 
-        <V size='small' aligned>
+        <V size="small" aligned>
           <Tips>💁 To manually split the tweets, you can use [...]</Tips>
 
           <Actions>
             <Button
-              tag='button'
-              type='submit'
-              color='twitter'
+              tag="button"
+              type="submit"
+              color="twitter"
               fullWidth
               disabled={submitting}
             >
@@ -181,9 +204,9 @@ export default class Form extends Component {
 
             <PreviewAction>
               <Button
-                tag='button'
-                type='button'
-                color='green'
+                tag="button"
+                type="button"
+                color="green"
                 fullWidth
                 onClick={onShowPreview}
               >
@@ -206,6 +229,6 @@ export default class Form extends Component {
   }
 }
 
-function pluralize (size, one, many) {
+function pluralize(size, one, many) {
   return `${size} ${size === 1 ? one : many}`
 }

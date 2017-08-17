@@ -19,7 +19,16 @@ import { without } from 'lodash'
 const provider = new firebase.auth.TwitterAuthProvider()
 
 export default class UI extends Component {
-  render ({ flashes }, { page = 'editor', auth, publishedURLs, prefilledText }) {
+  render(
+    { flashes },
+    {
+      page = 'editor',
+      auth,
+      publishedURLs,
+      prefilledText,
+      prefilledTextKeyCache // ლ(ಠ_ಠლ) < We need to fix this! )
+    }
+  ) {
     const user = getUser(auth)
 
     return (
@@ -27,7 +36,11 @@ export default class UI extends Component {
         <TopBar
           openEditor={(source, text = '') => {
             trackClickPublishMore(source)
-            this.setState({ page: 'editor', prefilledText: text })
+            this.setState({
+              page: 'editor',
+              prefilledText: text,
+              prefilledTextKeyCache: new Date().toISOString()
+            })
           }}
           signIn={source =>
             signIn(source).then(auth => {
@@ -43,7 +56,7 @@ export default class UI extends Component {
             case 'editor':
               return (
                 <Editor
-                  key={prefilledText /* re-render when prefilled text changes */}
+                  prefilledTextKeyCache={prefilledTextKeyCache}
                   prefilledText={prefilledText}
                   onPublish={urls =>
                     this.setState({ page: 'done', publishedURLs: urls })}
@@ -61,7 +74,11 @@ export default class UI extends Component {
               return (
                 <Done
                   onBack={text => {
-                    this.setState({ page: 'editor', prefilledText: text })
+                    this.setState({
+                      page: 'editor',
+                      prefilledText: text,
+                      prefilledTextKeyCache: new Date().toISOString()
+                    })
                   }}
                   publishedURLs={publishedURLs}
                 />
@@ -76,7 +93,7 @@ export default class UI extends Component {
 }
 
 let auth
-function signIn (source) {
+function signIn(source) {
   if (auth) {
     return Promise.resolve(auth)
   } else {
@@ -95,7 +112,7 @@ function signIn (source) {
   }
 }
 
-function getUser (auth) {
+function getUser(auth) {
   if (!auth) return lsGet('user')
   const {
     additionalUserInfo: {
