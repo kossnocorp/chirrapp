@@ -7,7 +7,7 @@ import {
   PreviewAction,
   Stats
 } from './style.css'
-import { Button } from '../../_lib/Button.css'
+import { Button, ButtonSpinner } from '../../_lib/Button.css'
 import { Input, FieldError } from 'app/UI/_lib/Input.css'
 import { Link, LinkIcon } from 'app/UI/_lib/Link.css'
 import { Spinner } from '../../_lib/Spinner.css'
@@ -195,7 +195,11 @@ export default class Form extends Component {
               fullWidth
               disabled={submitting}
             >
-              {submitting ? <Spinner /> : 'Publish'}
+              {submitting
+                ? <ButtonSpinner>
+                    <Spinner />
+                  </ButtonSpinner>
+                : 'Publish'}
             </Button>
 
             <PreviewAction>
