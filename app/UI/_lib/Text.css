@@ -4,6 +4,16 @@
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.3;
+
+  & a {
+    color: #0a5088;
+    display: inline-flex;
+    align-items: center;
+
+    &:hover {
+      color: #0070c9;
+    }
+  }
 }
 
 /* size: small */
