@@ -11,6 +11,7 @@
     "react"
   ],
   "plugins": [
+    "lodash",
     ["transform-react-jsx", { "pragma": "h" }]
   ]
 }
