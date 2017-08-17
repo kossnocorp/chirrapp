@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const AssetsWebpackPlugin = require('assets-webpack-plugin')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const appEnv = process.env.APP_ENV || 'development'
@@ -15,6 +16,7 @@ const plugins = [
 ]
 
 if (isProduction) {
+  plugins.push(new LodashModuleReplacementPlugin())
   plugins.push(
     new AssetsWebpackPlugin({ path: path.resolve(rootPath, 'dist') })
   )
@@ -33,9 +35,11 @@ if (isProduction) {
     })
   )
 } else {
-  plugins.push(new BundleAnalyzerPlugin({
-    openAnalyzer: false
-  }))
+  plugins.push(
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false
+    })
+  )
 }
 
 module.exports = {
