@@ -1,7 +1,7 @@
 import { cloneDeep, update, merge, map, fromPairs } from 'lodash'
 import { lsSet, lsGet } from 'app/_lib/localStorage'
 
-export function initialForm ({ text }) {
+export function initialForm({ text }) {
   const fields = merge(
     {
       hasReply: {
@@ -60,7 +60,7 @@ export function initialForm ({ text }) {
   }
 }
 
-export function updateOnInput (comp, key, cb) {
+export function updateOnInput(comp, key, cb) {
   return ({ target: { value } }) => {
     comp.setState({
       form: updateField(comp.state.form, key, value)
@@ -70,7 +70,7 @@ export function updateOnInput (comp, key, cb) {
   }
 }
 
-export function updateOnClick (comp, key, value) {
+export function updateOnClick(comp, key, value) {
   return () => {
     comp.setState({
       form: updateField(comp.state.form, key, value)
@@ -78,7 +78,7 @@ export function updateOnClick (comp, key, value) {
   }
 }
 
-export function updateField (form, key, value) {
+export function updateField(form, key, value) {
   const newForm = update(cloneDeep(form), ['fields', key, 'value'], () => value)
   lsSet(
     'editor-form',
@@ -87,7 +87,7 @@ export function updateField (form, key, value) {
   return newForm
 }
 
-export function trySubmit (form) {
+export function trySubmit(form) {
   const newForm = cloneDeep(form)
 
   Object.keys(newForm.fields).forEach(fieldKey => {
@@ -112,7 +112,7 @@ export function trySubmit (form) {
   return newForm
 }
 
-export function processResponse (form, data) {
+export function processResponse(form, data) {
   const newForm = cloneDeep(form)
 
   Object.assign(newForm, {})
