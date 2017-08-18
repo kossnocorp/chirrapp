@@ -136,3 +136,87 @@ test(t => {
     ]
   )
 })
+
+test('numbering', t => {
+  t.deepEqual(
+    split(
+      "It took me half a year to release @date_fns v1.0.0. I was anxious and insecure and spend time procrastinating on unimportant tiny details. After a successful release, I realized how stupid I was and promised myself to never repeat the mistake. It's been alright until I decided to finally release v2.0.0... 8 months ago. I mean, yeah, v2.0.0 is coming really soon.",
+      {
+        numbering: true
+      }
+    ),
+    [
+      '1/ It took me half a year to release @date_fns v1.0.0.',
+      '2/ I was anxious and insecure and spend time procrastinating on unimportant tiny details.',
+      '3/ After a successful release, I realized how stupid I was and promised myself to never repeat the mistake.',
+      "4/ It's been alright until I decided to finally release v2.0.0... 8 months ago. I mean, yeah, v2.0.0 is coming really soon."
+    ]
+  )
+
+  t.deepEqual(
+    split(
+      `test test test test test[...] test test test test test.[...] test test test test test test test test test test test test test…
+
+  …test test`,
+      { numbering: true }
+    ),
+    [
+      '1/ test test test test test',
+      '2/ test test test test test.',
+      '3/ test test test test test test test test test test test test test… \n \n …test test'
+    ]
+  )
+
+  t.deepEqual(
+    split(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elitx nulla tristique nunc quis blandit ultriciesx nullam ante risus, vehicula at arcu eleifend, tempus condimentum lectus.',
+      { numbering: true }
+    ),
+    [
+      '1/ Lorem ipsum dolor sit amet, consectetur adipiscing elitx nulla tristique nunc quis blandit ultriciesx nullam ante risus, vehicula at…',
+      '2/ …arcu eleifend, tempus condimentum lectus.'
+    ]
+  )
+
+  t.deepEqual(
+    split(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elitx nulla tristique nunc quis blandit ultriciesx nullam ante risus vehicula at arcu eleifend, tempus condimentum lectus proin lacinia dolor elit, nec laoreet magna ultrices vel maecenas scelerisque tortor massa, non faucib dui consectetur sed.',
+      { numbering: true }
+    ),
+    [
+      '1/ Lorem ipsum dolor sit amet, consectetur adipiscing elitx nulla tristique nunc quis blandit ultriciesx nullam ante risus vehicula at arcu…',
+      '2/ …eleifend, tempus condimentum lectus proin lacinia dolor elit, nec laoreet magna ultrices vel maecenas scelerisque tortor massa, non…',
+      '3/ …faucib dui consectetur sed.'
+    ]
+  )
+})
+
+test('long word', t => {
+  t.deepEqual(
+    split(
+      'nirantarāndhakāritā-digantara-kandaladamanda-sudhārasa-bindu-sāndratara-ghanāghana-vr̥nda-sandehakara-rayandamāna-makaranda-bindu-bandhuratara-mākanda-taru-phula-talpa-phalpa-mr̥dula-sikatā-jāla-jaṭila-mūla-tala-marutraka-miladalaghu-laghu-laya-kalita-ramaṇoya-pānoya-śālikā-bālikā-karāra-vinda-galantikā-galadelā-lavaṅga-pāṭala-ghanasāra-karutūrikātisauratha-medura-laghutara-madhura-śotalatara-saliladhārā-nirākariṣṇu-tadoya-vimala-vilocana-mayū-rava-reravāpasārita-pipāsāyāsa-pathika-lokān00000000000000000000000000000000000000000000000000000000000000'
+    ),
+    [
+      'nirantarāndhakāritā-digantara-kandaladamanda-sudhārasa-bindu-sāndratara-ghanāghana-vr̥nda-sandehakara-rayandamāna-makaranda-bindu-bandhurat…',
+      '…ara-mākanda-taru-phula-talpa-phalpa-mr̥dula-sikatā-jāla-jaṭila-mūla-tala-marutraka-miladalaghu-laghu-laya-kalita-ramaṇoya-pānoya-śālikā-bā…',
+      '…likā-karāra-vinda-galantikā-galadelā-lavaṅga-pāṭala-ghanasāra-karutūrikātisauratha-medura-laghutara-madhura-śotalatara-saliladhārā-nirākar…',
+      '…iṣṇu-tadoya-vimala-vilocana-mayū-rava-reravāpasārita-pipāsāyāsa-pathika-lokān00000000000000000000000000000000000000000000000000000000000000'
+    ]
+  )
+})
+
+test('long word with numbering', t => {
+  t.deepEqual(
+    split(
+      'nirantarāndhakāritā-digantara-kandaladamanda-sudhārasa-bindu-sāndratara-ghanāghana-vr̥nda-sandehakara-rayandamāna-makaranda-bindu-bandhuratara-mākanda-taru-phula-talpa-phalpa-mr̥dula-sikatā-jāla-jaṭila-mūla-tala-marutraka-miladalaghu-laghu-laya-kalita-ramaṇoya-pānoya-śālikā-bālikā-karāra-vinda-galantikā-galadelā-lavaṅga-pāṭala-ghanasāra-karutūrikātisauratha-medura-laghutara-madhura-śotalatara-saliladhārā-nirākariṣṇu-tadoya-vimala-vilocana-mayū-rava-reravāpasārita-pipāsāyāsa-pathika-lokān00000000000000000000000000000000000000000000000000000000000000',
+      { numbering: true }
+    ),
+    [
+      '1/ nirantarāndhakāritā-digantara-kandaladamanda-sudhārasa-bindu-sāndratara-ghanāghana-vr̥nda-sandehakara-rayandamāna-makaranda-bindu-bandhu…',
+      '2/ …ratara-mākanda-taru-phula-talpa-phalpa-mr̥dula-sikatā-jāla-jaṭila-mūla-tala-marutraka-miladalaghu-laghu-laya-kalita-ramaṇoya-pānoya-śāl…',
+      '3/ …ikā-bālikā-karāra-vinda-galantikā-galadelā-lavaṅga-pāṭala-ghanasāra-karutūrikātisauratha-medura-laghutara-madhura-śotalatara-saliladhār…',
+      '4/ …ā-nirākariṣṇu-tadoya-vimala-vilocana-mayū-rava-reravāpasārita-pipāsāyāsa-pathika-lokān0000000000000000000000000000000000000000000000000…',
+      '5/ …0000000000000'
+    ]
+  )
+})

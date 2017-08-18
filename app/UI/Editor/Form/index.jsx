@@ -13,10 +13,16 @@ import { Link, LinkIcon } from 'app/UI/_lib/Link.css'
 import { Spinner } from '../../_lib/Spinner.css'
 import { V, H } from 'app/UI/_lib/Spacing'
 import ReplyIcon from 'app/UI/_lib/Icon/reply.svg'
+import CounterIcon from 'app/UI/_lib/Icon/list-ol.svg'
 import TimesIcon from 'app/UI/_lib/Icon/times.svg'
-import { trackStartTyping, trackReplyClick } from 'app/_lib/track'
+import {
+  trackStartTyping,
+  trackReplyClick,
+  trackNumberingClick
+} from 'app/_lib/track'
 import preventDefault from 'app/_lib/preventDefault'
 import { pushFlash, dismissFlashGroup } from 'app/acts/flashes'
+import { enableNumbring, disableNumbring } from 'app/acts/editor'
 import {
   initialForm,
   updateOnInput,
@@ -24,8 +30,9 @@ import {
   updateField,
   trySubmit
 } from './form'
+import { connect } from 'app/state'
 
-export default class Form extends Component {
+class Form extends Component {
   componentWillMount() {
     const { initialText, onTextUpdate } = this.props
     const form = initialForm({ text: initialText })
@@ -55,7 +62,14 @@ export default class Form extends Component {
   }
 
   render(
-    { onTextUpdate, onSubmit, onShowPreview, autoFocus = true, tweetsNumber },
+    {
+      onTextUpdate,
+      onSubmit,
+      onShowPreview,
+      autoFocus = true,
+      tweetsNumber,
+      numberingEnabled
+    },
     {
       form: {
         submitting,
@@ -135,6 +149,33 @@ export default class Form extends Component {
               </LinkIcon>
               Reply to a tweet
             </Link>}
+
+          {numberingEnabled
+            ? <Link
+                tag="a"
+                href="#"
+                disabled={submitting}
+                onClick={preventDefault(disableNumbring)}
+              >
+                <LinkIcon>
+                  <TimesIcon />
+                </LinkIcon>
+                Disable numbering
+              </Link>
+            : <Link
+                tag="a"
+                href="#"
+                disabled={submitting}
+                onClick={preventDefault(() => {
+                  trackNumberingClick()
+                  enableNumbring()
+                })}
+              >
+                <LinkIcon>
+                  <CounterIcon />
+                </LinkIcon>
+                Enable numbering
+              </Link>}
         </H>
 
         {hasReply &&
@@ -232,3 +273,9 @@ export default class Form extends Component {
 function pluralize(size, one, many) {
   return `${size} ${size === 1 ? one : many}`
 }
+
+const ConnectedComponent = connect(
+  ({ numberingEnabled }) => ({ numberingEnabled }),
+  Form
+)
+export default ConnectedComponent

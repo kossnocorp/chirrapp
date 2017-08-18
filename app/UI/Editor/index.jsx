@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import split from '../../_lib/split'
+import split from 'app/_lib/split'
 import { postJSON } from '../../_lib/request'
 import Form from './Form'
 import Thread from './Thread'
@@ -28,6 +28,7 @@ import preventDefault from 'app/_lib/preventDefault'
 import { pushFlash } from 'app/acts/flashes'
 import { Button } from 'app/UI/_lib/Button'
 import { functions } from 'app/config'
+import { connect } from 'app/state'
 
 const promoText = `Chirr App makes it easy to publish Twitter threads.
 
@@ -39,7 +40,7 @@ Also, Chirr App is free, and open source!
 
 Try it out: https://getchirrapp.com`
 
-export default class Editor extends Component {
+class Editor extends Component {
   componentWillMount() {
     const { prefilledText } = this.props
     const initialText =
@@ -47,23 +48,41 @@ export default class Editor extends Component {
     this.setState({ initialText })
   }
 
-  componentWillReceiveProps({ prefilledText, prefilledTextKeyCache }) {
+  componentWillReceiveProps({
+    prefilledText,
+    prefilledTextKeyCache,
+    numberingEnabled
+  }) {
     if (
       (prefilledText || prefilledText === '') &&
       prefilledTextKeyCache &&
       this.props.prefilledTextKeyCache !== prefilledTextKeyCache
     ) {
       const initialText = prefilledText
-      const tweetsPreview = split(initialText)
+      this.latestText = prefilledText
+      const tweetsPreview = split(initialText, { numbering: numberingEnabled })
       this.setState({
         initialText,
         tweetsPreview
+      })
+    } else if (numberingEnabled !== this.props.numberingEnabled) {
+      this.setState({
+        tweetsPreview: split(this.latestText, {
+          numbering: numberingEnabled
+        })
       })
     }
   }
 
   render(
-    { prefilledText, prefilledTextKeyCache, user, signIn, onPublish },
+    {
+      prefilledText,
+      prefilledTextKeyCache,
+      user,
+      signIn,
+      onPublish,
+      numberingEnabled
+    },
     { initialText, tweetsPreview, showPreview }
   ) {
     const { name, screenName, avatarURL } = user || {}
@@ -83,7 +102,11 @@ export default class Editor extends Component {
 
                   setTimeout(() => {
                     this.rebuilding = false
-                    this.setState({ tweetsPreview: split(this.latestText) })
+                    this.setState({
+                      tweetsPreview: split(this.latestText, {
+                        numbering: numberingEnabled
+                      })
+                    })
                   }, tweetsPreview ? 250 : 0)
                 }
               }}
@@ -92,7 +115,9 @@ export default class Editor extends Component {
                 hasReply: { value: hasReply },
                 replyURL: { value: replyURL }
               }) => {
-                const tweetsToPublish = split(text)
+                const tweetsToPublish = split(text, {
+                  numbering: numberingEnabled
+                })
                 const isPromo = [promoText]
                   .concat(prefilledText || [])
                   .includes(text.trim())
@@ -209,3 +234,9 @@ function publish(
     replyID
   }).then(({ urls }) => urls)
 }
+
+const ConnectedComponent = connect(
+  ({ numberingEnabled }) => ({ numberingEnabled }),
+  Editor
+)
+export default ConnectedComponent
