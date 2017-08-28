@@ -2,7 +2,7 @@ import { h } from 'preact'
 import { Text } from 'app/UI/_lib/Text'
 import { Link, LinkIcon } from 'app/UI/_lib/Link'
 import { Wrapper, Section } from './style.css'
-import { trackSubscribeClick, trackFeedbackClick } from 'app/_lib/track'
+import { trackClickSubscribe, trackFeedbackClick } from 'app/_lib/track'
 
 export default function FooterLine() {
   return (
@@ -19,7 +19,7 @@ export default function FooterLine() {
         <Link
           tag="a"
           href="https://cafe.us16.list-manage.com/subscribe/post?u=bf10ea6555c1dc38f3bcfa7e5&id=d5d9685a63"
-          onClick={trackSubscribeClick}
+          onClick={trackClickSubscribe}
         >
           Subscribe to updates
         </Link>

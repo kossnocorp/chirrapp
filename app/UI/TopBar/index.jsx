@@ -24,7 +24,7 @@ import { featureEnabled } from 'app/_lib/features'
 import {
   trackClickRecommend,
   trackMobileMenuToggle,
-  trackFollowClick
+  trackClickFollow
 } from 'app/_lib/track'
 
 const recommendText =
@@ -132,7 +132,7 @@ export default class TopBar extends Component {
                 tag="a"
                 href="https://twitter.com/chirrapp"
                 target="_blank"
-                onClick={trackFollowClick}
+                onClick={trackClickFollow}
               >
                 Follow @chirrapp
               </MenuItem>

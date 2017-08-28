@@ -4,7 +4,7 @@ import { V, El } from 'app/UI/_lib/Spacing'
 import Banner from 'app/UI/_lib/Banner'
 import { Button } from 'app/UI/_lib/Button'
 import { Input, FieldError } from 'app/UI/_lib/Input'
-import { trackSubscribeSubmit } from 'app/_lib/track'
+import { trackSubmitSubscribe } from 'app/_lib/track'
 
 export default function SubscribeBanner() {
   return (
@@ -13,7 +13,7 @@ export default function SubscribeBanner() {
         action="https://cafe.us16.list-manage.com/subscribe/post?u=bf10ea6555c1dc38f3bcfa7e5&id=d5d9685a63"
         method="post"
         target="_blank"
-        onSubmit={trackSubscribeSubmit}
+        onSubmit={trackSubmitSubscribe}
       >
         <V size="small">
           <Header size="small">Subscribe to Chirr App updates</Header>

@@ -44,16 +44,16 @@ export function trackReplyClick() {
   trackEvent('thread', 'reply click')
 }
 
-export function trackSubscribeSubmit() {
-  trackEvent('thread', 'subscribe submit')
+export function trackSubmitSubscribe() {
+  trackEvent('thread', 'submit subscribe')
 }
 
-export function trackSubscribeClick() {
-  trackEvent('thread', 'subscribe click')
+export function trackClickSubscribe() {
+  trackEvent('thread', 'click subscribe')
 }
 
-export function trackFollowClick() {
-  trackEvent('thread', 'follow click')
+export function trackClickFollow() {
+  trackEvent('thread', 'click follow')
 }
 
 export function trackDismissBanner(label) {
@@ -61,7 +61,7 @@ export function trackDismissBanner(label) {
 }
 
 export function trackFeedbackClick() {
-  trackEvent('thread', 'feedback click')
+  trackEvent('thread', 'click feedback')
 }
 
 export function trackNumberingClick() {
