@@ -29,6 +29,7 @@ import { pushFlash } from 'app/acts/flashes'
 import { Button } from 'app/UI/_lib/Button'
 import { functions } from 'app/config'
 import { connect } from 'app/state'
+import FooterLine from 'app/UI/_lib/FooterLine'
 
 const promoText = `Chirr App makes it easy to publish Twitter threads.
 
@@ -90,81 +91,87 @@ class Editor extends Component {
     return (
       <Wrapper showPreview={showPreview}>
         <Main tag="main">
-          <H grow padded>
-            <Form
-              initialText={initialText}
-              prefilledTextKeyCache={prefilledTextKeyCache}
-              onTextUpdate={newText => {
-                this.latestText = newText
+          <V grow padded>
+            <H grow>
+              <Form
+                initialText={initialText}
+                prefilledTextKeyCache={prefilledTextKeyCache}
+                onTextUpdate={newText => {
+                  this.latestText = newText
 
-                if (!this.rebuilding) {
-                  this.rebuilding = true
+                  if (!this.rebuilding) {
+                    this.rebuilding = true
 
-                  setTimeout(() => {
-                    this.rebuilding = false
-                    this.setState({
-                      tweetsPreview: split(this.latestText, {
-                        numbering: numberingEnabled
+                    setTimeout(() => {
+                      this.rebuilding = false
+                      this.setState({
+                        tweetsPreview: split(this.latestText, {
+                          numbering: numberingEnabled
+                        })
                       })
-                    })
-                  }, tweetsPreview ? 250 : 0)
-                }
-              }}
-              onSubmit={({
-                text: { value: text },
-                hasReply: { value: hasReply },
-                replyURL: { value: replyURL }
-              }) => {
-                const tweetsToPublish = split(text, {
-                  numbering: numberingEnabled
-                })
-                const isPromo = [promoText]
-                  .concat(prefilledText || [])
-                  .includes(text.trim())
+                    }, tweetsPreview ? 250 : 0)
+                  }
+                }}
+                onSubmit={({
+                  text: { value: text },
+                  hasReply: { value: hasReply },
+                  replyURL: { value: replyURL }
+                }) => {
+                  const tweetsToPublish = split(text, {
+                    numbering: numberingEnabled
+                  })
+                  const isPromo = [promoText]
+                    .concat(prefilledText || [])
+                    .includes(text.trim())
 
-                trackSubmit(
-                  isPromo ? 'promo' : 'user',
-                  tweetsToPublish.length,
-                  hasReply
-                )
-
-                return signIn('submit')
-                  .then(auth =>
-                    publish(
-                      auth,
-                      tweetsToPublish,
-                      hasReply ? replyURL.match(/\w+\/status\/(\d+)/)[1] : null
-                    )
+                  trackSubmit(
+                    isPromo ? 'promo' : 'user',
+                    tweetsToPublish.length,
+                    hasReply
                   )
-                  .then(urls => {
-                    lsSet('editor-form')
-                    trackPublish(
-                      isPromo ? 'promo' : 'user',
-                      tweetsToPublish.length,
-                      hasReply
+
+                  return signIn('submit')
+                    .then(auth =>
+                      publish(
+                        auth,
+                        tweetsToPublish,
+                        hasReply
+                          ? replyURL.match(/\w+\/status\/(\d+)/)[1]
+                          : null
+                      )
                     )
-                    onPublish((hasReply ? [replyURL] : []).concat(urls))
-                  })
-                  .catch(err => {
-                    trackPublicationError()
-                    trackException(err)
-
-                    pushFlash({
-                      group: 'editor-form',
-                      type: 'error',
-                      message:
-                        err.message ||
-                        'Something went wrong, please try again (」ﾟﾛﾟ)｣',
-                      timeout: 5000
+                    .then(urls => {
+                      lsSet('editor-form')
+                      trackPublish(
+                        isPromo ? 'promo' : 'user',
+                        tweetsToPublish.length,
+                        hasReply
+                      )
+                      onPublish((hasReply ? [replyURL] : []).concat(urls))
                     })
+                    .catch(err => {
+                      trackPublicationError()
+                      trackException(err)
 
-                    return { error: err }
-                  })
-              }}
-              onShowPreview={() => this.setState({ showPreview: true })}
-              tweetsNumber={tweetsPreview ? tweetsPreview.length : 0}
-            />
-          </H>
+                      pushFlash({
+                        group: 'editor-form',
+                        type: 'error',
+                        message:
+                          err.message ||
+                          'Something went wrong, please try again (」ﾟﾛﾟ)｣',
+                        timeout: 5000
+                      })
+
+                      return { error: err }
+                    })
+                }}
+                onShowPreview={() => this.setState({ showPreview: true })}
+                tweetsNumber={tweetsPreview ? tweetsPreview.length : 0}
+              />
+            </H>
+
+            <FooterLine />
+          </V>
         </Main>
 
         <PreviewWrapper tag="aside">

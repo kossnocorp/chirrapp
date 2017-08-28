@@ -1,0 +1,21 @@
+.Wrapper {
+  font-size: .9rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: -.5rem;
+
+  & > *:not(:last-child) {
+    margin-right: 1rem;
+  }
+}
+
+.Section {
+  display: flex;
+  margin-bottom: .5rem;
+
+  & > *:not(:last-child) {
+    margin-right: .5rem;
+  }
+}
