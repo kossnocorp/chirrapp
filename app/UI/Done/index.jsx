@@ -3,19 +3,22 @@ import $script from 'scriptjs'
 import { Spinner } from '../_lib/Spinner.css'
 import { V } from 'app/UI/_lib/Spacing'
 import { Wrapper, Scroll, SpinnerWrapper, Widget, Widgets } from './style.css'
+import SubscribeBanner from './SubscribeBanner'
 
 export default class Done extends Component {
-  componentWillMount () {
+  componentWillMount() {
     $script('//platform.twitter.com/widgets.js', 'twitter-widgets')
     $script.ready('twitter-widgets', () => this.setState({ ready: true }))
     this.createdTweets = []
   }
 
-  render ({ onBack, publishedURLs }, { ready }) {
+  render({ onBack, publishedURLs }, { ready }) {
     return (
       <Wrapper>
         <Scroll>
           <V padded aligned adjusted>
+            <SubscribeBanner />
+
             {(ready &&
               publishedURLs.map((url, index) =>
                 <Widget
@@ -31,7 +34,7 @@ export default class Done extends Component {
                 />
               )) ||
               <SpinnerWrapper>
-                <Spinner size='large' color='dark' />
+                <Spinner size="large" color="dark" />
               </SpinnerWrapper>}
           </V>
         </Scroll>

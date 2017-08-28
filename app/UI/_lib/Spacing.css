@@ -18,10 +18,25 @@
   }
 }
 
+.HideOnMobileMedium {
+  @media (--mobile-medium) {
+    width: 0px;
+    overflow: hidden;
+  }
+}
+
 .ShowOnMobileSmall {
   display: none;
 
   @media (--mobile-small) {
+    display: block;
+  }
+}
+
+.ShowOnMobileMedium {
+  display: none;
+
+  @media (--mobile-medium) {
     display: block;
   }
 }
@@ -83,6 +98,12 @@
 
 .H > .HideOnMobileSmall {
   @media (--mobile-small) {
+    margin-right: -1rem;
+  }
+}
+
+.H > .HideOnMobileMedium {
+  @media (--mobile-medium) {
     margin-right: -1rem;
   }
 }

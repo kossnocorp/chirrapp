@@ -3,8 +3,8 @@ import {
   V,
   H,
   El,
-  HideOnMobileSmall,
-  ShowOnMobileSmall
+  HideOnMobileMedium,
+  ShowOnMobileMedium
 } from 'app/UI/_lib/Spacing'
 import Logotype from 'app/UI/_lib/Logotype'
 import MenuIcon from 'app/UI/_lib/Icon/bars.svg'
@@ -27,12 +27,12 @@ const recommendText =
   'This thread is published using @chirrapp 👏 [...]It makes it easy to plan and post Twitter threads. Give it a try: https://chirrapp.com 👌😎👍'
 
 export default class TopBar extends Component {
-  render ({ openEditor, signIn, signedIn }, { showMenu }) {
+  render({ openEditor, signIn, signedIn }, { showMenu }) {
     return (
       <Wrapper>
-        <H tag='header' paddedH fullWidth expanded>
+        <H tag="header" paddedH fullWidth expanded>
           <H adjusted>
-            <ShowOnMobileSmall>
+            <ShowOnMobileMedium>
               <MenuButton
                 onClick={() => {
                   trackMobileMenuToggle()
@@ -41,24 +41,24 @@ export default class TopBar extends Component {
               >
                 {showMenu ? <CloseMenuIcon /> : <MenuIcon />}
               </MenuButton>
-            </ShowOnMobileSmall>
+            </ShowOnMobileMedium>
 
             <Logotype onClick={() => openEditor('top bar logotype')} />
 
-            <HideOnMobileSmall>
+            <HideOnMobileMedium>
               <Button
-                color='positive'
-                size='small'
+                color="positive"
+                size="small"
                 flat
                 onClick={() => openEditor('compose button')}
               >
                 Compose
               </Button>
-            </HideOnMobileSmall>
+            </HideOnMobileMedium>
 
             {featureEnabled('drafts') &&
               <Link>
-                <H tag='span' size='small'>
+                <H tag="span" size="small">
                   <span>Drafts</span>
                   <ScheduledCounter>3</ScheduledCounter>
                 </H>
@@ -69,44 +69,50 @@ export default class TopBar extends Component {
 
           <H adjusted>
             {featureEnabled('pro') &&
-              <Button size='small' color='pro' flat>
-                <H tag='span' size='small' adjusted>
+              <Button size="small" color="pro" flat>
+                <H tag="span" size="small" adjusted>
                   <RocketIcon />
                   <span>Pro</span>
                 </H>
               </Button>}
 
+            <HideOnMobileMedium>
+              <Link tag="a" href="https://twitter.com/chirrapp" target="_blank">
+                Follow @chirrapp
+              </Link>
+            </HideOnMobileMedium>
+
             <Button
-              size='small'
+              size="small"
               flat
               onClick={() => {
                 trackClickRecommend('top bar')
                 openEditor('share button', recommendText)
               }}
             >
-              <H tag='span' size='small' adjusted>
+              <H tag="span" size="small" adjusted>
                 Recommend
               </H>
             </Button>
 
             {!signedIn &&
-              <HideOnMobileSmall>
+              <HideOnMobileMedium>
                 <Button
-                  size='small'
-                  color='twitter'
+                  size="small"
+                  color="twitter"
                   flat
                   onClick={() => signIn('top bar')}
                 >
-                  <H tag='span' size='small' adjusted>
+                  <H tag="span" size="small" adjusted>
                     <TwitterIcon />
                     <span>Log In</span>
                   </H>
                 </Button>
-              </HideOnMobileSmall>}
+              </HideOnMobileMedium>}
           </H>
         </H>
 
-        <ShowOnMobileSmall>
+        <ShowOnMobileMedium>
           {showMenu &&
             <Menu>
               <MenuItem
@@ -117,6 +123,15 @@ export default class TopBar extends Component {
               >
                 Compose Thread
               </MenuItem>
+
+              <MenuItem
+                tag="a"
+                href="https://twitter.com/chirrapp"
+                target="_blank"
+              >
+                Follow @chirrapp
+              </MenuItem>
+
               {!signedIn &&
                 <MenuItem
                   onClick={() => {
@@ -127,7 +142,7 @@ export default class TopBar extends Component {
                   Log in with Twitter
                 </MenuItem>}
             </Menu>}
-        </ShowOnMobileSmall>
+        </ShowOnMobileMedium>
       </Wrapper>
     )
   }

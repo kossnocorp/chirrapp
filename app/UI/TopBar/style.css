@@ -11,6 +11,7 @@
   height: 100%;
   display: flex;
   align-items: center;
+  color: var(--color-light);
 }
 
 .Link-current {
@@ -48,6 +49,8 @@
   cursor: pointer;
   padding: 1rem;
   text-align: center;
+  color: white;
+  text-decoration: none;
 
   &:not(:last-child) {
     border-bottom: 1px solid #607484;

@@ -1,0 +1,16 @@
+.Wrapper {
+  border-radius: 3px;
+  background: #f9fbfd;
+  border: 1px solid #cbd5dc;
+  max-width: 30rem;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.Dismiss {
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
