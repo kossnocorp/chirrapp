@@ -21,7 +21,11 @@ import {
 } from './style.css'
 import { Button } from 'app/UI/_lib/Button'
 import { featureEnabled } from 'app/_lib/features'
-import { trackClickRecommend, trackMobileMenuToggle } from 'app/_lib/track'
+import {
+  trackClickRecommend,
+  trackMobileMenuToggle,
+  trackFollowClick
+} from 'app/_lib/track'
 
 const recommendText =
   'This thread is published using @chirrapp 👏 [...]It makes it easy to plan and post Twitter threads. Give it a try: https://chirrapp.com 👌😎👍'
@@ -128,6 +132,7 @@ export default class TopBar extends Component {
                 tag="a"
                 href="https://twitter.com/chirrapp"
                 target="_blank"
+                onClick={trackFollowClick}
               >
                 Follow @chirrapp
               </MenuItem>

@@ -3,6 +3,7 @@ import { V, El } from 'app/UI/_lib/Spacing'
 import { Wrapper, Dismiss } from './style.css'
 import TimesIcon from 'app/UI/_lib/Icon/times.svg'
 import { lsSet, lsGet } from 'app/_lib/localStorage'
+import { trackDismissBanner } from 'app/_lib/track'
 
 export default class Banner extends Component {
   render({ children, id }, { show = true }) {
@@ -22,8 +23,10 @@ export default class Banner extends Component {
   }
 
   dismiss() {
-    lsSet(dimissID(this.props.id), true)
+    const { id } = this.props
+    lsSet(dimissID(id), true)
     this.setState({ show: false })
+    trackDismissBanner(id)
   }
 }
 
