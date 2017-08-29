@@ -4,6 +4,7 @@ import { Spinner } from '../_lib/Spinner.css'
 import { V } from 'app/UI/_lib/Spacing'
 import { Wrapper, Scroll, SpinnerWrapper, Widget, Widgets } from './style.css'
 import SubscribeBanner from './SubscribeBanner'
+import ClapBanner from './ClapBanner'
 
 export default class Done extends Component {
   componentWillMount() {
@@ -17,21 +18,21 @@ export default class Done extends Component {
       <Wrapper>
         <Scroll>
           <V padded aligned adjusted>
-            <SubscribeBanner />
-
             {(ready &&
-              publishedURLs.map((url, index) =>
-                <Widget
-                  ref={comp => {
-                    if (!comp || this.createdTweets[index]) return
-                    this.createdTweets[index] = true
-                    window.twttr.widgets.createTweet(
-                      url.match(/(\d+)\/?$/)[0],
-                      comp.base,
-                      { conversation: 'none' }
-                    )
-                  }}
-                />
+              [<SubscribeBanner />, <ClapBanner />].concat(
+                publishedURLs.map((url, index) =>
+                  <Widget
+                    ref={comp => {
+                      if (!comp || this.createdTweets[index]) return
+                      this.createdTweets[index] = true
+                      window.twttr.widgets.createTweet(
+                        url.match(/(\d+)\/?$/)[0],
+                        comp.base,
+                        { conversation: 'none' }
+                      )
+                    }}
+                  />
+                )
               )) ||
               <SpinnerWrapper>
                 <Spinner size="large" color="dark" />
