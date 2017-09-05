@@ -62,3 +62,7 @@
 .Stats {
   color: #4a667b;
 }
+
+.DelayInput {
+  max-width: 6rem;
+}

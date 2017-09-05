@@ -24,7 +24,7 @@ export default class UI extends Component {
     {
       page = 'editor',
       auth,
-      publishedURLs,
+      processedTweets,
       prefilledText,
       prefilledTextKeyCache // ლ(ಠ_ಠლ) < We need to fix this! )
     }
@@ -58,8 +58,8 @@ export default class UI extends Component {
                 <Editor
                   prefilledTextKeyCache={prefilledTextKeyCache}
                   prefilledText={prefilledText}
-                  onPublish={urls =>
-                    this.setState({ page: 'done', publishedURLs: urls })}
+                  onPublish={processedTweets =>
+                    this.setState({ page: 'done', processedTweets })}
                   user={user}
                   signIn={source =>
                     signIn(source).then(auth => {
@@ -80,7 +80,7 @@ export default class UI extends Component {
                       prefilledTextKeyCache: new Date().toISOString()
                     })
                   }}
-                  publishedURLs={publishedURLs}
+                  processedTweets={processedTweets}
                 />
               )
           }

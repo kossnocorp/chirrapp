@@ -141,6 +141,24 @@
   padding-right: .5rem;
 }
 
+/* wrap */
+.H-size-small.H-wrap,
+.El-size-small.El-wrap {
+  margin-bottom: -.5rem;
+
+  & > * {
+    padding-bottom: .5rem;
+  }
+}
+
+.V-size-small.V-wrap {
+  margin-right: -.5rem;
+
+  & > * {
+    padding-right: .5rem;
+  }
+}
+
 /* size: large */
 
 .H-size-large > *:not(:last-child):not(grammarly-btn):not(grammarly-ghost) {
@@ -216,4 +234,12 @@
 .H-fullWidth,
 .El-fullWidth {
   width: 100%;
+}
+
+/* wrap */
+
+.V-wrap,
+.H-wrap,
+.El-wrap {
+  flex-wrap: wrap;
 }

@@ -35,6 +35,18 @@ export function initialForm({ text }) {
         }
       },
 
+      delay: {
+        value: undefined,
+        valid: true,
+        validate: (value, { fields: { delay: { value: delay } } }) => {
+          const valid = delay === undefined || !Number.isNaN(parseInt(delay))
+          return {
+            valid,
+            error: valid ? null : 'The delay should be in seconds'
+          }
+        }
+      },
+
       text: {
         value: text,
         valid: true,

@@ -115,8 +115,9 @@ class Editor extends Component {
                 onSubmit={({
                   text: { value: text },
                   hasReply: { value: hasReply },
-                  replyURL: { value: replyURL }
-                }) => {
+                  replyURL: { value: replyURL },
+                  delay: { value: delay }
+                }, { numberingEnabled }) => {
                   const tweetsToPublish = split(text, {
                     numbering: numberingEnabled
                   })
@@ -137,17 +138,23 @@ class Editor extends Component {
                         tweetsToPublish,
                         hasReply
                           ? replyURL.match(/\w+\/status\/(\d+)/)[1]
-                          : null
+                          : null,
+                        delay
                       )
                     )
-                    .then(urls => {
+                    .then(processedTweets => {
                       lsSet('editor-form')
-                      trackPublish(
-                        isPromo ? 'promo' : 'user',
-                        tweetsToPublish.length,
-                        hasReply
+                      trackPublish(isPromo ? 'promo' : 'user', {
+                        numberOfTweets: tweetsToPublish.length,
+                        hasReply,
+                        numberingEnabled,
+                        delay
+                      })
+                      onPublish(
+                        (hasReply
+                          ? [{ state: 'published', url: replyURL }]
+                          : []).concat(processedTweets)
                       )
-                      onPublish((hasReply ? [replyURL] : []).concat(urls))
                     })
                     .catch(err => {
                       trackPublicationError()
@@ -187,22 +194,22 @@ class Editor extends Component {
                 />
               </ThreadWrapper>
 
-              {user
-                ? null
-                : <PreviewDisclaimer>
-                    The thread will be published under your name, this is just a
-                    preview.
-                    <br />
-                    <Link
-                      tag="a"
-                      href="#"
-                      onClick={preventDefault(() => {
-                        signIn('preview')
-                      })}
-                    >
-                      Log in to make it personal
-                    </Link>.
-                  </PreviewDisclaimer>}
+              {user ? null : (
+                <PreviewDisclaimer>
+                  The thread will be published under your name, this is just a
+                  preview.
+                  <br />
+                  <Link
+                    tag="a"
+                    href="#"
+                    onClick={preventDefault(() => {
+                      signIn('preview')
+                    })}
+                  >
+                    Log in to make it personal
+                  </Link>.
+                </PreviewDisclaimer>
+              )}
             </Preview>
           </PreviewScroll>
 
@@ -232,14 +239,22 @@ function isHunter() {
 function publish(
   { credential: { accessToken, secret: accessTokenSecret } },
   tweets,
-  replyID
+  replyID,
+  delay
 ) {
   return postJSON(functions.tweet, {
     accessToken,
     accessTokenSecret,
     tweets,
-    replyID
-  }).then(({ urls }) => urls)
+    replyID,
+    delay
+  }).then(
+    data =>
+      // TODO: Get rid of legacy format
+      data.urls
+        ? data.urls.map(url => ({ state: 'published', url }))
+        : data.processedTweets
+  )
 }
 
 const ConnectedComponent = connect(
