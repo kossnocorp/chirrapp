@@ -189,6 +189,25 @@ test('numbering', t => {
       '3/ …faucib dui consectetur sed.'
     ]
   )
+
+  t.deepEqual(
+    split(
+      'It[...]allows[...]to[...]Test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test[...]split[...]tweets[...]manually!',
+      {
+        numbering: true
+      }
+    ),
+    [
+      '1/ It',
+      '2/ allows',
+      '3/ to',
+      '4/ Test test test test test test test test test test test test test test test test test test test test test test test test test test test…',
+      '5/ …test test test test test test test test test test test test test test test test test test test test test',
+      '6/ split',
+      '7/ tweets',
+      '8/ manually!'
+    ]
+  )
 })
 
 test('long word', t => {
