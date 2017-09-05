@@ -22,7 +22,7 @@ import {
 } from 'app/_lib/track'
 import preventDefault from 'app/_lib/preventDefault'
 import { pushFlash, dismissFlashGroup } from 'app/acts/flashes'
-import { enableNumbring, disableNumbring } from 'app/acts/editor'
+import { enableNumbering, disableNumbering } from 'app/acts/editor'
 import {
   initialForm,
   updateOnInput,
@@ -155,7 +155,7 @@ class Form extends Component {
                 tag="a"
                 href="#"
                 disabled={submitting}
-                onClick={preventDefault(disableNumbring)}
+                onClick={preventDefault(disableNumbering)}
               >
                 <LinkIcon>
                   <TimesIcon />
@@ -168,7 +168,7 @@ class Form extends Component {
                 disabled={submitting}
                 onClick={preventDefault(() => {
                   trackNumberingClick()
-                  enableNumbring()
+                  enableNumbering()
                 })}
               >
                 <LinkIcon>

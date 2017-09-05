@@ -1,11 +1,11 @@
 import { act } from 'enso'
 import { lsSet } from 'app/_lib/localStorage'
 
-export function enableNumbring() {
+export function enableNumbering() {
   updateNumbering(true)
 }
 
-export function disableNumbring() {
+export function disableNumbering() {
   updateNumbering(false)
 }
 
