@@ -80,7 +80,7 @@ function split(text, options = {}) {
                 indexShift++
               }
 
-              acc[lastIndex + indexShift + 1] = rest
+              acc[lastIndex + indexShift] = rest
 
               // Otherwise
             } else {

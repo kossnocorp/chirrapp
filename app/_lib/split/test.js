@@ -208,6 +208,22 @@ test('numbering', t => {
       '8/ manually!'
     ]
   )
+
+  t.deepEqual(
+    split(
+      `According to @johnredwood responding to Tony Blair @InstituteGC : "Mr Blair's fantasy re negotiation of the UK’s deal with the EU ignores Mr Cameron’s long attempt to negotiate just such a change to the EU benefits and migration policies without any success." The manifesto on which he and @David_Cameron were elected in 2015 stated that: "We will negotiate new rules with the EU, so that people will have to be earning here for a number of years before they can claim benefits". That was agreed in the February 2016 European Council "settlement" decision. The UK would have been allowed to "to limit the access of newly arriving EU workers to non-contributory in-work benefits for a total period of up to four years from the commencement of employment"`,
+      { numbering: true }
+    ),
+    [
+      '1/ According to @johnredwood responding to Tony Blair @InstituteGC : "Mr Blair\'s fantasy re negotiation of the UK’s deal with the EU…',
+      '2/ …ignores Mr Cameron’s long attempt to negotiate just such a change to the EU benefits and migration policies without any success." The…',
+      '3/ …manifesto on which he and @David_Cameron were elected in 2015 stated that: "We will negotiate new rules with the EU, so that people…',
+      '4/ …will have to be earning here for a number of years before they can claim benefits".',
+      '5/ That was agreed in the February 2016 European Council "settlement" decision. The UK would have been allowed to "to limit the access of…',
+      '6/ …newly arriving EU workers to non-contributory in-work benefits for a total period of up to four years from the commencement of…',
+      '7/ …employment"'
+    ]
+  )
 })
 
 test('long word', t => {
