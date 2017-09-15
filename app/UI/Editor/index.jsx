@@ -117,7 +117,7 @@ class Editor extends Component {
                   hasReply: { value: hasReply },
                   replyURL: { value: replyURL },
                   delay: { value: delay }
-                }, { numberingEnabled }) => {
+                }) => {
                   const tweetsToPublish = split(text, {
                     numbering: numberingEnabled
                   })
