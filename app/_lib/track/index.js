@@ -17,10 +17,15 @@ export function trackAutorizationError(label) {
   trackEvent('thread', 'authorization error', label)
 }
 
-export function trackPublish(label, numberOfTweets, hasReply) {
+export function trackPublish(
+  label,
+  { numberOfTweets, hasReply, numberingEnabled, delay }
+) {
   trackEvent('thread', 'publish', label, undefined, {
     metric1: numberOfTweets,
-    metric2: hasReply ? 1 : 0
+    metric2: hasReply ? 1 : 0,
+    metric3: numberingEnabled ? 1 : 0,
+    metric4: delay
   })
 }
 
@@ -66,6 +71,10 @@ export function trackFeedbackClick() {
 
 export function trackNumberingClick() {
   trackEvent('thread', 'numbering click')
+}
+
+export function trackDelayClick() {
+  trackEvent('thread', 'delay click')
 }
 
 export function trackEvent(category, action, label, value, extra) {

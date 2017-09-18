@@ -1,59 +1,103 @@
 const functions = require('firebase-functions')
 const cors = require('cors')({ origin: true })
 const Twit = require('twit')
+const { addSeconds } = require('date-fns')
+const got = require('got')
+
+const { host } = functions.config().functions
 
 exports.tweet = functions.https.onRequest((req, resp) => {
   cors(req, resp, () => {
-    const {
-      key: consumerKey,
-      secret: consumerSecret
-    } = functions.config().twitter
-    const { accessToken, accessTokenSecret, tweets, replyID } = req.body
-    const t = new Twit({
-      consumer_key: consumerKey,
-      consumer_secret: consumerSecret,
-      access_token: accessToken,
-      access_token_secret: accessTokenSecret
-    })
+    const { accessToken, accessTokenSecret, tweets, replyID, delay } = req.body
+    postThread({ accessToken, accessTokenSecret, tweets, replyID, delay })
+      .then(processedTweets => resp.json({ processedTweets }))
+      // TODO: Track exception to Sentry
+      .catch(err => resp.status(422).json({ message: err.message }))
+  })
+})
 
-    const urls = []
-    const initialPromise = replyID
-      ? getTweet(t, replyID).then(() => replyID).catch(() => {
+function postThread({
+  accessToken,
+  accessTokenSecret,
+  tweets,
+  replyID,
+  delay: dirtyDelay
+}) {
+  const twitterAPI = getTwitterAPI({ accessToken, accessTokenSecret })
+
+  const delay = dirtyDelay === undefined ? undefined : parseInt(dirtyDelay)
+  if (delay !== undefined && Number.isNaN(delay)) {
+    throw new Error('The delay should be a number ಠ_ಠ')
+  }
+
+  const initialPromise = replyID
+    ? getTweet(twitterAPI, replyID)
+        .then(() => replyID)
+        .catch(() => {
+          // TODO: Check the type of the error and throw the message below
+          //   only when tweet isn't found.
           throw new Error(
             "We can't find the tweet to reply, please check the URL ヽ(。_°)ノ"
           )
         })
-      : null
-    tweets
-      .reduce((acc, tweet, index) => {
-        const fn = prevID => {
-          return postTweet(
-            t,
-            tweet,
-            prevID
-          ).then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
-            urls[index] = tweetURL(tweetAuthorName, id)
-            return id
+    : Promise.resolve(null)
+
+  if (delay) {
+    const restTweets = Object.assign(tweets)
+    const firstTweet = restTweets.shift()
+    const now = new Date()
+
+    return initialPromise
+      .then(initialID => postTweet(twitterAPI, firstTweet, initialID))
+      .then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
+        if (restTweets.length) {
+          got('https://delay.run/tweet', {
+            json: true,
+            body: {
+              accessToken,
+              accessTokenSecret,
+              tweets: restTweets,
+              replyID: id,
+              delay
+            },
+            headers: {
+              'Delay-Origin': host,
+              'Delay-Value': delay * 1000 // Chirr App accepts delay in seconds, while Delay accepts milliseconds
+            }
           })
         }
-
-        if (acc) {
-          return acc.then(fn)
-        } else {
-          return fn()
-        }
-      }, initialPromise)
-      .then(() => resp.json({ urls }))
-      .catch(err => {
-        // TODO: Track exception to Sentry
-        resp.status(422).json({ message: err.message })
+        return tweetURL(tweetAuthorName, id)
       })
-  })
-})
+      .then(firstTweetURL => {
+        return [{ state: 'published', url: firstTweetURL }].concat(
+          restTweets.map((tweet, index) => ({
+            state: 'scheduled',
+            text: tweet,
+            scheduledAt: addSeconds(now, (index + 1) * delay).toISOString()
+          }))
+        )
+      })
+  } else {
+    const processedTweets = []
+    return tweets
+      .reduce((prevPromise, tweet, index) => {
+        return prevPromise
+          .then(prevID => postTweet(twitterAPI, tweet, prevID))
+          .then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
+            processedTweets[index] = {
+              state: 'published',
+              url: tweetURL(tweetAuthorName, id)
+            }
+            return id
+          })
+      }, initialPromise)
+      .then(() => processedTweets)
+  }
+}
 
-function getTweet(t, statusID) {
+function getTweet(twitterAPI, statusID) {
   return new Promise((resolve, reject) => {
-    t.get('statuses/show', { id: statusID }, (err, data) => {
+    twitterAPI.get('statuses/show', { id: statusID }, (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -63,13 +107,13 @@ function getTweet(t, statusID) {
   })
 }
 
-function postTweet(t, status, statusID) {
+function postTweet(twitterAPI, tweet, statusID) {
   return new Promise((resolve, reject) => {
-    t.post(
+    twitterAPI.post(
       'statuses/update',
       {
         tweet_mode: 'extended',
-        status,
+        status: tweet,
         in_reply_to_status_id: statusID,
         auto_populate_reply_metadata: true
       },
@@ -81,6 +125,19 @@ function postTweet(t, status, statusID) {
         }
       }
     )
+  })
+}
+
+function getTwitterAPI({ accessToken, accessTokenSecret }) {
+  const {
+    key: consumerKey,
+    secret: consumerSecret
+  } = functions.config().twitter
+  return new Twit({
+    consumer_key: consumerKey,
+    consumer_secret: consumerSecret,
+    access_token: accessToken,
+    access_token_secret: accessTokenSecret
   })
 }
 

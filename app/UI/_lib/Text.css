@@ -22,6 +22,12 @@
   font-size: .9rem;
 }
 
+/* color: secondary */
+
+.Text-color-secondary {
+  color: #73797d;
+}
+
 /* .Header */
 
 .Header {

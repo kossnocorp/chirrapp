@@ -27,11 +27,21 @@
   justify-content: center;
 }
 
-.Widget {
+.Widget, .Scheduled {
   max-width: 30rem;
   width: 100%;
 }
 
 .Widget twitterwidget {
   margin: 0 !important;
+}
+
+.Scheduled {
+  border-radius: 3px;
+  background: var(--color-light);
+  border: 1px solid #cbd5dc;
+  max-width: 30rem;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
 }

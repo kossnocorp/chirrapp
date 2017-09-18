@@ -5,7 +5,8 @@ import {
   Tips,
   Actions,
   PreviewAction,
-  Stats
+  Stats,
+  DelayInput
 } from './style.css'
 import { Button, ButtonSpinner } from '../../_lib/Button.css'
 import { Input, FieldError } from 'app/UI/_lib/Input.css'
@@ -15,10 +16,12 @@ import { V, H } from 'app/UI/_lib/Spacing'
 import ReplyIcon from 'app/UI/_lib/Icon/reply.svg'
 import CounterIcon from 'app/UI/_lib/Icon/list-ol.svg'
 import TimesIcon from 'app/UI/_lib/Icon/times.svg'
+import StopwatchIcon from 'app/UI/_lib/Icon/stopwatch.svg'
 import {
   trackStartTyping,
   trackReplyClick,
-  trackNumberingClick
+  trackNumberingClick,
+  trackDelayClick
 } from 'app/_lib/track'
 import preventDefault from 'app/_lib/preventDefault'
 import { pushFlash, dismissFlashGroup } from 'app/acts/flashes'
@@ -30,6 +33,7 @@ import {
   updateField,
   trySubmit
 } from './form'
+import { Text } from 'app/UI/_lib/Text'
 import { connect } from 'app/state'
 
 class Form extends Component {
@@ -78,6 +82,7 @@ class Form extends Component {
         fields: {
           text: { value: text, valid: textIsValid, error: textError },
           hasReply: { value: hasReply },
+          delay: { value: delay, valid: delayIsValid, error: delayError },
           replyURL: {
             value: replyURL,
             valid: replyURLIsValid,
@@ -120,38 +125,41 @@ class Form extends Component {
         size="small"
         fullWidth
       >
-        <H size="small">
-          {(hasReply &&
-            <Link
-              tag="a"
-              href="#"
-              onClick={preventDefault(updateOnClick(this, 'hasReply', false))}
-              disabled={submitting}
-            >
-              <LinkIcon>
-                <TimesIcon />
-              </LinkIcon>
-              Cancel reply
-            </Link>) ||
-            <Link
-              tag="a"
-              href="#"
-              onClick={preventDefault(() => {
-                trackReplyClick()
-                this.setState({
-                  form: updateField(this.state.form, 'hasReply', true)
-                })
-              })}
-              disabled={submitting}
-            >
-              <LinkIcon>
-                <ReplyIcon />
-              </LinkIcon>
-              Reply to a tweet
-            </Link>}
+        <div>
+          <H size="small" wrap>
+            {(hasReply && (
+              <Link
+                tag="a"
+                href="#"
+                onClick={preventDefault(updateOnClick(this, 'hasReply', false))}
+                disabled={submitting}
+              >
+                <LinkIcon>
+                  <TimesIcon />
+                </LinkIcon>
+                Cancel reply
+              </Link>
+            )) || (
+              <Link
+                tag="a"
+                href="#"
+                onClick={preventDefault(() => {
+                  trackReplyClick()
+                  this.setState({
+                    form: updateField(this.state.form, 'hasReply', true)
+                  })
+                })}
+                disabled={submitting}
+              >
+                <LinkIcon>
+                  <ReplyIcon />
+                </LinkIcon>
+                Reply to a tweet
+              </Link>
+            )}
 
-          {numberingEnabled
-            ? <Link
+            {numberingEnabled ? (
+              <Link
                 tag="a"
                 href="#"
                 disabled={submitting}
@@ -162,7 +170,8 @@ class Form extends Component {
                 </LinkIcon>
                 Disable numbering
               </Link>
-            : <Link
+            ) : (
+              <Link
                 tag="a"
                 href="#"
                 disabled={submitting}
@@ -175,10 +184,47 @@ class Form extends Component {
                   <CounterIcon />
                 </LinkIcon>
                 Enable numbering
-              </Link>}
-        </H>
+              </Link>
+            )}
 
-        {hasReply &&
+            {delay === undefined ? (
+              <Link
+                tag="a"
+                href="#"
+                disabled={submitting}
+                onClick={preventDefault(() => {
+                  trackDelayClick()
+                  this.setState({
+                    form: updateField(this.state.form, 'delay', 5)
+                  })
+                })}
+              >
+                <LinkIcon>
+                  <StopwatchIcon />
+                </LinkIcon>
+                Enable delay
+              </Link>
+            ) : (
+              <Link
+                tag="a"
+                href="#"
+                disabled={submitting}
+                onClick={preventDefault(() => {
+                  trackDelayClick()
+                  this.setState({
+                    form: updateField(this.state.form, 'delay', undefined)
+                  })
+                })}
+              >
+                <LinkIcon>
+                  <TimesIcon />
+                </LinkIcon>
+                Disable delay
+              </Link>
+            )}
+          </H>
+        </div>
+        {hasReply && (
           <V size="small">
             <Input
               tag="input"
@@ -189,11 +235,31 @@ class Form extends Component {
               disabled={submitting}
             />
 
-            {replyURLError &&
-              <FieldError>
-                {replyURLError}
-              </FieldError>}
-          </V>}
+            {replyURLError && <FieldError>{replyURLError}</FieldError>}
+          </V>
+        )}
+
+        {delay !== undefined && (
+          <V size="small">
+            <H size="small" adjusted>
+              <DelayInput>
+                <Input
+                  tag="input"
+                  type="number"
+                  value={delay}
+                  placeholder="Delay in seconds"
+                  onInput={updateOnInput(this, 'delay')}
+                  errored={!delayIsValid}
+                  disabled={submitting}
+                />
+              </DelayInput>
+
+              <Text>Delay between tweets in seconds</Text>
+            </H>
+
+            {delayError && <FieldError>{delayError}</FieldError>}
+          </V>
+        )}
 
         <Textarea
           tag="textarea"
@@ -220,10 +286,7 @@ class Form extends Component {
           errored={!textIsValid}
         />
 
-        {textError &&
-          <FieldError>
-            {textError}
-          </FieldError>}
+        {textError && <FieldError>{textError}</FieldError>}
 
         <V size="small" aligned>
           <Tips>💁 To manually split the tweets, you can use [...]</Tips>
@@ -236,11 +299,13 @@ class Form extends Component {
               fullWidth
               disabled={submitting}
             >
-              {submitting
-                ? <ButtonSpinner>
-                    <Spinner />
-                  </ButtonSpinner>
-                : 'Publish'}
+              {submitting ? (
+                <ButtonSpinner>
+                  <Spinner />
+                </ButtonSpinner>
+              ) : (
+                'Publish'
+              )}
             </Button>
 
             <PreviewAction>
