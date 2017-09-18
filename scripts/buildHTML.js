@@ -14,7 +14,7 @@ Promise.all([buildTemplate(), readManifest()])
     })
   })
   .then(html => {
-    return fsp.writeFile(path.resolve(rootPath, 'dist/index.html'), html)
+    return fsp.writeFile(path.resolve(rootPath, 'dist/app/index.html'), html)
   })
 
 function buildTemplate () {
@@ -25,6 +25,6 @@ function buildTemplate () {
 
 function readManifest () {
   return fsp
-    .readFile(path.resolve(rootPath, 'dist/webpack-assets.json'))
+    .readFile(path.resolve(rootPath, 'dist/app/webpack-assets.json'))
     .then(content => JSON.parse(content))
 }

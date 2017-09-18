@@ -16,7 +16,7 @@ const plugins = [
 
 if (isProduction) {
   plugins.push(
-    new AssetsWebpackPlugin({ path: path.resolve(rootPath, 'dist') })
+    new AssetsWebpackPlugin({ path: path.resolve(rootPath, 'dist/app') })
   )
   plugins.push(
     new webpack.optimize.UglifyJsPlugin({
@@ -42,11 +42,11 @@ if (isProduction) {
 
 module.exports = {
   entry: {
-    app: './app/index.jsx'
+    app: './src/app/index.jsx'
   },
 
   output: {
-    path: path.resolve(rootPath, 'dist/assets'),
+    path: path.resolve(rootPath, 'dist/app/assets'),
     publicPath: '/assets/',
     filename: isProduction ? '[name]-[chunkhash].js' : '[name].js',
     chunkFilename: isProduction ? '[id]-[chunkhash].js' : '[id].js'
@@ -54,7 +54,7 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css'],
-    modules: [rootPath, 'node_modules']
+    modules: [path.resolve(rootPath, 'src'), 'node_modules']
   },
 
   module: {
@@ -71,11 +71,11 @@ module.exports = {
             loader: 'hoc-loader',
             options: {
               useDefault: true,
-              path: path.resolve(rootPath, 'app/UI/_lib/Icon/index.jsx')
+              path: path.resolve(rootPath, 'src/app/UI/_lib/Icon/index.jsx')
             }
           }
         ],
-        include: path.resolve(rootPath, 'app/UI/_lib/Icon')
+        include: path.resolve(rootPath, 'src/app/UI/_lib/Icon')
       },
 
       {
