@@ -43,6 +43,7 @@ function postThread({
     : Promise.resolve(null)
 
   if (delay) {
+    const { key: delayKey } = functions.config().delay || {}
     const restTweets = Object.assign(tweets)
     const firstTweet = restTweets.shift()
     const now = new Date()
@@ -61,6 +62,7 @@ function postThread({
               delay
             },
             headers: {
+              'Delay-Key': delayKey,
               'Delay-Origin': host,
               'Delay-Value': delay * 1000 // Chirr App accepts delay in seconds, while Delay accepts milliseconds
             }
