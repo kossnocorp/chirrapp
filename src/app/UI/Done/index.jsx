@@ -12,7 +12,6 @@ import {
   Widgets
 } from './style.css'
 import SubscribeBanner from './SubscribeBanner'
-import ClapBanner from './ClapBanner'
 import StopwatchIcon from 'app/UI/_lib/Icon/stopwatch.svg'
 import format from 'date-fns/format'
 
@@ -21,6 +20,7 @@ export default class Done extends Component {
     $script('//platform.twitter.com/widgets.js', 'twitter-widgets')
     $script.ready('twitter-widgets', () => this.setState({ ready: true }))
     this.createdTweets = []
+    window.question.showWidget()
   }
 
   render({ onBack, processedTweets }, { ready }) {
@@ -29,7 +29,7 @@ export default class Done extends Component {
         <Scroll>
           <V padded aligned adjusted>
             {(ready &&
-              [<SubscribeBanner />, <ClapBanner />].concat(
+              [<SubscribeBanner />].concat(
                 processedTweets.map((tweet, index) => {
                   switch (tweet.state) {
                     case 'published':
