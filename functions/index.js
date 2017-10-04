@@ -43,7 +43,7 @@ function postThread({
     : Promise.resolve(null)
 
   if (delay) {
-    const { key: delayKey } = functions.config().delay || {}
+    const { key: delayKey } = functions.config().delay
     const restTweets = Object.assign(tweets)
     const firstTweet = restTweets.shift()
     const now = new Date()
