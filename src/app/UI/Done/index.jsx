@@ -20,7 +20,6 @@ export default class Done extends Component {
     $script('//platform.twitter.com/widgets.js', 'twitter-widgets')
     $script.ready('twitter-widgets', () => this.setState({ ready: true }))
     this.createdTweets = []
-    window.question.showWidget()
   }
 
   render({ onBack, processedTweets }, { ready }) {
