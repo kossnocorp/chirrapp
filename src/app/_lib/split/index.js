@@ -1,5 +1,5 @@
 const { sentences } = require('sbd')
-const { getTweetLength } = require('twitter-text')
+const getTweetLength = require('../getTweetLength')
 
 module.exports = split
 
