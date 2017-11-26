@@ -1,11 +1,12 @@
 import test from 'ava'
-import parseTweet from '.'
+import getTweetLength from '.'
 
 test(t => {
-  t.is(parseTweet('Hi http://test.co'), 26)
-  t.is(parseTweet('日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本 https://google.com'), 280)
+  t.is(getTweetLength('Hi http://test.co'), 26)
+  t.is(getTweetLength('日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本語日本 https://google.com'), 280)
 })
 
 test('edge case', t => {
-  t.is(parseTweet(''), 0)
+  t.is(getTweetLength(''), 0)
+  t.is(getTweetLength('ab'), 2)
 })
