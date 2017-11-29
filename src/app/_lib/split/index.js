@@ -3,10 +3,10 @@ const getTweetLength = require('../getTweetLength')
 
 module.exports = split
 
-const limit = 140
+const limit = 280
 const splitStr = '[...]'
 
-function split(text, options = {}) {
+function split (text, options = {}) {
   const { numbering } = options
   let globalAccLength = 0
   return text
@@ -42,7 +42,7 @@ function split(text, options = {}) {
               while (rest.length > limit) {
                 // Split the last tweet + sentence into two chunks 140 symbols
                 // minus 1 reserved for the ellipsis.
-                const slicePos = limit //- 1
+                const slicePos = limit // - 1
                 const head = rest.slice(0, slicePos)
                 const tail = rest.slice(slicePos)
 
@@ -101,6 +101,6 @@ function split(text, options = {}) {
     .filter(str => str)
 }
 
-function joinSentences(a, b) {
+function joinSentences (a, b) {
   return ((a && [a]) || []).concat(b).join(' ')
 }

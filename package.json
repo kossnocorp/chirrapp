@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "./scripts/server.js",
-    "test": "ava **/test.js",
+    "test": "ava **/280chars.test.js",
     "postinstall": "cd functions && npm install"
   },
   "devDependencies": {
