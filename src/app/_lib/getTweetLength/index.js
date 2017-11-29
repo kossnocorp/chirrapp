@@ -37,9 +37,7 @@ const removeAndCountUrl = (text) => {
   const listOfLinks = anchorme(text, {
     list: true
   })
-  const textWithoutUrls = listOfLinks.reduce((acc, link) => {
-    return acc.replace(link.raw, '')
-  }, text)
+  const textWithoutUrls = listOfLinks.reduce((acc, link) => acc.replace(link.raw, ''), text)
   const urlsLength = listOfLinks.length * configuration.transformedURLLength
   return [textWithoutUrls, urlsLength]
 }
