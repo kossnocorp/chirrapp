@@ -41,6 +41,7 @@
     "webpack-bundle-analyzer": "^2.8.3"
   },
   "dependencies": {
+    "anchorme": "1.1.2",
     "babel-polyfill": "^6.23.0",
     "date-fns": "^2.0.0-alpha.3",
     "enso": "^0.4.0",
@@ -50,6 +51,7 @@
     "reset.css": "^2.0.2",
     "sbd": "^1.0.12",
     "scriptjs": "^2.5.8",
+    "string.prototype.codepointat": "0.2.0",
     "twitter-text": "^1.14.7"
   },
   "browserslist": [
