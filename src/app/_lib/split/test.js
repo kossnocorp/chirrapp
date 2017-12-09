@@ -104,11 +104,11 @@ test(t => {
 
   t.deepEqual(
     split(
-      'Loremxipsumxdolorxsitxametxxconsecteturxadipiscingxelitxxnullaxtristiquexnuncxquisxblanditxultriciesxxnullamxantexrisusxxvehiculaxatxarcuxeleifendxxtempusxcondimentumxlectusx'
+      'LoremxipsumxdolorxsitxametxxconsecteturxadipiscingxelitxxnullaxtristiquexnuncxquisxblanditxultriciesxxnullamxantexrisusxxvehiculaxatxarcuxeleifendxxtempusxcondimentumxlectusxLoremxipsumxdolorxsitxametxxconsecteturxadipiscingxelitxxnullaxtristiquexnuncxquisxblanditxultriciesxxnullamxantexrisusxxvehiculaxatxarcuxeleifendxxtempusxcondimentumxlectusx'
     ),
     [
-      'Loremxipsumxdolorxsitxametxxconsecteturxadipiscingxelitxxnullaxtristiquexnuncxquisxblanditxultriciesxxnullamxantexrisusxxvehiculaxatxarcuxe…',
-      '…leifendxxtempusxcondimentumxlectusx'
+      'LoremxipsumxdolorxsitxametxxconsecteturxadipiscingxelitxxnullaxtristiquexnuncxquisxblanditxultriciesxxnullamxantexrisusxxvehiculaxatxarcuxeleifendxxtempusxcondimentumxlectusxLoremxipsumxdolorxsitxametxxconsecteturxadipiscingxelitxxnullaxtristiquexnuncxquisxblanditxultriciesxxnu…',
+      '…llamxantexrisusxxvehiculaxatxarcuxeleifendxxtempusxcondimentumxlectusx'
     ]
   )
 })
