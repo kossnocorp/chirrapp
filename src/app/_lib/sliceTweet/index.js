@@ -17,9 +17,6 @@ function sliceTweet (tweet, limit = 0) {
   }
   if (limit < 0) {
     const newLimit = getTweetLength(tweet) + limit
-    console.log(getTweetLength(tweet))
-    console.log(limit)
-    console.log(newLimit)
     return sliceTweet(tweet, newLimit)
   }
   let firstPart = ''

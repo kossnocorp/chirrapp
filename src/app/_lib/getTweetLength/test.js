@@ -8,8 +8,6 @@ test(t => {
   t.is(getTweetLength('lavaṅga'), 8)
   t.is(getTweetLength('ramaṇoya'), 9)
   t.is(getTweetLength('ramaṇ'), 6)
-  // t.is(getTweetLength('nirantarāndhakāritā-digantara-kandaladamanda-sudhārasa-bindu-sāndratara-ghanāghana-vr̥nda-sandehakara-rayandamāna-makaranda-bindu-bandhuratara-mākanda-taru-phula-talpa-phalpa-mr̥dula-sikatā-jāla-jaṭila-mūla-tala-marutraka-miladalaghu-laghu-laya-kalita-ramaṇoya-pānoya-śālikā-bāl…'), 280)
-  // t.is(getTweetLength('nirantarāndhakāritā-digantara-kandaladamanda-sudhārasa-bindu-sāndratara-ghanāghana-vr̥nda-sandehakara-rayandamāna-makaranda-bindu-bandhuratara-mākanda-taru-phula-talpa-phalpa-mr̥dula-sikatā-jāla-jaṭila-mūla-tala-marutraka-miladalaghu-laghu-laya-kalita-ramaṇoya-pānoya-śālikā-bāli'), 280)
 })
 
 test('edge case', t => {
