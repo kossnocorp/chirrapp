@@ -3,6 +3,7 @@
     "start": "./scripts/server.js",
     "test": "ava **/280chars.test.js",
     "testLength": "ava **/getTweetLength/test.js",
+    "testSlice": "ava **/sliceTweet/test.js",
     "postinstall": "cd functions && npm install"
   },
   "devDependencies": {

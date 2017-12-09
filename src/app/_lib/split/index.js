@@ -1,10 +1,12 @@
 const { sentences } = require('sbd')
 const getTweetLength = require('../getTweetLength')
+const sliceTweet = require('../sliceTweet')
 
 module.exports = split
 
 const limit = 280
 const splitStr = '[...]'
+const ellipsis = '…'
 
 function split (text, options = {}) {
   const { numbering } = options
@@ -72,12 +74,13 @@ function split (text, options = {}) {
                 } else {
                   // If the string has no spaces.
                   // Cut off the last symbol in order to give space for the ellipsis
-                  const tweet = head.slice(0, limit - 2) // TODO change number 2 to ellipsis weight
-                  const leftover = head.slice(lastSpaceIndex)
-                  acc[lastIndex + indexShift] = `${tweet}…`
+                  // const tweet = head.slice(0, limit - 2) // TODO change number 2 to ellipsis weight
+                  // const leftover = head.slice(lastSpaceIndex)
+                  const [tweet, leftover] = sliceTweet(head, limit - getTweetLength(ellipsis))
+                  acc[lastIndex + indexShift] = `${tweet}${ellipsis}`
                   rest = `${numbering
                     ? `${currentNumber + indexShift + 1}/ `
-                    : ''}…${leftover}${tail}`
+                    : ''}${ellipsis}${leftover}${tail}`
                 }
                 indexShift++
               }
