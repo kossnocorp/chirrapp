@@ -1,12 +1,14 @@
 const { sentences } = require('sbd')
 const getTweetLength = require('../getTweetLength')
+const sliceTweet = require('../sliceTweet')
 
 module.exports = split
 
 const limit = 280
 const splitStr = '[...]'
+const ellipsis = '…'
 
-function split (text, options = {}) {
+function split(text, options = {}) {
   const { numbering } = options
   let globalAccLength = 0
   return text
@@ -39,15 +41,11 @@ function split (text, options = {}) {
             ) {
               let indexShift = 0
               let rest = concatCandidate
-              console.log(rest)
               while (getTweetLength(rest) > limit) {
-                console.log(getTweetLength(rest))
                 // Split the last tweet + sentence into two chunks 140 symbols
                 // minus 2 reserved for the ellipsis.
                 const slicePos = limit - 1 // - 2 because ellipses weight is equal 2 TODO change number 2 to ellipsis weight
-                const head = rest.slice(0, slicePos)
-                console.log(`HEAD: ${head}`)
-                const tail = rest.slice(slicePos)
+                const [head, tail] = sliceTweet(rest, slicePos)
 
                 // Find the last space position excluding the number's space
                 let lastSpaceIndex
@@ -61,7 +59,6 @@ function split (text, options = {}) {
                 } else {
                   lastSpaceIndex = head.lastIndexOf(' ')
                 }
-
                 if (lastSpaceIndex !== -1) {
                   const tweet = head.slice(0, lastSpaceIndex)
                   const leftover = head.slice(lastSpaceIndex)
@@ -72,24 +69,25 @@ function split (text, options = {}) {
                 } else {
                   // If the string has no spaces.
                   // Cut off the last symbol in order to give space for the ellipsis
-                  const tweet = head.slice(0, limit - 2) // TODO change number 2 to ellipsis weight
-                  const leftover = head.slice(lastSpaceIndex)
-                  acc[lastIndex + indexShift] = `${tweet}…`
+                  // const tweet = head.slice(0, limit - 2) // TODO change number 2 to ellipsis weight
+                  // const leftover = head.slice(lastSpaceIndex)
+                  const [tweet, leftover] = sliceTweet(
+                    head,
+                    limit - getTweetLength(ellipsis)
+                  )
+                  acc[lastIndex + indexShift] = `${tweet}${ellipsis}`
                   rest = `${
                     numbering ? `${currentNumber + indexShift + 1}/ ` : ''
-                  }…${leftover}${tail}`
+                  }${ellipsis}${leftover}${tail}`
                 }
                 indexShift++
               }
-
               acc[lastIndex + indexShift] = rest
-
               // Otherwise
             } else {
               // Push the sentence as an individual tweet.
               acc.push(`${numbering ? `${nextNumber}/ ` : ''}${sentence}`)
             }
-
             return acc
           },
           ['']
@@ -103,6 +101,6 @@ function split (text, options = {}) {
     .filter(str => str)
 }
 
-function joinSentences (a, b) {
+function joinSentences(a, b) {
   return ((a && [a]) || []).concat(b).join(' ')
 }
