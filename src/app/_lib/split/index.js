@@ -32,18 +32,21 @@ function split (text, options = {}) {
               // Add the sentence to the last tweet.
               acc[lastIndex] = concatCandidate
 
-              // If the current sentence if bigger than the tweet limit
+              // If the current sentence is bigger than the tweet limit
             } else if (
-              sentence.length + (numbering ? nextNumberWidth : 0) >
+              getTweetLength(sentence) + (numbering ? nextNumberWidth : 0) >
               limit
             ) {
               let indexShift = 0
               let rest = concatCandidate
-              while (rest.length > limit) {
+              console.log(rest)
+              while (getTweetLength(rest) > limit) {
+                console.log(getTweetLength(rest))
                 // Split the last tweet + sentence into two chunks 140 symbols
-                // minus 1 reserved for the ellipsis.
-                const slicePos = limit // - 1
+                // minus 2 reserved for the ellipsis.
+                const slicePos = limit - 1 // - 2 because ellipses weight is equal 2 TODO change number 2 to ellipsis weight
                 const head = rest.slice(0, slicePos)
+                console.log(`HEAD: ${head}`)
                 const tail = rest.slice(slicePos)
 
                 // Find the last space position excluding the number's space
@@ -68,9 +71,8 @@ function split (text, options = {}) {
                     : ''}…${(leftover + tail).trim()}`
                 } else {
                   // If the string has no spaces.
-
                   // Cut off the last symbol in order to give space for the ellipsis
-                  const tweet = head.slice(0, limit - 1)
+                  const tweet = head.slice(0, limit - 2) // TODO change number 2 to ellipsis weight
                   const leftover = head.slice(lastSpaceIndex)
                   acc[lastIndex + indexShift] = `${tweet}…`
                   rest = `${numbering
