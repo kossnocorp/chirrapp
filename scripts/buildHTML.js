@@ -17,13 +17,13 @@ Promise.all([buildTemplate(), readManifest()])
     return fsp.writeFile(path.resolve(rootPath, 'dist/app/index.html'), html)
   })
 
-function buildTemplate () {
+function buildTemplate() {
   return fsp
     .readFile(path.join(rootPath, 'index.ejs'))
     .then(templateContent => ejs.compile(templateContent.toString()))
 }
 
-function readManifest () {
+function readManifest() {
   return fsp
     .readFile(path.resolve(rootPath, 'dist/app/webpack-assets.json'))
     .then(content => JSON.parse(content))

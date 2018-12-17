@@ -11,18 +11,20 @@ export default function Thread({
   avatarURL,
   isHunter
 }) {
-  return tweets.length
-    ? <Wrapper>
-        {tweets.map(tweet =>
-          <Tweet
-            tweet={tweet}
-            name={name}
-            screenName={screenName}
-            avatarURL={
-              avatarURL || (isHunter ? hunterAvatarPath : defaultAvatarPath)
-            }
-          />
-        )}
-      </Wrapper>
-    : <Blank>Nothing to preview ¯\_(ツ)_/¯</Blank>
+  return tweets.length ? (
+    <Wrapper>
+      {tweets.map(tweet => (
+        <Tweet
+          tweet={tweet}
+          name={name}
+          screenName={screenName}
+          avatarURL={
+            avatarURL || (isHunter ? hunterAvatarPath : defaultAvatarPath)
+          }
+        />
+      ))}
+    </Wrapper>
+  ) : (
+    <Blank>Nothing to preview ¯\_(ツ)_/¯</Blank>
+  )
 }

@@ -1,4 +1,4 @@
-export function postJSON (url, json) {
+export function postJSON(url, json) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest()
 

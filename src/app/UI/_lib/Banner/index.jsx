@@ -15,9 +15,7 @@ export default class Banner extends Component {
           <TimesIcon />
         </Dismiss>
 
-        <El padded>
-          {children}
-        </El>
+        <El padded>{children}</El>
       </Wrapper>
     )
   }

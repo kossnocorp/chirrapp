@@ -102,17 +102,14 @@ class Editor extends Component {
                   if (!this.rebuilding) {
                     this.rebuilding = true
 
-                    setTimeout(
-                      () => {
-                        this.rebuilding = false
-                        this.setState({
-                          tweetsPreview: split(this.latestText, {
-                            numbering: numberingEnabled
-                          })
+                    setTimeout(() => {
+                      this.rebuilding = false
+                      this.setState({
+                        tweetsPreview: split(this.latestText, {
+                          numbering: numberingEnabled
                         })
-                      },
-                      tweetsPreview ? 250 : 0
-                    )
+                      })
+                    }, tweetsPreview ? 250 : 0)
                   }
                 }}
                 onSubmit={({
@@ -248,11 +245,12 @@ function publish(
     accessTokenSecret,
     tweets,
     replyID
-  }).then(data =>
-    // TODO: Get rid of legacy format
-    data.urls
-      ? data.urls.map(url => ({ state: 'published', url }))
-      : data.processedTweets
+  }).then(
+    data =>
+      // TODO: Get rid of legacy format
+      data.urls
+        ? data.urls.map(url => ({ state: 'published', url }))
+        : data.processedTweets
   )
 }
 

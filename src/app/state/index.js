@@ -15,8 +15,9 @@ export function loop(render) {
 }
 
 export function connect(getProps, Component) {
-  const ConnectedComponent = props =>
+  const ConnectedComponent = props => (
     <Component {...props} {...getProps(state)} />
+  )
   ConnectedComponent.displayName = `Connected${Component.displayName}`
   return ConnectedComponent
 }

@@ -60,25 +60,27 @@ export default class TopBar extends Component {
               </Button>
             </HideOnMobileMedium>
 
-            {featureEnabled('drafts') &&
+            {featureEnabled('drafts') && (
               <Link>
                 <H tag="span" size="small">
                   <span>Drafts</span>
                   <ScheduledCounter>3</ScheduledCounter>
                 </H>
-              </Link>}
+              </Link>
+            )}
 
             {featureEnabled('history') && <Link current>Your Tweets</Link>}
           </H>
 
           <H adjusted>
-            {featureEnabled('pro') &&
+            {featureEnabled('pro') && (
               <Button size="small" color="pro" flat>
                 <H tag="span" size="small" adjusted>
                   <RocketIcon />
                   <span>Pro</span>
                 </H>
-              </Button>}
+              </Button>
+            )}
 
             <HideOnMobileMedium>
               <Link tag="a" href="https://twitter.com/chirrapp" target="_blank">
@@ -99,7 +101,7 @@ export default class TopBar extends Component {
               </H>
             </Button>
 
-            {!signedIn &&
+            {!signedIn && (
               <HideOnMobileMedium>
                 <Button
                   size="small"
@@ -112,12 +114,13 @@ export default class TopBar extends Component {
                     <span>Log In</span>
                   </H>
                 </Button>
-              </HideOnMobileMedium>}
+              </HideOnMobileMedium>
+            )}
           </H>
         </H>
 
         <ShowOnMobileMedium>
-          {showMenu &&
+          {showMenu && (
             <Menu>
               <MenuItem
                 onClick={() => {
@@ -137,7 +140,7 @@ export default class TopBar extends Component {
                 Follow @chirrapp
               </MenuItem>
 
-              {!signedIn &&
+              {!signedIn && (
                 <MenuItem
                   onClick={() => {
                     this.setState({ showMenu: false })
@@ -145,8 +148,10 @@ export default class TopBar extends Component {
                   }}
                 >
                   Log in with Twitter
-                </MenuItem>}
-            </Menu>}
+                </MenuItem>
+              )}
+            </Menu>
+          )}
         </ShowOnMobileMedium>
       </Wrapper>
     )

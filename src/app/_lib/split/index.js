@@ -63,9 +63,9 @@ function split(text, options = {}) {
                   const tweet = head.slice(0, lastSpaceIndex)
                   const leftover = head.slice(lastSpaceIndex)
                   acc[lastIndex + indexShift] = `${tweet}…`
-                  rest = `${numbering
-                    ? `${currentNumber + indexShift + 1}/ `
-                    : ''}…${(leftover + tail).trim()}`
+                  rest = `${
+                    numbering ? `${currentNumber + indexShift + 1}/ ` : ''
+                  }…${(leftover + tail).trim()}`
                 } else {
                   // If the string has no spaces.
 
@@ -73,9 +73,9 @@ function split(text, options = {}) {
                   const tweet = head.slice(0, limit - 1)
                   const leftover = head.slice(lastSpaceIndex)
                   acc[lastIndex + indexShift] = `${tweet}…`
-                  rest = `${numbering
-                    ? `${currentNumber + indexShift + 1}/ `
-                    : ''}…${leftover}${tail}`
+                  rest = `${
+                    numbering ? `${currentNumber + indexShift + 1}/ ` : ''
+                  }…${leftover}${tail}`
                 }
                 indexShift++
               }

@@ -47,7 +47,8 @@ export default class UI extends Component {
               this.setState({ auth })
               lsSet('user', getUser(auth))
               return auth
-            })}
+            })
+          }
           signedIn={!!auth}
         />
 
@@ -59,14 +60,16 @@ export default class UI extends Component {
                   prefilledTextKeyCache={prefilledTextKeyCache}
                   prefilledText={prefilledText}
                   onPublish={processedTweets =>
-                    this.setState({ page: 'done', processedTweets })}
+                    this.setState({ page: 'done', processedTweets })
+                  }
                   user={user}
                   signIn={source =>
                     signIn(source).then(auth => {
                       this.setState({ auth })
                       lsSet('user', getUser(auth))
                       return auth
-                    })}
+                    })
+                  }
                 />
               )
 

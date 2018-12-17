@@ -31,7 +31,7 @@ lint-watch:
 
 # Production deployment
 
-deploy:
+deploy: build
 	firebase deploy
 
 deploy-functions:

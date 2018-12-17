@@ -11,19 +11,17 @@ const colors = {
   error: 'negative'
 }
 
-export default function Flashes ({ flashes }) {
+export default function Flashes({ flashes }) {
   return (
     <Wrapper>
-      <V padded size='big'>
-        <V size='small'>
+      <V padded size="big">
+        <V size="small">
           {flashes.map(flash => {
             const { type, message } = flash
             return (
               <Flash color={colors[type]}>
                 <H padded expanded>
-                  <Text size='small'>
-                    {message}
-                  </Text>
+                  <Text size="small">{message}</Text>
 
                   <FlashIcon onClick={() => dismissFlash(flash)}>
                     <TimesIcon />
