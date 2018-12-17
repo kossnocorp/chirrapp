@@ -5,8 +5,7 @@ import {
   Tips,
   Actions,
   PreviewAction,
-  Stats,
-  DelayInput
+  Stats
 } from './style.css'
 import { Button, ButtonSpinner } from '../../_lib/Button.css'
 import { Input, FieldError } from 'app/UI/_lib/Input.css'
@@ -20,8 +19,7 @@ import StopwatchIcon from 'app/UI/_lib/Icon/stopwatch.svg'
 import {
   trackStartTyping,
   trackReplyClick,
-  trackNumberingClick,
-  trackDelayClick
+  trackNumberingClick
 } from 'app/_lib/track'
 import preventDefault from 'app/_lib/preventDefault'
 import { pushFlash, dismissFlashGroup } from 'app/acts/flashes'
@@ -82,7 +80,6 @@ class Form extends Component {
         fields: {
           text: { value: text, valid: textIsValid, error: textError },
           hasReply: { value: hasReply },
-          delay: { value: delay, valid: delayIsValid, error: delayError },
           replyURL: {
             value: replyURL,
             valid: replyURLIsValid,
@@ -186,42 +183,6 @@ class Form extends Component {
                 Enable numbering
               </Link>
             )}
-
-            {delay === undefined ? (
-              <Link
-                tag="a"
-                href="#"
-                disabled={submitting}
-                onClick={preventDefault(() => {
-                  trackDelayClick()
-                  this.setState({
-                    form: updateField(this.state.form, 'delay', 5)
-                  })
-                })}
-              >
-                <LinkIcon>
-                  <StopwatchIcon />
-                </LinkIcon>
-                Enable delay
-              </Link>
-            ) : (
-              <Link
-                tag="a"
-                href="#"
-                disabled={submitting}
-                onClick={preventDefault(() => {
-                  trackDelayClick()
-                  this.setState({
-                    form: updateField(this.state.form, 'delay', undefined)
-                  })
-                })}
-              >
-                <LinkIcon>
-                  <TimesIcon />
-                </LinkIcon>
-                Disable delay
-              </Link>
-            )}
           </H>
         </div>
         {hasReply && (
@@ -236,28 +197,6 @@ class Form extends Component {
             />
 
             {replyURLError && <FieldError>{replyURLError}</FieldError>}
-          </V>
-        )}
-
-        {delay !== undefined && (
-          <V size="small">
-            <H size="small" adjusted>
-              <DelayInput>
-                <Input
-                  tag="input"
-                  type="number"
-                  value={delay}
-                  placeholder="Delay in seconds"
-                  onInput={updateOnInput(this, 'delay')}
-                  errored={!delayIsValid}
-                  disabled={submitting}
-                />
-              </DelayInput>
-
-              <Text>Delay between tweets in seconds</Text>
-            </H>
-
-            {delayError && <FieldError>{delayError}</FieldError>}
           </V>
         )}
 
@@ -327,7 +266,8 @@ class Form extends Component {
               'char',
               'chars'
             )}{' '}
-            ・ {pluralize((text.length && tweetsNumber) || 0, 'tweet', 'tweets')}
+            ・{' '}
+            {pluralize((text.length && tweetsNumber) || 0, 'tweet', 'tweets')}
           </Stats>
         </V>
       </V>

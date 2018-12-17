@@ -29,7 +29,7 @@
 }
 
 .Tips {
-  font-size: .8rem;
+  font-size: 0.8rem;
   margin-bottom: 1.5rem;
   color: #73797d;
 }
@@ -61,8 +61,4 @@
 
 .Stats {
   color: #4a667b;
-}
-
-.DelayInput {
-  max-width: 6rem;
 }

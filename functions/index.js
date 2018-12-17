@@ -1,34 +1,19 @@
 const functions = require('firebase-functions')
 const cors = require('cors')({ origin: true })
 const Twit = require('twit')
-const { addSeconds } = require('date-fns')
-const got = require('got')
-
-const { host } = functions.config().functions
 
 exports.tweet = functions.https.onRequest((req, resp) => {
   cors(req, resp, () => {
-    const { accessToken, accessTokenSecret, tweets, replyID, delay } = req.body
-    postThread({ accessToken, accessTokenSecret, tweets, replyID, delay })
+    const { accessToken, accessTokenSecret, tweets, replyID } = req.body
+    postThread({ accessToken, accessTokenSecret, tweets, replyID })
       .then(processedTweets => resp.json({ processedTweets }))
       // TODO: Track exception to Sentry
       .catch(err => resp.status(422).json({ message: err.message }))
   })
 })
 
-function postThread({
-  accessToken,
-  accessTokenSecret,
-  tweets,
-  replyID,
-  delay: dirtyDelay
-}) {
+function postThread({ accessToken, accessTokenSecret, tweets, replyID }) {
   const twitterAPI = getTwitterAPI({ accessToken, accessTokenSecret })
-
-  const delay = dirtyDelay === undefined ? undefined : parseInt(dirtyDelay)
-  if (delay !== undefined && Number.isNaN(delay)) {
-    throw new Error('The delay should be a number ಠ_ಠ')
-  }
 
   const initialPromise = replyID
     ? getTweet(twitterAPI, replyID)
@@ -42,59 +27,20 @@ function postThread({
         })
     : Promise.resolve(null)
 
-  if (delay) {
-    const { key: delayKey } = functions.config().delay
-    const restTweets = Object.assign(tweets)
-    const firstTweet = restTweets.shift()
-    const now = new Date()
-
-    return initialPromise
-      .then(initialID => postTweet(twitterAPI, firstTweet, initialID))
-      .then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
-        if (restTweets.length) {
-          got('https://delay.run/tweet', {
-            json: true,
-            body: {
-              accessToken,
-              accessTokenSecret,
-              tweets: restTweets,
-              replyID: id,
-              delay
-            },
-            headers: {
-              'Delay-Key': delayKey,
-              'Delay-Origin': host,
-              'Delay-Value': delay * 1000 // Chirr App accepts delay in seconds, while Delay accepts milliseconds
-            }
-          })
-        }
-        return tweetURL(tweetAuthorName, id)
-      })
-      .then(firstTweetURL => {
-        return [{ state: 'published', url: firstTweetURL }].concat(
-          restTweets.map((tweet, index) => ({
-            state: 'scheduled',
-            text: tweet,
-            scheduledAt: addSeconds(now, (index + 1) * delay).toISOString()
-          }))
-        )
-      })
-  } else {
-    const processedTweets = []
-    return tweets
-      .reduce((prevPromise, tweet, index) => {
-        return prevPromise
-          .then(prevID => postTweet(twitterAPI, tweet, prevID))
-          .then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
-            processedTweets[index] = {
-              state: 'published',
-              url: tweetURL(tweetAuthorName, id)
-            }
-            return id
-          })
-      }, initialPromise)
-      .then(() => processedTweets)
-  }
+  const processedTweets = []
+  return tweets
+    .reduce((prevPromise, tweet, index) => {
+      return prevPromise
+        .then(prevID => postTweet(twitterAPI, tweet, prevID))
+        .then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
+          processedTweets[index] = {
+            state: 'published',
+            url: tweetURL(tweetAuthorName, id)
+          }
+          return id
+        })
+    }, initialPromise)
+    .then(() => processedTweets)
 }
 
 function getTweet(twitterAPI, statusID) {

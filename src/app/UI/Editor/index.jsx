@@ -102,21 +102,23 @@ class Editor extends Component {
                   if (!this.rebuilding) {
                     this.rebuilding = true
 
-                    setTimeout(() => {
-                      this.rebuilding = false
-                      this.setState({
-                        tweetsPreview: split(this.latestText, {
-                          numbering: numberingEnabled
+                    setTimeout(
+                      () => {
+                        this.rebuilding = false
+                        this.setState({
+                          tweetsPreview: split(this.latestText, {
+                            numbering: numberingEnabled
+                          })
                         })
-                      })
-                    }, tweetsPreview ? 250 : 0)
+                      },
+                      tweetsPreview ? 250 : 0
+                    )
                   }
                 }}
                 onSubmit={({
                   text: { value: text },
                   hasReply: { value: hasReply },
-                  replyURL: { value: replyURL },
-                  delay: { value: delay }
+                  replyURL: { value: replyURL }
                 }) => {
                   const tweetsToPublish = split(text, {
                     numbering: numberingEnabled
@@ -138,8 +140,7 @@ class Editor extends Component {
                         tweetsToPublish,
                         hasReply
                           ? replyURL.match(/\w+\/status\/(\d+)/)[1]
-                          : null,
-                        delay
+                          : null
                       )
                     )
                     .then(processedTweets => {
@@ -147,13 +148,13 @@ class Editor extends Component {
                       trackPublish(isPromo ? 'promo' : 'user', {
                         numberOfTweets: tweetsToPublish.length,
                         hasReply,
-                        numberingEnabled,
-                        delay
+                        numberingEnabled
                       })
                       onPublish(
                         (hasReply
                           ? [{ state: 'published', url: replyURL }]
-                          : []).concat(processedTweets)
+                          : []
+                        ).concat(processedTweets)
                       )
                     })
                     .catch(err => {
@@ -207,7 +208,8 @@ class Editor extends Component {
                     })}
                   >
                     Log in to make it personal
-                  </Link>.
+                  </Link>
+                  .
                 </PreviewDisclaimer>
               )}
             </Preview>
@@ -239,21 +241,18 @@ function isHunter() {
 function publish(
   { credential: { accessToken, secret: accessTokenSecret } },
   tweets,
-  replyID,
-  delay
+  replyID
 ) {
   return postJSON(functions.tweet, {
     accessToken,
     accessTokenSecret,
     tweets,
-    replyID,
-    delay
-  }).then(
-    data =>
-      // TODO: Get rid of legacy format
-      data.urls
-        ? data.urls.map(url => ({ state: 'published', url }))
-        : data.processedTweets
+    replyID
+  }).then(data =>
+    // TODO: Get rid of legacy format
+    data.urls
+      ? data.urls.map(url => ({ state: 'published', url }))
+      : data.processedTweets
   )
 }
 
