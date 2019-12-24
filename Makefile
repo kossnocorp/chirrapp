@@ -1,6 +1,5 @@
 SHELL := /bin/bash
-NODE_BIN_PATH := $(shell npm bin)
-PATH := $(NODE_BIN_PATH):$(PATH)
+BIN := $(shell npm bin)
 
 install:
 	npm install
@@ -11,7 +10,7 @@ start:
 	npm start
 
 start-functions:
-	firebase serve --only functions
+	${BIN}/firebase serve --only functions
 
 # Tests
 
@@ -24,32 +23,32 @@ test-watch:
 # Linting
 
 lint:
-	esw
+	${BIN}/esw
 
 lint-watch:
-	esw --watch
+	${BIN}/esw --watch
 
 # Production deployment
 
 deploy: build
-	firebase deploy
+	${BIN}/firebase deploy
 
 deploy-functions:
-	firebase deploy --only functions
+	${BIN}/firebase deploy --only functions
 
 deploy-hosting:
-	firebase deploy --only hosting
+	${BIN}/firebase deploy --only hosting
 
 # Staging deployment
 
 deploy-staging:
-	firebase deploy --project chirrapp-staging
+	${BIN}/firebase deploy --project chirrapp-staging
 
 deploy-functions-staging:
-	firebase deploy --project chirrapp-staging --only functions
+	${BIN}/firebase deploy --project chirrapp-staging --only functions
 
 deploy-hosting-staging:
-	firebase deploy --project chirrapp-staging --only hosting
+	${BIN}/firebase deploy --project chirrapp-staging --only hosting
 
 # Building
 
