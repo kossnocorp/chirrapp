@@ -18,10 +18,11 @@ export default function FooterLine() {
 
         <Link
           tag="a"
-          href="https://cafe.us16.list-manage.com/subscribe/post?u=bf10ea6555c1dc38f3bcfa7e5&id=d5d9685a63"
-          onClick={trackClickSubscribe}
+          href="https://www.buymeacoffee.com/kossnocorp"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Subscribe to updates
+          Buy me a coffee
         </Link>
       </Section>
 

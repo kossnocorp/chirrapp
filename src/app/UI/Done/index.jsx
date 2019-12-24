@@ -9,11 +9,13 @@ import {
   SpinnerWrapper,
   Widget,
   Scheduled,
-  Widgets
+  BannersWrapper
 } from './style.css'
-import SubscribeBanner from './SubscribeBanner'
+import HypefuryBanner from './HypefuryBanner'
+import BuyMeACoffeeBanner from './BuyMeACoffeeBanner'
 import StopwatchIcon from 'app/UI/_lib/Icon/stopwatch.svg'
 import format from 'date-fns/format'
+import { shuffle } from 'lodash'
 
 export default class Done extends Component {
   componentWillMount() {
@@ -28,7 +30,7 @@ export default class Done extends Component {
         <Scroll>
           <V padded aligned adjusted>
             {(ready &&
-              [<SubscribeBanner />].concat(
+              [<Banners />].concat(
                 processedTweets.map((tweet, index) => {
                   switch (tweet.state) {
                     case 'published':
@@ -79,4 +81,12 @@ export default class Done extends Component {
       </Wrapper>
     )
   }
+}
+
+function Banners() {
+  return (
+    <BannersWrapper>
+      {shuffle([<BuyMeACoffeeBanner />, <HypefuryBanner />])}
+    </BannersWrapper>
+  )
 }

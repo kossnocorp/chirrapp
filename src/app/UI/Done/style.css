@@ -27,7 +27,8 @@
   justify-content: center;
 }
 
-.Widget, .Scheduled {
+.Widget,
+.Scheduled {
   max-width: 30rem;
   width: 100%;
 }
@@ -44,4 +45,8 @@
   width: 100%;
   margin: 0 auto;
   position: relative;
+}
+
+.BannersWrapper > *:not(:first-child) {
+  display: none;
 }

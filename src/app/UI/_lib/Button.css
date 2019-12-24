@@ -11,6 +11,7 @@
   margin-top: 3px;
   line-height: 2rem;
   text-align: center;
+  text-decoration: none;
 }
 
 .ButtonSpinner {
@@ -73,7 +74,7 @@
 
 .Button,
 .Button-size-medium {
-  padding: .5rem 2rem;
+  padding: 0.5rem 2rem;
   font-size: 1.2rem;
   height: 3rem;
 }

@@ -6,14 +6,16 @@ import { lsSet, lsGet } from 'app/_lib/localStorage'
 import { trackDismissBanner } from 'app/_lib/track'
 
 export default class Banner extends Component {
-  render({ children, id }, { show = true }) {
+  render({ children, id, pinned }, { show = true }) {
     if (lsGet(dimissID(id)) || !show) return null
 
     return (
       <Wrapper>
-        <Dismiss onClick={() => this.dismiss()}>
-          <TimesIcon />
-        </Dismiss>
+        {!pinned && (
+          <Dismiss onClick={() => this.dismiss()}>
+            <TimesIcon />
+          </Dismiss>
+        )}
 
         <El padded>{children}</El>
       </Wrapper>
