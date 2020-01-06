@@ -1,3 +1,4 @@
+import { h } from 'preact'
 import { Link } from 'app/UI/_lib/Link'
 import { Text } from 'app/UI/_lib/Text'
 import { trackFeedbackClick } from 'app/_lib/track'
