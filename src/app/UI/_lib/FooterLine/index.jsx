@@ -1,18 +1,13 @@
-import { h } from 'preact'
+import { Link } from 'app/UI/_lib/Link'
 import { Text } from 'app/UI/_lib/Text'
-import { Link, LinkIcon } from 'app/UI/_lib/Link'
-import { Wrapper, Section } from './style.css'
-import { trackClickSubscribe, trackFeedbackClick } from 'app/_lib/track'
+import { trackFeedbackClick } from 'app/_lib/track'
+import { Section, Wrapper } from './style.css'
 
 export default function FooterLine() {
   return (
     <Wrapper>
       <Section>
-        <Link
-          tag="a"
-          href="mailto:ahoy@getchirrapp.com"
-          onClick={trackFeedbackClick}
-        >
+        <Link tag="a" href="mailto:koss@nocorp.me" onClick={trackFeedbackClick}>
           Leave feedback
         </Link>
 
