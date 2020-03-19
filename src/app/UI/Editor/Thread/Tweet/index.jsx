@@ -32,7 +32,11 @@ export default function Tweet({
 }
 
 function highlight(tweet) {
-  return autoLink(htmlEscape(tweet), {
+  return autoLink(newLinesToBrs(htmlEscape(tweet)), {
     targetBlank: true
   })
+}
+
+function newLinesToBrs(str) {
+  return str.replace(/\n/g, '<br />')
 }
