@@ -13,7 +13,7 @@ const path = require('path')
 
 const app = new Koa()
 const webpackCompiler = webpack(webpackConfig)
-const port = 5000
+const port = 3000
 const rootPath = process.cwd()
 
 app
