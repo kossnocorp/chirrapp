@@ -123,7 +123,7 @@ test(t => {
     [
       'test test test test test',
       'test test test test test.',
-      'test test test test test test test test test test test test test… \n \n …test test'
+      'test test test test test test test test test test test test test…\n\n…test test'
     ]
   )
   t.deepEqual(
@@ -131,7 +131,7 @@ test(t => {
 
 …teacher lost all control of the class because there was this cute lamb entertaining all the children teacher lost all control of the class because there was this cute lamb entertaining all the children`),
     [
-      'Mary had a little lamb and it followed her to school one day and the Mary had a little lamb and it followed her to school one day and the… \n \n …teacher lost all control of the class because there was this cute lamb entertaining all the children teacher lost all control of the…',
+      'Mary had a little lamb and it followed her to school one day and the Mary had a little lamb and it followed her to school one day and the…\n\n…teacher lost all control of the class because there was this cute lamb entertaining all the children teacher lost all control of the…',
       '…class because there was this cute lamb entertaining all the children'
     ]
   )
@@ -156,13 +156,13 @@ test('numbering', t => {
     split(
       `test test test test test[...] test test test test test.[...] test test test test test test test test test test test test test…
 
-  …test test`,
+…test test`,
       { numbering: true }
     ),
     [
       '1/ test test test test test',
       '2/ test test test test test.',
-      '3/ test test test test test test test test test test test test test… \n \n …test test'
+      '3/ test test test test test test test test test test test test test…\n\n…test test'
     ]
   )
 

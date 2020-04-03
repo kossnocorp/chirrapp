@@ -14,9 +14,10 @@ function split(text, options = {}) {
   return text
     .split(splitStr)
     .map(textChunk => {
-      const tweets = sentences(textChunk)
+      const tweets = sentences(textChunk, { preserve_whitespace: true })
         .reduce(
-          (acc, sentence) => {
+          (acc, untrimmedSentence) => {
+            const sentence = untrimmedSentence.trim()
             const lastIndex = acc.length - 1
             const currentNumber = globalAccLength + acc.length
             const nextNumber = currentNumber + 1
