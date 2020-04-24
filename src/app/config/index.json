@@ -13,7 +13,7 @@
   "production": {
     "firebase": {
       "apiKey": "AIzaSyDYgmEzXJ0OJ5ftydVnBK4D2afYWlIi7HE",
-      "authDomain": "getchirrapp.com"
+      "authDomain": "classic.chirr.app"
     },
     "functions": {
       "tweet": "https://us-central1-chirrapp-8006f.cloudfunctions.net/tweet"
