@@ -46,7 +46,7 @@
     "date-fns": "^2.0.0-alpha.3",
     "enso": "^0.4.0",
     "firebase": "^4.2.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "preact": "^8.2.1",
     "reset.css": "^2.0.2",
     "sbd": "^1.0.17",
