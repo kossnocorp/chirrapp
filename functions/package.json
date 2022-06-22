@@ -9,7 +9,7 @@
     "date-fns": "^2.0.0-alpha.3",
     "firebase-admin": "~4.2.1",
     "firebase-functions": "^0.5.7",
-    "got": "^7.1.0",
+    "got": "^11.8.5",
     "twit": "^2.2.9"
   },
   "private": true
