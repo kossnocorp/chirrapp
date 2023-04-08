@@ -15,7 +15,6 @@ import HypefuryBanner from './HypefuryBanner'
 import BuyMeACoffeeBanner from './BuyMeACoffeeBanner'
 import StopwatchIcon from 'app/UI/_lib/Icon/stopwatch.svg'
 import format from 'date-fns/format'
-import { shuffle } from 'lodash'
 
 export default class Done extends Component {
   componentWillMount() {
@@ -86,7 +85,7 @@ export default class Done extends Component {
 function Banners() {
   return (
     <BannersWrapper>
-      {shuffle([<BuyMeACoffeeBanner />, <HypefuryBanner />])}
+      <BuyMeACoffeeBanner />
     </BannersWrapper>
   )
 }
