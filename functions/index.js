@@ -1,6 +1,8 @@
 const functions = require('firebase-functions')
 const cors = require('cors')({ origin: true })
-const Twit = require('twit')
+const { TwitterApi } = require('twitter-api-v2')
+
+const { api_key: appKey, api_secret: appSecret } = functions.config().twitter
 
 exports.tweet = functions.https.onRequest((req, resp) => {
   cors(req, resp, () => {
@@ -13,10 +15,10 @@ exports.tweet = functions.https.onRequest((req, resp) => {
 })
 
 function postThread({ accessToken, accessTokenSecret, tweets, replyID }) {
-  const twitterAPI = getTwitterAPI({ accessToken, accessTokenSecret })
+  const client = getTwitterAPI({ accessToken, accessTokenSecret })
 
   const initialPromise = replyID
-    ? getTweet(twitterAPI, replyID)
+    ? getTweet(client, replyID)
         .then(() => replyID)
         .catch(() => {
           // TODO: Check the type of the error and throw the message below
@@ -31,7 +33,7 @@ function postThread({ accessToken, accessTokenSecret, tweets, replyID }) {
   return tweets
     .reduce((prevPromise, tweet, index) => {
       return prevPromise
-        .then(prevID => postTweet(twitterAPI, tweet, prevID))
+        .then(prevID => postTweet(client, tweet, prevID))
         .then(({ user: { screen_name: tweetAuthorName }, id_str: id }) => {
           processedTweets[index] = {
             state: 'published',
@@ -43,49 +45,24 @@ function postThread({ accessToken, accessTokenSecret, tweets, replyID }) {
     .then(() => processedTweets)
 }
 
-function getTweet(twitterAPI, statusID) {
-  return new Promise((resolve, reject) => {
-    twitterAPI.get('statuses/show', { id: statusID }, (err, data) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(data)
-      }
-    })
-  })
+function getTweet(client, statusID) {
+  return client.v1.singleTweet(statusID)
 }
 
-function postTweet(twitterAPI, tweet, statusID) {
-  return new Promise((resolve, reject) => {
-    twitterAPI.post(
-      'statuses/update',
-      {
-        tweet_mode: 'extended',
-        status: tweet,
-        in_reply_to_status_id: statusID,
-        auto_populate_reply_metadata: true
-      },
-      (err, data) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(data)
-        }
-      }
-    )
+function postTweet(client, tweet, statusID) {
+  return client.v1.tweet(tweet, {
+    tweet_mode: 'extended',
+    in_reply_to_status_id: statusID,
+    auto_populate_reply_metadata: true
   })
 }
 
 function getTwitterAPI({ accessToken, accessTokenSecret }) {
-  const {
-    key: consumerKey,
-    secret: consumerSecret
-  } = functions.config().twitter
-  return new Twit({
-    consumer_key: consumerKey,
-    consumer_secret: consumerSecret,
-    access_token: accessToken,
-    access_token_secret: accessTokenSecret
+  return new TwitterApi({
+    appKey,
+    appSecret,
+    accessToken,
+    accessSecret: accessTokenSecret
   })
 }
 
